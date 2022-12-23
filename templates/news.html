@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="sk">
+  <head>
+    <title>News Page</title>
+    <link href="{% static 'css/news-style.css' %}" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="top-bar">
+      <img src="settings-icon.png" id="settings-icon">
+      <div id="username">John Doe</div>
+      <img src="profile-pic.png" id="profile-pic">
+      <div id="logout">Logout</div>
+    </div>
+    <div id="news-container">
+
+      {% if posts %}
+
+        {% for post in posts %}
+
+          <div class="news-article">
+            <img src="article-image.png" class="article-image">
+            <h2 class="article-headline">Article Headline</h2>
+            <p class="article-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi non est pretium, dapibus est at, tempus lectus. Nunc quam urna, viverra vel interdum a, feugiat quis nisi. Morbi auctor id nisl in ultricies.</p>
+            <div class="article-meta">
+              <span class="article-author">John Doe</span>
+              <span class="article-date">January 1, 2021</span>
+            </div>
+          </div>
+
+          {% empty %}
+            <div class="article-headline">An error has occured</div>
+        {% endfor %}
+
+      {% endif %}
+
+      <div class="news-article">
+        <img src="article-image.png" class="article-image">
+        <h2 class="article-headline">Article Headline</h2>
+        <p class="article-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi non est pretium, dapibus est at, tempus lectus. Nunc quam urna, viverra vel interdum a, feugiat quis nisi. Morbi auctor id nisl in ultricies.</p>
+        <div class="article-meta">
+          <span class="article-author">John Doe</span>
+          <span class="article-date">January 1, 2021</span>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

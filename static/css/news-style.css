@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #CCCCCC;
+    background-color: #333333;
+  }
+  
+  #top-bar {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    background-color: #555555;
+  }
+  
+  #settings-icon, #profile-pic {
+    height: 30px;
+    margin: 0 10px;
+  }
+  
+  #username, #logout {
+    font-size: 18px;
+  }
+  
+  #news-container {
+    padding: 20px;
+  }
+  
+  .news-article {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+  }
+  
+  .article-image {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    border-radius: 5px
+ }  

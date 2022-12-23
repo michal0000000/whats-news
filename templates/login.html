@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="sk">
+
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" type="image/x-icon" href="/static/favicon.png">
+        <link href="{% static 'css/login.css' %}" rel="stylesheet" type="text/css">
+        <title>News</title>
+        
+    </head>
+    <body>
+
+        <div class="login-form">
+            <form  method="post">
+            {% csrf_token %}
+              <input id="token" name="token" type="text" placeholder="Access token">
+              <button type="submit">Log in</button>
+            </form>
+          </div>
+        </body>
+
+    </body>
+
+
+</html>
