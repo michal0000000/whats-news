@@ -23,16 +23,18 @@ class Article(models.Model):
     excerpt = models.TextField() # Subtitle or first paragrapth
     subtitle = models.TextField()
     content = models.TextField()
-    source = models.CharField(max_length=256)
-    author = models.CharField(max_length=128)
+    source = models.CharField(max_length=256) # CHANGE TO MANY-TO-MANY
+    author = models.CharField(max_length=128) # CHANGE TO MANY-TO-MANY
     source_url = models.TextField() 
-    source_pfp = models.ImageField()
+    source_pfp = models.ImageField() # CHANGE TO MANY-TO-MANY
     published = models.DateField()
     paywall = models.BooleanField() # Eg. paid news like SME.SK
     
+    # Return id of post
     def __str__(self):
         return self.id
     
+    # Get data needed for news feed page
     def get_feed_data(self):
         return {
             "id" : self.id,
@@ -49,6 +51,8 @@ class Tag(models.Model):
     title = models.CharField(max_length=50)
     
 class Article_Tags(models.Model):
+    
+    # Create Many-To-Many relation
     article = models.ForeignKey(Article,on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag,on_delete=models.CASCADE)
     
