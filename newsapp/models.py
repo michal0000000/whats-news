@@ -16,19 +16,40 @@ class MembershipToken(models.Model):
     """TODO:
         - def valid()
     """
-
+ 
+class Author(models.Model):
+    name = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.name
+    
+class Source(models.Model):
+    
+    name = models.CharField(max_length=50)              # sme.sk
+    display_name = models.CharField(max_length=50)      # Dennik Sme
+    pfp = models.CharField(max_length=512)              # pfp lunk
+    link = models.CharField(max_length=512)             # homepage link
+    scraping_link = models.CharField(max_length=512)    # scraping link
+    
+    def __str__(self):
+        return self.name
+    
+class Tag(models.Model):
+    title = models.CharField(max_length=50)
+    
 class Article(models.Model):
     headline = models.CharField(max_length=256)
-    headline_img = models.ImageField()
-    excerpt = models.TextField() # Subtitle or first paragrapth
+    headline_img = models.CharField(max_length=512)
     subtitle = models.TextField()
+    excerpt = models.TextField()
     content = models.TextField()
-    source = models.CharField(max_length=256) # CHANGE TO MANY-TO-MANY
-    author = models.CharField(max_length=128) # CHANGE TO MANY-TO-MANY
-    source_url = models.TextField() 
-    source_pfp = models.ImageField() # CHANGE TO MANY-TO-MANY
+    link = models.CharField(max_length=512) 
     published = models.DateField()
     paywall = models.BooleanField() # Eg. paid news like SME.SK
+    source = models.ForeignKey(Source,on_delete=models.CASCADE)
+    authors = models.ManyToManyField(Author)
+    tags = models.ManyToManyField(Tag)
+    img_is_video = models.BooleanField(default=False)
     
     # Return id of post
     def __str__(self):
@@ -40,19 +61,11 @@ class Article(models.Model):
             "id" : self.id,
             "headline" : self.headline,
             "image" : self.headline_img,
-            "excerpt" : self.excerpt,
-            "author" : self.author,
-            "source_pfp": self.source_pfp, # THIS WILL BE A PHOTO
+            "excerpt" : self.excerpt, 
             "published" : self.published,
-            "paywall" : self.paywall
+            "paywall" : self.paywall,
+            "source" : self.source,
+            "authors" : self.author.all(),
+            "tags" : self.tags.all(),
+            "img_is_video" : self.img_is_video
         }
-    
-class Tag(models.Model):
-    title = models.CharField(max_length=50)
-    
-class Article_Tags(models.Model):
-    
-    # Create Many-To-Many relation
-    article = models.ForeignKey(Article,on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag,on_delete=models.CASCADE)
-    

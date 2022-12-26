@@ -2,6 +2,8 @@ import hashlib
 import datetime
 import pytz
 
+from . import scraper
+
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 
@@ -29,6 +31,7 @@ def login(request):
         
         # Handle login
         try:
+            
             # Get user with matching hash
             user = MembershipToken.objects.get(hashed_token=hashed_token)
             
@@ -37,6 +40,7 @@ def login(request):
             
             # Redirect to news page
             return redirect(news)
+        
         except:
             pass
     

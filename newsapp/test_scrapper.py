@@ -1,7 +1,7 @@
-import scrapper
+import newsapp.scraper as scraper
 import datetime
 
-links = scrapper.get_new_links_from_sme()
+links = scraper.get_new_links_from_sme()
 
 with open('test.html','w+') as f:
     f.write('''
@@ -11,7 +11,7 @@ with open('test.html','w+') as f:
     ''')
 
 for l in links:
-    article = scrapper.scrape_articles_from_sme_links(l)
+    article = scraper.scrape_articles_from_sme_links(l)
     if article != None:
         
         if article['image'] == None:
