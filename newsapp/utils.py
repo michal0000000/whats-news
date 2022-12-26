@@ -1,6 +1,5 @@
 from models import Article
 from models import Tag
-from models import Article_Tags
 
 
 # Return new posts since "since_post"

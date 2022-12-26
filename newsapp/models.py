@@ -2,6 +2,8 @@ from django.db import models
 
 
 class MembershipToken(models.Model):
+    
+    id = models.BigAutoField(primary_key=True)
     hashed_token = models.CharField(max_length=64,unique=True) # sha256
     username = models.CharField(max_length=64,unique=True)
     email = models.CharField(max_length=64,unique=True)
@@ -18,6 +20,8 @@ class MembershipToken(models.Model):
     """
  
 class Author(models.Model):
+    
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50)
     
     def __str__(self):
@@ -25,6 +29,7 @@ class Author(models.Model):
     
 class Source(models.Model):
     
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50)              # sme.sk
     display_name = models.CharField(max_length=50)      # Dennik Sme
     pfp = models.CharField(max_length=512)              # pfp lunk
@@ -35,9 +40,13 @@ class Source(models.Model):
         return self.name
     
 class Tag(models.Model):
+    
+    id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=50)
     
 class Article(models.Model):
+    
+    id = models.BigAutoField(primary_key=True)
     headline = models.CharField(max_length=256)
     headline_img = models.CharField(max_length=512)
     subtitle = models.TextField()
@@ -53,7 +62,7 @@ class Article(models.Model):
     
     # Return id of post
     def __str__(self):
-        return self.id
+        return self.headline
     
     # Get data needed for news feed page
     def get_feed_data(self):

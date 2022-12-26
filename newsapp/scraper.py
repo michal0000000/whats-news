@@ -31,7 +31,7 @@ class WhatsNewsScraper():
         self.__running = False
         self.__new_article_queue = []
         
-        signal.signal(signal.SIGINT,self.stop_scraper)
+        #signal.signal(signal.SIGINT,self.stop_scraper)
         
     # Override run() method
     def start_scraper(self):
@@ -72,7 +72,8 @@ class WhatsNewsScraper():
         # Helper temporary code
         try:
             last_scrape = Article.objects.latest('published')
-        except:
+        except Exception as e:
+            print(e)
             last_scrape = datetime.datetime.now() - datetime.timedelta(days = 300)
         
         while self.__running == True:
@@ -131,7 +132,7 @@ class WhatsNewsScraper():
                 
                 # Handle Authors
                 author_objects = []
-                for author in author_objects:
+                for author in article_data['authors']:
                     try:
                         # Check if author exists in DB
                         single_author = Author.objects.get(name=author)
@@ -139,7 +140,10 @@ class WhatsNewsScraper():
                         # Append found author
                         author_objects.append(single_author)
                         
-                    except:
+                    except Exception as e:
+                        
+                        print('E1: ' + str(e))
+                        
                         # If author doesnt exist, add him to DB
                         single_author = Author(name=author)
                         
@@ -148,11 +152,12 @@ class WhatsNewsScraper():
                         
                         # Append created author
                         author_objects.append(single_author)
-                
-                print(author_objects)
+                        
+                        print(author_objects)
+                        
+                        print('---------------------')
                 
                 # Handle Article
-                print(article_data)
                 article_object = Article(
                     headline = article_data['headline'],
                     headline_img = article_data['image'],
@@ -165,7 +170,7 @@ class WhatsNewsScraper():
                     paywall = article_data['paywall'],
                     img_is_video = article_data['img_is_video']
                 )
-                print(article_object)
+                print(str(article_object))
                 
                 # Add authors to article
                 for author in author_objects:
@@ -371,7 +376,7 @@ class WhatsNewsScraper():
                 'subtitle': article_subtitle,
                 'content': article_content,
                 'source': article_source,
-                'author': article_authors,
+                'authors': article_authors,
                 'link': article_link,
                 'published': article_published,
                 'paywall': article_paywall,
@@ -405,3 +410,4 @@ class WhatsNewsScraper():
         return url
 
 scraper = WhatsNewsScraper()
+scraper.start_scraper()
