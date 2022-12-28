@@ -8,6 +8,8 @@ from django.http import HttpResponse
 from newsapp.models import MembershipToken
 from newsapp.models import Article, Author, Source, Tag
 
+from . import scraper
+
 def login(request):
     
     # Code to create first hash
@@ -89,6 +91,9 @@ def news(request):
         
         # Append processed data to final list 
         articles_feed_data.append(single_article_data)
+        
+        # Reverse articles to get correct order in feed
+        articles_feed_data.reverse()
     
     # Render news feed
     return render(request,'news.html',{'articles':articles_feed_data})

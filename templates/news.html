@@ -5,7 +5,6 @@
   <head>
     <title>News Page</title>
     {% tailwind_css %}
-    <!-- <link href="{% static 'css/news-style.css' %}" rel="stylesheet" type="text/css"> -->
   </head>
   <body>
 
@@ -41,21 +40,30 @@
             <div class="container flex flex-col items-center px-5 py-8 mx-auto md:flex-row lg:px-28">
                 <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-24 md:pr-8 md:mb-0">
                     <h4 class="mb-1 text-xs font-semibold tracking-widest text-black uppercase title-font"> #Slovensko #Kalinak #Financie #ZaseKrandu </h4>
-                    <h3 class="mb-2 text-s font-semibold tracking-widest text-black uppercase title-font"> SME.sk | {{ article.authors }} </h3>
-                    <h2 class="mb-4 text-2xl font-black tracking-normal text-black md:text-4xl title-font"> {{ article.headline }} </h2>
+
+                    <div class="flex items-center mb-2">
+                      <img src="{{ article.source_pfp }}" alt="Profile photo" style="padding-right:0.5em" />
+                      <h3 class="ml-8 text-s font-semibold tracking-widest text-black uppercase title-font"> SME.sk | {{ article.authors }} </h3>
+                    </div>
+                    
+                    <h2 class="mb-4 text-2xl font-black tracking-normal text-black md:text-4xl title-font" href="{{ article.link }}"> {{ article.headline }} </h2>
                     <p class="mb-4 text-2xl leading-relaxed text-left text-blueGray-600 "> {{ article.subtitle }} </p>
                     <div class="flex flex-col justify-center lg:flex-row">
-
-                        <!--
-                        <button class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-lg hover:bg-blue-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"> Show me </button>
-                        <p class="mt-2 text-sm text-left text-blueGray-600 md:ml-6 md:mt-0"> It will take you to candy shop. <br class="hidden lg:block">
-                        <a href="#" class="inline-flex items-center font-semibold text-blue-600 md:mb-2 lg:mb-0 hover:text-black " title="read more"> Read more about it » </a>
-                        </p>
-                        -->
                     </div>
                 </div>
                 <div class="w-full lg:w-1/4 lg:max-w-lg md:w-1/2">
-                    <img class="object-cover object-center rounded-lg " alt="hero" src="https://dummyimage.com/720x600/F3F4F7/8693ac">
+
+                  {% if article.img_is_video == False and article.image != None %}
+                    <img class="object-cover object-center rounded-lg" alt="hero" src="{{ article.image }}">
+                  {% elif article.img_is_video == False and article.image != None %}
+                    <div class="object-cover object-center rounded-lg">
+                        {{ article.image }}
+                    <div>
+                  {% else %}
+                    <img class="object-cover object-center rounded-lg " alt="hero" src="{% static 'images/index.svg' %}">
+
+
+                  {% endif %}
                 </div>
             </div>
           </section>

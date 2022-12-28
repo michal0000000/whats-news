@@ -21,11 +21,9 @@ TODO:
 - implement logging
 - scrape with proxy rotation
 - adding and extracting Tags from Articles
-- Source adding and handling
 - platform recognition in scrape_articles_from_queue()
 - create script that runs on startups that checks if needed classes have changed on news websites
 - proper starting and terminating of threads
-- make sure articles are printed in correct order
 """
 
 """ SCRAPER CLASS """
@@ -41,6 +39,11 @@ class WhatsNewsScraper():
         
     # Override run() method
     def start_scraper(self):
+        
+        # Drop all articles if in debug mode
+        if DEBUG == True:
+            Article.objects.all().delete()
+            print('DEBUG: All articles deleted')
         
         # Change state of scraper
         self.__running = True
@@ -137,14 +140,6 @@ class WhatsNewsScraper():
             # If article was succesfully extracted
             if article_data != False:
                 
-                # Handle Source
-                try:
-                    source = Source.objects.get(name='sme.sk')
-                except:
-                    source = None
-                    print('No such Source found. Adding None as Source.')
-                
-                
                 # Handle Authors
                 author_objects = []
                 for author in article_data['authors']:
@@ -173,11 +168,11 @@ class WhatsNewsScraper():
                     excerpt = article_data['excerpt'], 
                     subtitle = article_data['subtitle'],
                     content = article_data['content'],
-                    source = None,
                     link = article_data['link'],
                     published = article_data['published'],
                     paywall = article_data['paywall'],
-                    img_is_video = article_data['img_is_video']
+                    img_is_video = article_data['img_is_video'],
+                    source = article_data['source']
                 )
                 print(str(article_object))
                 
@@ -282,7 +277,7 @@ class WhatsNewsScraper():
         
         try:
             # Define source
-            article_source = 'sme.sk'
+            article_source = Source.objects.get(name='sme')
             article_link = url
             article_img_is_video = False
 
@@ -341,6 +336,12 @@ class WhatsNewsScraper():
             # Find authors
             article_authors = []
             author_data = soup.find('div', {'class': 'pr-m'}).find_all('a')
+            
+            # If author not found, try another method (for external authors)
+            if len(author_data) == 0:
+                author_data = soup.find('div', {'class': 'pr-m'}).find_all('span')
+            
+            # Append authors to list
             for author in author_data:
                 article_authors.append(author.text)
 
@@ -348,8 +349,9 @@ class WhatsNewsScraper():
             article_data = soup.find('article').find_all('p')
 
             # Return None if content wasn't found
-            if len(article_data) < 3:
-                return None
+            #   - irrelevant for now, not working with content
+            #if len(article_data) < 3:
+            #    return None
 
             # Find article content
             article_content = ''
@@ -357,9 +359,10 @@ class WhatsNewsScraper():
                 article_content += str(p) + '\n'
 
             # Create exerpt from first few lines
+            #   - irrelevant for now, not working with content
             article_exerpt = ''
-            for i in range(0, 3):
-                article_exerpt += str(article_data[i])
+            #for i in range(0, 3):
+            #    article_exerpt += str(article_data[i])
                 
             # Find subtitle
             try:
@@ -391,6 +394,7 @@ class WhatsNewsScraper():
                 'paywall': article_paywall,
                 'img_is_video': article_img_is_video
             }
+            
             return result
         except Exception as e:
             print(e)
@@ -416,5 +420,5 @@ class WhatsNewsScraper():
 
         return url
 
-#scraper = WhatsNewsScraper()
-#scraper.start_scraper()
+scraper = WhatsNewsScraper()
+scraper.start_scraper()

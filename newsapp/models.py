@@ -72,10 +72,12 @@ class Article(models.Model):
             "id" : self.id,
             "headline" : self.headline,
             "image" : self.headline_img,
+            "link" : self.link,
             "subtitle" : self.subtitle, 
             "published" : self.published,
             "paywall" : self.paywall,
-            "source" : self.source,
+            "source_display_name" : self.source.display_name,
+            "source_pfp" : self.source.pfp,
             "authors" : self.authors.all(),
             "tags" : self.tags.all(),
             "img_is_video" : self.img_is_video
