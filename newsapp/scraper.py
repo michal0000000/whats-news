@@ -11,15 +11,21 @@ from newsapp.models import Article
 from newsapp.models import Author
 from newsapp.models import Source
 
+DEBUG = True
+
 SME = 'https://www.sme.sk/najnovsie?f=bez-sportu'
 DENNIKN = 'https://dennikn.sk/najnovsie'
 
 """
 TODO:
+- implement logging
 - scrape with proxy rotation
 - adding and extracting Tags from Articles
 - Source adding and handling
 - platform recognition in scrape_articles_from_queue()
+- create script that runs on startups that checks if needed classes have changed on news websites
+- proper starting and terminating of threads
+- make sure articles are printed in correct order
 """
 
 """ SCRAPER CLASS """
@@ -61,21 +67,19 @@ class WhatsNewsScraper():
         
         # Wait for processes to finish running
         while self.queue_filler_running == True or self.article_extrator_running == True:
-            print(self.queue_filler_running)
-            print(self.article_extrator_running)
-            time.sleep(2)
+            time.sleep(5)
         
         print("Scraper sucessfully stopped.")
         
     def scrape_new_links_and_add_to_queue(self):
         
-        # Helper temporary code
-        try:
-            last_scrape = Article.objects.latest('published')
-        except Exception as e:
-            print(e)
+        # Dont fetch latest article if debug mode is enabled
+        if DEBUG == False:
+            last_scrape = Article.objects.latest('published').published
+        else:
             last_scrape = datetime.datetime.now() - datetime.timedelta(days = 300)
         
+        # While scraper hasn't been stopped
         while self.__running == True:
             
             # Get new links from one publisher
@@ -91,9 +95,12 @@ class WhatsNewsScraper():
                     # Change last scrape time
                     last_scrape = link['published']
             
-            # Wait 2 mins before checking new articles
+            # Wait x mins before checking new articles
             print('Waiting before checking new articles.')
-            time.sleep(5)
+            if DEBUG == False:
+                    time.sleep(120)
+            else:
+                time.sleep(3)
             
         # Change state of queue_filler process
         self.queue_filler_running = False
@@ -112,11 +119,19 @@ class WhatsNewsScraper():
              # If queue is empty, wait 2 mins and try again
             if article_link == None:        
                 print('No new articles, sleeping...')
-                time.sleep(5)
+                
+                # Wait x amount of time depending of debug mode
+                if DEBUG == False:
+                    time.sleep(120)
+                else:
+                    time.sleep(3)
+                    
+                # Poll for articles again
                 continue
             
             # Scrape article data
             # TODO -> add platform recognition for multiple platform support
+            print(article_link['url'])
             article_data = self.scrape_article_from_sme_links(article_link['url'])
             
             # If article was succesfully extracted
@@ -142,8 +157,6 @@ class WhatsNewsScraper():
                         
                     except Exception as e:
                         
-                        print('E1: ' + str(e))
-                        
                         # If author doesnt exist, add him to DB
                         single_author = Author(name=author)
                         
@@ -152,10 +165,6 @@ class WhatsNewsScraper():
                         
                         # Append created author
                         author_objects.append(single_author)
-                        
-                        print(author_objects)
-                        
-                        print('---------------------')
                 
                 # Handle Article
                 article_object = Article(
@@ -172,16 +181,16 @@ class WhatsNewsScraper():
                 )
                 print(str(article_object))
                 
+                # Save new article to database
+                article_object.save()
+                
                 # Add authors to article
                 for author in author_objects:
                     article_object.authors.add(author)
                 
-                # Save new article to database
-                article_object.save()
-                
                 # Print progress into terminal
-                headline = article_object['headline']
-                print(f'Article "{headline[len(headline)/3]}..." addeed to DB!')
+                headline = article_object.headline
+                print(f'Article "{headline[:int(len(headline)/3)]}..." addeed to DB!')
                 
                 # Remove article from queue
                 self.__new_article_queue.remove(article_link)
@@ -277,11 +286,11 @@ class WhatsNewsScraper():
             article_link = url
             article_img_is_video = False
 
-            # Define accepted domains
-            accepted_domains = ['domov.sme.sk']
+            # Define unsupported domains
+            unsupported_domains = ['sportnet.sme.sk']
 
-            # Check if domain is correct
-            url = self.verify_domain(url, accepted_domains)
+            # Check if domain is supported
+            url = self.verify_domain(url, unsupported_domains)
 
             # Return "None" if unsupported url
             if url == None:
@@ -389,7 +398,7 @@ class WhatsNewsScraper():
 
     """ UTIL FUNCTIONS """
 
-    def verify_domain(self, url, accepted_domains):
+    def verify_domain(self, url, unsupported_domains):
         # Compile the regular expression
         pattern = re.compile(r"^(?:https?:\/\/)?(?:[^@\n]+@)?([^:\/\n]+)")
 
@@ -401,13 +410,11 @@ class WhatsNewsScraper():
 
         # Filter out unwanted domains
         found = False
-        for dom in accepted_domains:
+        for dom in unsupported_domains:
             if domain == dom:
-                found = True
-        if found == False:
-            return None
+                return None
 
         return url
 
-scraper = WhatsNewsScraper()
-scraper.start_scraper()
+#scraper = WhatsNewsScraper()
+#scraper.start_scraper()

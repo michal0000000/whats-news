@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class MembershipToken(models.Model):
     
     id = models.BigAutoField(primary_key=True)
@@ -14,6 +13,9 @@ class MembershipToken(models.Model):
     
     def check_token(self,submitted_token):
         return self.hashed_token == submitted_token
+    
+    class Meta:
+        managed = False
     
     """TODO:
         - def valid()
@@ -55,7 +57,7 @@ class Article(models.Model):
     link = models.CharField(max_length=512) 
     published = models.DateField()
     paywall = models.BooleanField() # Eg. paid news like SME.SK
-    source = models.ForeignKey(Source,on_delete=models.CASCADE)
+    source = models.ForeignKey(Source,on_delete=models.CASCADE,null=True)
     authors = models.ManyToManyField(Author)
     tags = models.ManyToManyField(Tag)
     img_is_video = models.BooleanField(default=False)
@@ -70,11 +72,11 @@ class Article(models.Model):
             "id" : self.id,
             "headline" : self.headline,
             "image" : self.headline_img,
-            "excerpt" : self.excerpt, 
+            "subtitle" : self.subtitle, 
             "published" : self.published,
             "paywall" : self.paywall,
             "source" : self.source,
-            "authors" : self.author.all(),
+            "authors" : self.authors.all(),
             "tags" : self.tags.all(),
             "img_is_video" : self.img_is_video
         }

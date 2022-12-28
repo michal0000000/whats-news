@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.1.13']
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+    '192.168.1.13'
+]
 
 # Application definition
 
@@ -39,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'newsapp',
+    'tailwind',
+    'theme'
 ]
 
 MIDDLEWARE = [
@@ -48,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'news.urls'
@@ -129,3 +135,5 @@ STATICFILES_DIRS = (os.path.join('static'), )
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TAILWIND_APP_NAME = 'theme'
