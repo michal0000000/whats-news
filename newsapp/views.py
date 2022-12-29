@@ -1,6 +1,8 @@
 import hashlib
 import datetime
-import pytz
+
+from .logger.logger import log
+from .logger.logger_sink import LoggerSink
 
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
@@ -9,6 +11,10 @@ from newsapp.models import MembershipToken
 from newsapp.models import Article, Author, Source, Tag
 
 from . import scraper
+
+"""TODO:
+- implement pagination
+"""
 
 def login(request):
     
@@ -56,7 +62,6 @@ def news(request):
         
         # Get article data from db
         single_article_data = article.get_feed_data()
-        print(single_article_data)
         
         """TODO:
             - deal with video article pictures

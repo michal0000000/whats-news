@@ -7,6 +7,9 @@ import datetime
 import time
 import signal
 
+from .logger.logger import log
+from .logger.logger_sink import LoggerSink
+
 from newsapp.models import Article
 from newsapp.models import Author
 from newsapp.models import Source
@@ -19,8 +22,9 @@ DENNIKN = 'https://dennikn.sk/najnovsie'
 """
 TODO:
 - implement logging
-- scrape with proxy rotation
 - adding and extracting Tags from Articles
+ 
+- scrape with proxy rotation
 - platform recognition in scrape_articles_from_queue()
 - create script that runs on startups that checks if needed classes have changed on news websites
 - proper starting and terminating of threads
@@ -44,6 +48,7 @@ class WhatsNewsScraper():
         if DEBUG == True:
             Article.objects.all().delete()
             print('DEBUG: All articles deleted')
+            log("connected: ",LoggerSink.DEBUG)
         
         # Change state of scraper
         self.__running = True
@@ -138,7 +143,7 @@ class WhatsNewsScraper():
             article_data = self.scrape_article_from_sme_links(article_link['url'])
             
             # If article was succesfully extracted
-            if article_data != False:
+            if article_data != False and article_data != None:
                 
                 # Handle Authors
                 author_objects = []
@@ -174,7 +179,6 @@ class WhatsNewsScraper():
                     img_is_video = article_data['img_is_video'],
                     source = article_data['source']
                 )
-                print(str(article_object))
                 
                 # Save new article to database
                 article_object.save()
@@ -377,8 +381,9 @@ class WhatsNewsScraper():
                 article_paywall = True
 
             # Return None if article is a quiz
-            if 'kvíz' in article_content.lower():
-                return None
+                # - keeping quizes for now, not interested in content of article
+            #if 'kvíz' in article_content.lower():
+            #    return None
 
             # Return result
             result = {

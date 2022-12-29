@@ -50,7 +50,7 @@ class Article(models.Model):
     
     id = models.BigAutoField(primary_key=True)
     headline = models.CharField(max_length=256)
-    headline_img = models.CharField(max_length=512)
+    headline_img = models.CharField(max_length=512,null=True)
     subtitle = models.TextField()
     excerpt = models.TextField()
     content = models.TextField()
@@ -78,6 +78,7 @@ class Article(models.Model):
             "paywall" : self.paywall,
             "source_display_name" : self.source.display_name,
             "source_pfp" : self.source.pfp,
+            "source_link" : self.source.link,
             "authors" : self.authors.all(),
             "tags" : self.tags.all(),
             "img_is_video" : self.img_is_video
