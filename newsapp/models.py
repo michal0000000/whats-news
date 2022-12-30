@@ -1,3 +1,5 @@
+
+from django.utils.timezone import now
 from django.db import models
 
 class MembershipToken(models.Model):
@@ -56,6 +58,7 @@ class Article(models.Model):
     content = models.TextField()
     link = models.CharField(max_length=512) 
     published = models.DateField()
+    added = models.DateTimeField(default=now, blank=True)
     paywall = models.BooleanField() # Eg. paid news like SME.SK
     source = models.ForeignKey(Source,on_delete=models.CASCADE,null=True)
     authors = models.ManyToManyField(Author)
@@ -75,6 +78,7 @@ class Article(models.Model):
             "link" : self.link,
             "subtitle" : self.subtitle, 
             "published" : self.published,
+            "added" : self.added.isoformat,
             "paywall" : self.paywall,
             "source_display_name" : self.source.display_name,
             "source_pfp" : self.source.pfp,

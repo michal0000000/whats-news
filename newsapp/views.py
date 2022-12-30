@@ -5,15 +5,21 @@ from .logger.logger import log
 from .logger.logger_sink import LoggerSink
 
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.core import paginator
+from django.template.loader import render_to_string
 
 from newsapp.models import MembershipToken
 from newsapp.models import Article, Author, Source, Tag
 
 from . import scraper
+from . import utils
 
 """TODO:
+- implement new news fetching
 - implement pagination
+- add nonce for each pagination or new news fetch
+- sidebar with upcoming features, user can click to vote
 """
 
 def login(request):
@@ -54,51 +60,10 @@ def news(request):
         return redirect(login)
     
     # Fetch latest articles from database
-    articles = Article.objects.all().order_by('published')[:25]
+    articles = Article.objects.all().order_by('published')[:10]
     
-    # Fetch feed-specific data for each article
-    articles_feed_data = []
-    for article in articles:
-        
-        # Get article data from db
-        single_article_data = article.get_feed_data()
-        
-        """TODO:
-            - deal with video article pictures
-        """
-        
-        # Get names of authors
-        authors = []
-        for author in single_article_data['authors']:
-           authors.append(str(author)) 
-        
-        # Get author count
-        author_count = len(authors)
-        
-        # Create authors string
-        authors_string = ''
-        if author_count > 2:
-            
-            # Add names of first two authors
-            authors_string = ', '.join(authors[:2])
-            
-            # Append count of the rest of authors
-            authors_string += f' +{ author_count - 2 }'
-        
-        # If there are only 2 authors
-        else:
-            
-            # Join them with a semicolin
-            authors_string = ', '.join(authors)
-            
-        # Replace authors list from DB with string
-        single_article_data['authors'] = authors_string
-        
-        # Append processed data to final list 
-        articles_feed_data.append(single_article_data)
-        
-        # Reverse articles to get correct order in feed
-        articles_feed_data.reverse()
+    # Prepare data for feed
+    articles_feed_data = utils.prepare_article_data_for_feed(articles)
     
     # Render news feed
     return render(request,'news.html',{'articles':articles_feed_data})
@@ -107,10 +72,67 @@ def logout(request):
     
     # Delete cookie
     response = redirect(login)
-    response.delete_cookie('dont_even_try_to_bruteforce')
     
     # Create new session id and preserve data
     request.session.cycle_key()
     
     return response
     
+def show_pages(request):
+    
+    # Get a list of all the posts
+    posts = Article.objects.all().order_by('-published')
+    posts_data = []
+    for post in posts:
+        posts_data.append(post.get_feed_data())
+    posts = posts_data
+
+    page = int(request.GET.get('page',1))
+
+    
+    p = paginator.Paginator(posts,4)
+    
+    try:
+        post_page = p.page(page)
+    except paginator.EmptyPage:
+        post_page = paginator.Page([], page, p)
+
+    
+    if request.META.get('HTTP_X_REQUESTED_WITH') != 'XMLHttpRequest':
+        context = {
+            'posts': post_page,
+        }
+        return render(request,
+                      'posts.html',
+                      context)
+    else:
+        content = ''
+        for post in post_page:
+            content += render_to_string('post-item.html',
+                                        {'post': post},
+                                        request=request)
+        return JsonResponse({
+            "content": content,
+            "end_pagination": True if page >= p.num_pages else False,
+        })
+        
+def fetch_new_articles(request):
+    
+    last_article_from_feed = request.GET.get('last_article_time')
+    
+    if last_article_from_feed == None:
+        return HttpResponse(400)
+    else:
+        last_article_from_feed = datetime.datetime.strptime(last_article_from_feed,"%Y-%m-%dT%H-%M-%S%z")
+        
+        new_articles = Article.objects.filter(added__gt = last_article_from_feed)
+        
+        if len(new_articles) == 0:
+            return HttpResponse(204)
+        else:
+            
+            processed_new_articles = utils.prepare_article_data_for_feed(new_articles)
+            
+            JsonResponse({"data" : processed_new_articles})
+        
+        

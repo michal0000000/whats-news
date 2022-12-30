@@ -165,8 +165,8 @@ class WhatsNewsScraper():
                         
                         # Append created author
                         author_objects.append(single_author)
-                
-                # Handle Article
+                                
+                # Create new Article object
                 article_object = Article(
                     headline = article_data['headline'],
                     headline_img = article_data['image'],
@@ -360,7 +360,7 @@ class WhatsNewsScraper():
             # Find article content
             article_content = ''
             for p in article_data:
-                article_content += str(p) + '\n'
+                article_content += str(p.text) + '\n\n'
 
             # Create exerpt from first few lines
             #   - irrelevant for now, not working with content
@@ -426,4 +426,4 @@ class WhatsNewsScraper():
         return url
 
 scraper = WhatsNewsScraper()
-scraper.start_scraper()
+scraper.start_scraper() 

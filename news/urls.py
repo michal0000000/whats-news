@@ -22,6 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.news),
     path('login/',views.login),
-    path('logout/',views.logout)
+    path('logout/',views.logout),
+    path('posts/',views.show_pages, name='show_pages'),
+    path('posts/new_posts/',views.fetch_new_articles)
     
 ]
