@@ -425,5 +425,5 @@ class WhatsNewsScraper():
 
         return url
 
-scraper = WhatsNewsScraper()
-scraper.start_scraper() 
+#scraper = WhatsNewsScraper()
+#scraper.start_scraper() 

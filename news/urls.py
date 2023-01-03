@@ -24,6 +24,7 @@ urlpatterns = [
     path('login/',views.login),
     path('logout/',views.logout),
     path('posts/',views.show_pages, name='show_pages'),
-    path('posts/new_posts/',views.fetch_new_articles)
+    path('posts/new_posts/',views.fetch_new_articles), # DELETE AFTER TESTNING
+    path('insert/',views.insert_dummy_articles) # DELETE AFTER TESTNING
     
 ]
