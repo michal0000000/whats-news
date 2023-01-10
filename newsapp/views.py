@@ -22,6 +22,7 @@ from . import utils
 - add nonce for each pagination or new news fetch
 - sidebar with upcoming features, user can click to vote or submit new feature (wont be published before review)
 - quote of the day on login screen
+- menu should contain different feeds: Slovensko, Tech, Kyberbezpecnost, Zahranicie, Ekonomika
 - connect twitter account and see live scrolling feed of cool threads regarding that topic (like stocks)
 """
 
