@@ -16,7 +16,13 @@ def prepare_article_data_for_feed(articles):
         # Get names of authors
         authors = []
         for author in single_article_data['authors']:
-           authors.append(str(author)) 
+           authors.append(str(author))
+           
+        # TODO: Properly handle tags
+        tags = []
+        for tag in single_article_data['tags']:
+            tags.append(str(tag))
+        single_article_data['tags'] = tags
         
         # Get author count
         author_count = len(authors)

@@ -56,6 +56,9 @@ class Tag(models.Model):
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=50)
     
+    def __str__(self):
+        return self.title
+    
 class Article(models.Model):
     
     id = models.BigAutoField(primary_key=True)
@@ -86,7 +89,7 @@ class Article(models.Model):
             "link" : self.link,
             "subtitle" : self.subtitle, 
             "published" : self.published,
-            "added" : self.added.isoformat,
+            "added" : self.added,
             "paywall" : self.paywall,
             "source_display_name" : self.source.display_name,
             "source_pfp" : self.source.pfp,

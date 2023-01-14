@@ -66,7 +66,66 @@ def news(request):
         return redirect(login)
     
     # Fetch latest articles from database
-    articles = Article.objects.all().order_by('published')[:10]
+    articles = Article.objects.all().order_by('-published')
+    
+    # Set last visit
+    time_of_visit = datetime.datetime.now().replace(tzinfo=pytz.UTC)
+    token = MembershipToken.objects.get(id=request.session['user'])
+    result_of_new_visit_time = token.set_last_visit(time_of_visit)
+    
+    
+    # Handle bad request
+    if result_of_new_visit_time == False:
+        return HttpResponse(status=400)
+
+    # Fetch GET parameter from request
+    page = int(request.GET.get('page',1))
+    
+    # Create Paginator object with X articles per page
+    p = paginator.Paginator(articles,POSTS_PER_PAGE)
+    
+    try:
+        # If next page exists, fetch articles
+        article_page = p.page(page)
+        article_page = utils.prepare_article_data_for_feed(article_page)
+    except paginator.EmptyPage:
+        
+        # If last page has been reached, create empty page with no articles
+        article_page = paginator.Page([], page, p)
+
+    # If user is requesting full page (page 1)
+    if request.META.get('HTTP_X_REQUESTED_WITH') != 'XMLHttpRequest':
+        
+        # Create context for page
+        context = {
+            'articles': article_page,
+        }
+        
+        # Render page
+        return render(request,
+                      'news.html',
+                      context)
+        
+    # If user is requesting next page of articles and not the whole page
+    else:
+        content = ''
+        
+        # Render each post from template to string
+        for article in article_page:
+            content += render_to_string('news-item.html',
+                                        {'article': article},
+                                        request=request)
+            
+        # Serve new articles as Json
+        return JsonResponse({
+            "content": content,
+            "end_pagination": True if page >= p.num_pages else False,
+        })
+    
+    
+    
+    
+    "-------------------------------------------------------"
     
     # Prepare data for feed
     articles_feed_data = utils.prepare_article_data_for_feed(articles)
@@ -164,14 +223,7 @@ def fetch_new_articles(request):
     else:
         
         # Fetch feed data for new articles
-        #processed_new_articles = utils.prepare_article_data_for_feed(new_articles)
-        processed_new_articles = []
-        for article in new_articles:
-            article = article.get_feed_data_test()
-            article['added'] = str(article['added'])
-            article['published'] = str(article['published'])
-            
-            processed_new_articles.append(article)
+        processed_new_articles = utils.prepare_article_data_for_feed(new_articles)
         
         # Set new last visit
         time_of_visit = datetime.datetime.now().replace(tzinfo=pytz.UTC)
