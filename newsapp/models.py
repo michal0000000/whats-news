@@ -5,19 +5,27 @@ from django.db import models
 class MembershipToken(models.Model):
     
     id = models.BigAutoField(primary_key=True)
-    hashed_token = models.CharField(max_length=64,unique=True) # sha256
+    hashed_token = models.CharField(max_length=64) # sha256
     username = models.CharField(max_length=64,unique=True)
     email = models.CharField(max_length=64,unique=True)
     valid_until = models.DateTimeField()
+    last_visit = models.DateTimeField(default=now)
     
     def __str__(self):
-        return self.username
+        return str(self.id)
+    
+    def set_last_visit(self,datetime):
+        if self.last_visit < datetime:
+            self.last_visit = datetime
+            return True
+        else:
+            return False
     
     def check_token(self,submitted_token):
         return self.hashed_token == submitted_token
     
     class Meta:
-        managed = False
+        app_label = 'newsapp'
     
     """TODO:
         - def valid()
@@ -47,6 +55,9 @@ class Tag(models.Model):
     
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.title
     
 class Article(models.Model):
     
@@ -78,7 +89,7 @@ class Article(models.Model):
             "link" : self.link,
             "subtitle" : self.subtitle, 
             "published" : self.published,
-            "added" : self.added.isoformat,
+            "added" : self.added,
             "paywall" : self.paywall,
             "source_display_name" : self.source.display_name,
             "source_pfp" : self.source.pfp,
@@ -86,4 +97,15 @@ class Article(models.Model):
             "authors" : self.authors.all(),
             "tags" : self.tags.all(),
             "img_is_video" : self.img_is_video
+        }
+        
+    def get_feed_data_test(self):
+        return {
+            "id" : self.id,
+            "headline" : self.headline,
+            "image" : self.headline_img,
+            "link" : self.link,
+            "subtitle" : self.subtitle, 
+            "published" : self.published,
+            "added" : self.added,
         }
