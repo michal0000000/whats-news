@@ -212,9 +212,13 @@ def fetch_new_articles(request):
     # Get last visit of user to determine what articles are new
     current_user = MembershipToken.objects.get(id=request.session['user'])
     current_user_last_visit = current_user.last_visit
+    
+    print(f"last_visit: {current_user_last_visit}")
 
     # Fetch new articles that arent displayed on feed yet
     new_articles = Article.objects.filter(added__gt = current_user_last_visit)
+    
+    print(f"new_articles: {new_articles}")
     
     # Handle no new articles
     if len(new_articles) == 0:
@@ -227,18 +231,21 @@ def fetch_new_articles(request):
         
         # Set new last visit
         time_of_visit = datetime.datetime.now().replace(tzinfo=pytz.UTC)
-        token = MembershipToken.objects.get(id=request.session['user'])
         
-        if token.last_visit < time_of_visit:
-            result_of_new_visit_time = token.last_visit = time_of_visit
+        try:
+            
+            # Check if last visit is older than current visit
+            if current_user.last_visit < time_of_visit:
+                current_user.last_visit = time_of_visit
+                current_user.save()
+            else:
+                raise Exception("ERR: fetch_new_articles(): Time of visit is smaller than last visit!")
+        except Exception as e:
+            
+            # Handle bad request
+            return HttpResponse(status=400)
         
-        # Handle bad request
-        #if result_of_new_visit_time == False:
-        #    return HttpResponse(status=400)
-        #else:
-        print("SUCCESSFULLY ADDED LAST VISIT")
-        
-        #print(processed_new_articles)
+        print(f"returning: {processed_new_articles}")
         
         # Send new articles to frontend
         return JsonResponse({"data" : processed_new_articles})
