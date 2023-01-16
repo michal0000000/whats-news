@@ -99,13 +99,20 @@ class Article(models.Model):
             "img_is_video" : self.img_is_video
         }
         
-    def get_feed_data_test(self):
+class UpcomingFeatures(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=256)
+    description = models.CharField(max_length=512,null=True)
+    visible = models.BooleanField(default=False)
+    votes = models.ManyToManyField(MembershipToken,default=None)
+    
+    def __str__(self):
+        return str(self.id)
+    
+    def get_upcoming_features_data(self):
         return {
-            "id" : self.id,
-            "headline" : self.headline,
-            "image" : self.headline_img,
-            "link" : self.link,
-            "subtitle" : self.subtitle, 
-            "published" : self.published,
-            "added" : self.added,
+            'title' : self.title,
+            'desc' : self.description,
+            'votes' : self.votes.count(),
+            'first' : False
         }

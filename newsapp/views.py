@@ -11,14 +11,13 @@ from django.core import paginator
 from django.template.loader import render_to_string
 
 from newsapp.models import MembershipToken
-from newsapp.models import Article, Author, Source, Tag
+from newsapp.models import Article, Author, Source, Tag, UpcomingFeatures
 
 from . import scraper
 from . import utils
 
 """TODO:
 - implement new news fetching
-- implement pagination
 - add nonce for each pagination or new news fetch
 - sidebar with upcoming features, user can click to vote or submit new feature (wont be published before review)
 - quote of the day on login screen
@@ -77,6 +76,15 @@ def news(request):
     # Handle bad request
     if result_of_new_visit_time == False:
         return HttpResponse(status=400)
+    
+    # Fetch upcoming features
+    upcoming_features_objects = UpcomingFeatures.objects.filter(visible=True)
+    upcoming_features = []
+    for feature in upcoming_features_objects:
+        upcoming_features.append(feature.get_upcoming_features_data())
+        
+    # Set first feature to be "first" so it can be opened on frontend
+    upcoming_features[0]['first'] = True
 
     # Fetch GET parameter from request
     page = int(request.GET.get('page',1))
@@ -99,6 +107,7 @@ def news(request):
         # Create context for page
         context = {
             'articles': article_page,
+            'features' : upcoming_features
         }
         
         # Render page
@@ -121,17 +130,6 @@ def news(request):
             "content": content,
             "end_pagination": True if page >= p.num_pages else False,
         })
-    
-    
-    
-    
-    "-------------------------------------------------------"
-    
-    # Prepare data for feed
-    articles_feed_data = utils.prepare_article_data_for_feed(articles)
-    
-    # Render news feed
-    return render(request,'news.html',{'articles':articles_feed_data})
 
 def logout(request):
     
@@ -158,6 +156,12 @@ def show_pages(request):
     if result_of_new_visit_time == False:
         return HttpResponse(status=400)
     
+    # Fetch upcoming features
+    upcoming_features_objects = UpcomingFeatures.objects.filter(visible=True)
+    upcoming_features = []
+    for feature in upcoming_features_objects:
+        upcoming_features.append(feature.get_upcoming_features_data())
+    
     # Fetch feed data
     for post in posts:
         posts_data.append(post.get_feed_data())
@@ -183,7 +187,10 @@ def show_pages(request):
         # Create context for page
         context = {
             'posts': post_page,
+            'features' : upcoming_features
         }
+        
+        print(f'context : {context}')
         
         # Render page
         return render(request,
@@ -212,13 +219,9 @@ def fetch_new_articles(request):
     # Get last visit of user to determine what articles are new
     current_user = MembershipToken.objects.get(id=request.session['user'])
     current_user_last_visit = current_user.last_visit
-    
-    print(f"last_visit: {current_user_last_visit}")
 
     # Fetch new articles that arent displayed on feed yet
     new_articles = Article.objects.filter(added__gt = current_user_last_visit)
-    
-    print(f"new_articles: {new_articles}")
     
     # Handle no new articles
     if len(new_articles) == 0:
@@ -244,8 +247,6 @@ def fetch_new_articles(request):
             
             # Handle bad request
             return HttpResponse(status=400)
-        
-        print(f"returning: {processed_new_articles}")
         
         # Send new articles to frontend
         return JsonResponse({"data" : processed_new_articles})

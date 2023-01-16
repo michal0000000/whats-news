@@ -16,6 +16,8 @@ from newsapp.models import Source
 
 DEBUG = True
 
+LOGGING = False
+
 SME = 'https://www.sme.sk/najnovsie?f=bez-sportu'
 DENNIKN = 'https://dennikn.sk/najnovsie'
 
