@@ -1,6 +1,7 @@
 
 from django.utils.timezone import now
 from django.db import models
+from django import forms
 
 class MembershipToken(models.Model):
     
@@ -98,7 +99,11 @@ class Article(models.Model):
             "tags" : self.tags.all(),
             "img_is_video" : self.img_is_video
         }
-        
+
+class UpcomingFeaturesForm(forms.Form):
+    title = forms.CharField(label="Chytľavý názov", max_length=256)
+    description = forms.CharField(label="Frajerský popis", max_length=512)
+      
 class UpcomingFeatures(models.Model):
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=256)

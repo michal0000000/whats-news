@@ -1,6 +1,7 @@
 import hashlib
 import datetime
 import pytz
+import traceback
 
 from .logger.logger import log
 from .logger.logger_sink import LoggerSink
@@ -12,9 +13,12 @@ from django.template.loader import render_to_string
 
 from newsapp.models import MembershipToken
 from newsapp.models import Article, Author, Source, Tag, UpcomingFeatures
+from newsapp.models import UpcomingFeatures, UpcomingFeaturesForm
 
 from . import scraper
 from . import utils
+
+
 
 """TODO:
 - implement new news fetching
@@ -212,6 +216,27 @@ def show_pages(request):
             "content": content,
             "end_pagination": True if page >= p.num_pages else False,
         })
+
+# TODO: implement bot check where a user can add only 5 functions within 5 minutes
+def submit_new_func(request):
+    
+    # If not post request, return forbidden
+    if request.method != 'POST':
+        return HttpResponse(status=403)
+    
+    # Validate POST data
+    form = UpcomingFeaturesForm(request.POST)
+    try:
+        if form.is_valid():
+            return HttpResponse(status=200)
+        else:
+            print(str(form.errors))
+            return HttpResponse(status=504)
+    except Exception as e:
+        print(e)
+        print(traceback.print_exc())
+        print("-------")
+        return HttpResponse(status=500)
 
 # Function that handles refreshing feed with new articles
 def fetch_new_articles(request):

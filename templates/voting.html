@@ -2,31 +2,31 @@
 
 <div class='flex items-center justify-center min-h-screen'>
 
-    
 
-    <div class='flex flex-col items-center justify-center min-h-screen'>
+    <div class='flex flex-col items-center justify-center min-h-screen '>
 
-        <div class='w-3/4 max-w-lg my-4 px-10 py-8 mx-auto rounded-lg shadow-xl bg-gray-200 '>
 
-            <div class="bg-gray-200 toggle-feedback">
-                <nav class="flex flex-col sm:flex-row">
-                    <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500">
-                        Hlasuj
-                    </button><button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none">
-                        Napis
-                    </button>
-                </nav>
-            </div>
+        <div class="w-3/4 max-w-lg px-4 pt-2 mx-auto bg-gray-200 rounded-lg rounded-b-none toggle-feedback">
+            <nav class="flex flex-col sm:flex-row">
+                <button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none active:text-blue-500 border-b-2 vote-func-tab">
+                    Hlasuj
+                </button><button class="text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none submit-func-tab">
+                    Napis
+                </button>
+            </nav>
+        </div>
 
-            <div class='max-w-md mx-auto space-y-6 tab-form'>
+        <div class='w-3/4 max-w-lg px-10 py-8 mx-auto rounded-lg rounded-t-none pt-5 shadow-xl bg-gray-200 '>
+
+            <div class='max-w-md mx-auto space-y-6 vote-func'>
                 <h3 class='h-8 text-xl font-bold'>Čo ďalej? Rozhodni ty!</h3>
     
                 <!-- Accordion start -->
-                <ul class="accordion w-full bg-gray-50 rounded-lg shadow-lg shadow-gray-100 p-2">
+                <ul class="accordion w-full bg-gray-50 rounded-lg shadow-lg p-2">
     
                     {% for feature in features %}
     
-                        <li class="cursor-pointer my-1">
+                        <li class="cursor-pointer w-full my-1">
                             <span class="font-bold text-m tracking-tight text-gray-500 flex flex-row justify-between items-center">
                                 <p>{{feature.title}} ({{feature.votes}})</p>
                                 <svg class="text-gray-500 mr-1 flipY"xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
@@ -34,7 +34,7 @@
                                 </svg>
                             </span>
     
-                            <div class="text-gray-500 text-md p-2" style="display: none;">
+                            <div class="text-gray-500 text-md p-2">
                                 {{feature.desc}}
                             </div>
     
@@ -51,14 +51,23 @@
                 </a>
             </div>
         
-            <div class='max-w-md mx-auto space-y-6 tab-form' style="display: none;">
-                <h3 class='h-8 text-xl font-bold'>Daj navrh</h3>
-    
-                <input type="text">
-    
-                <a target='_blank' href='https://tailwindcomponents.com' class='block w-full px-4 py-2 font-medium tracking-wide text-center text-white capitalize transition-colors duration-300 transform bg-teal-400 rounded-md hover:bg-teal-500 focus:outline-none focus:ring focus:ring-teal-300 focus:ring-opacity-80'>
-                    Hlasuj!
-                </a>
+            <div class='max-w-md mx-auto space-y-6 submit-func' hidden>
+
+                <form action="/submit_new_func/" method="post">
+                    {% csrf_token %}
+                    <h3 class='h-8 text-xl font-bold'>Daj navrh</h3>
+                    
+                    <label for="submit-func-title">Chytľavý názov</label>
+                    <input name="submit-func-title" class="block w-full text-gray-800 submit-func-title" id="submit-func-title" type="text" placeholder="Rododendron" required>
+                    
+                    <label for="submit-func-desc">Frajerský popis</label>
+                    <textarea name="submit-func-desc" class="block w-full" id="submit-func-desc" rows="3" placeholder="Cerveny kvet z celade rastlin vresovcovite." required></textarea>
+        
+                    <button type="submit" class='block w-full px-4 py-2 font-medium tracking-wide text-center text-white capitalize transition-colors duration-300 transform bg-teal-400 rounded-md hover:bg-teal-500 focus:outline-none focus:ring focus:ring-teal-300 focus:ring-opacity-80'>
+                        Hlasuj!
+                    </button>
+                </form>
+                
             </div>
         </div>
 

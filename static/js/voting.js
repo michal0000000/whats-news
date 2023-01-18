@@ -3,6 +3,15 @@ $(document).on('click', '.accordion li', function(e) {
     $(this).find('svg').toggleClass('flipY');
 });
 
-$(document).on('click', '.tab-form', function(e) {
-    $(this).toggleClass('hidden-form');
-});
+$(document).ready(function() {
+    $(".vote-func-tab").click(function() {
+      $(".submit-func").hide();
+      $(".vote-func").show();
+    });
+    
+    $(".submit-func-tab").click(function() {
+      $(".vote-func").hide();
+      $(".submit-func").show();
+    });
+  });
+
