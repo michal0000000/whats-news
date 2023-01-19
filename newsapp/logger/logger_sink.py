@@ -7,3 +7,5 @@ class LoggerSink(Enum):
     VIEWS = "VIEWS"
     DEBUG = "DEBUG"
     SCRAPER = "SCRAPER"
+    AUTH = "AUTH"
+    NEWS = "NEWS"

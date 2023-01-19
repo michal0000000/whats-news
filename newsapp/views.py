@@ -6,10 +6,13 @@ import traceback
 from .logger.logger import log
 from .logger.logger_sink import LoggerSink
 
-from django.shortcuts import render,redirect
-from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core import paginator
 from django.template.loader import render_to_string
+from django.contrib import messages
+from django.template import RequestContext
+from django.db.models import Count
 
 from newsapp.models import MembershipToken
 from newsapp.models import Article, Author, Source, Tag, UpcomingFeatures
@@ -21,12 +24,12 @@ from . import utils
 
 
 """TODO:
-- implement new news fetching
-- add nonce for each pagination or new news fetch
-- sidebar with upcoming features, user can click to vote or submit new feature (wont be published before review)
+- implement tags
 - quote of the day on login screen
-- menu should contain different feeds: Slovensko, Tech, Kyberbezpecnost, Zahranicie, Ekonomika
 - connect twitter account and see live scrolling feed of cool threads regarding that topic (like stocks)
+- implement categories (that are above tags and are assigned manually)
+- add some feature on the right (like hottest tags?)
+- hover on profile picture should show subscription expiration
 """
 
 POSTS_PER_PAGE = 4
@@ -76,16 +79,20 @@ def news(request):
     token = MembershipToken.objects.get(id=request.session['user'])
     result_of_new_visit_time = token.set_last_visit(time_of_visit)
     
-    
     # Handle bad request
     if result_of_new_visit_time == False:
         return HttpResponse(status=400)
     
     # Fetch upcoming features
-    upcoming_features_objects = UpcomingFeatures.objects.filter(visible=True)
+    upcoming_features_objects = UpcomingFeatures.objects.filter(visible=True).annotate(v_count=Count('votes')).order_by('-v_count')
     upcoming_features = []
     for feature in upcoming_features_objects:
-        upcoming_features.append(feature.get_upcoming_features_data())
+        
+        # Dont add the same feature twice
+        if feature not in upcoming_features:
+            
+            # Add feature to list
+            upcoming_features.append(feature.get_upcoming_features_data())
         
     # Set first feature to be "first" so it can be opened on frontend
     upcoming_features[0]['first'] = True
@@ -108,11 +115,21 @@ def news(request):
     # If user is requesting full page (page 1)
     if request.META.get('HTTP_X_REQUESTED_WITH') != 'XMLHttpRequest':
         
+        # Create form for submitting new functionality
+        new_func_form = UpcomingFeaturesForm()
+        
         # Create context for page
         context = {
             'articles': article_page,
-            'features' : upcoming_features
+            'features' : upcoming_features,
+            'new_func_form' : new_func_form,
+            'unbiased' : 'false'
         }
+        
+        # Check for unbiased mode
+        unbiased = request.GET.get('u','')
+        if unbiased == 'true':
+            context['unbiased'] = 'true'
         
         # Render page
         return render(request,
@@ -218,6 +235,7 @@ def show_pages(request):
         })
 
 # TODO: implement bot check where a user can add only 5 functions within 5 minutes
+# TODO: split form entries by visible status in administration
 def submit_new_func(request):
     
     # If not post request, return forbidden
@@ -228,15 +246,62 @@ def submit_new_func(request):
     form = UpcomingFeaturesForm(request.POST)
     try:
         if form.is_valid():
-            return HttpResponse(status=200)
+            
+            # Extract data from form
+            func_title = form.cleaned_data['title']
+            func_desc = form.cleaned_data['description']
+            
+            # Insert new feature into database
+            new_func_request = UpcomingFeatures(title=func_title,description=func_desc)
+            new_func_request.save()
+            
+            # Fetch current user to set as default vote
+            try:
+                first_vote = MembershipToken.objects.get(id=request.session['user'])
+                new_func_request.votes.add(first_vote)
+            except Exception as e:
+                log(f"ERR: submit_new_func() - Couldn't add user {str(request.session['user'])} as first vote. Traceback: {traceback.print_exc()}",LoggerSink.NEWS)
+            
+            # Send success message
+            messages.success(request,'Nice! Dík za feedback.')
+            return redirect(news)
         else:
             print(str(form.errors))
-            return HttpResponse(status=504)
+            return HttpResponse(status=400)
     except Exception as e:
-        print(e)
-        print(traceback.print_exc())
-        print("-------")
-        return HttpResponse(status=500)
+        log(f"ERR: submit_new_func() - Problem validating form. Traceback: {traceback.print_exc()}",LoggerSink.NEWS)
+        return HttpResponse(status=400)
+
+def vote_for_new_func(request):
+    
+    # If not post request, return forbidden
+    if request.method != 'POST':
+        return HttpResponse(status=403)
+    
+    try:
+        # Validate form data
+        choice = request.POST['feature-choice'][0]
+        if type(choice) == str and choice != '':
+            
+            # Give choice to feature that user voted for
+            give_vote_to = UpcomingFeatures.objects.get(id=choice)
+            voter = MembershipToken.objects.get(id=request.session['user'])
+            
+            # Check if user has voted already
+            if give_vote_to.votes.filter(pk=voter.pk).exists():
+                messages.error(request,'Sry, už si hlasoval.')
+            else:
+                
+                # If user hasn't voted yet, add vote
+                give_vote_to.votes.add(voter)
+                messages.success(request,'Nice! Dík za feedback.')
+                    
+            return redirect(news)
+            
+    # Handle errors
+    except Exception as e:
+        log(f"ERR: vote_for_new_func() - Problem validating form. Traceback: {traceback.print_exc()}",LoggerSink.NEWS)
+        return HttpResponse(status=403)
 
 # Function that handles refreshing feed with new articles
 def fetch_new_articles(request):

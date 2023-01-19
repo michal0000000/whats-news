@@ -3,6 +3,7 @@ from django.utils.timezone import now
 from django.db import models
 from django import forms
 
+# TODO: research GDPR, if neccessary dont store PI info (i.e. email)
 class MembershipToken(models.Model):
     
     id = models.BigAutoField(primary_key=True)
@@ -110,12 +111,14 @@ class UpcomingFeatures(models.Model):
     description = models.CharField(max_length=512,null=True)
     visible = models.BooleanField(default=False)
     votes = models.ManyToManyField(MembershipToken,default=None)
+    submitted = models.DateField(default=now)
     
     def __str__(self):
         return str(self.id)
     
     def get_upcoming_features_data(self):
         return {
+            'id' : self.id,
             'title' : self.title,
             'desc' : self.description,
             'votes' : self.votes.count(),

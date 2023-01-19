@@ -24,5 +24,6 @@ urlpatterns = [
     path('login/',views.login),
     path('logout/',views.logout),
     path('new_posts/',views.fetch_new_articles),
-    path('submit_new_func/',views.submit_new_func)
+    path('submit_new_func/',views.submit_new_func),
+    path('vote_for_new_func/',views.vote_for_new_func)
 ]

@@ -17,13 +17,26 @@
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
           </svg>
           <span class="ml-3 text-xl">What's News?</span>
+          <span class="ml-3 text-lg">PRO Version</span>
         </a>
+
+        <!--
         <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-          <a class="mr-5 hover:text-gray-900">Z domova</a>
-          <a class="mr-5 hover:text-gray-900">Svet</a>
-          <a class="mr-5 hover:text-gray-900">Tech</a>
-          <a class="mr-5 hover:text-gray-900">Šport</a>
+          <a class="mr-5 hover:text-gray-900">Daco</a>
+          <a class="mr-5 hover:text-gray-900">Zdroje</a>
+          <a class="mr-5 hover:text-gray-900">Daco</a>
         </nav>
+        -->
+
+        <span class="text-md font-medium mr-3 ml-auto">{% if unbiased == 'true' %} Unbiased {% else %} Biased {% endif %}</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" onclick="changeBiasedMode( {{unbiased}} )" class="sr-only peer" {% if unbiased == 'true' %} checked {% endif %}>
+          <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          <span class="ml-3 text-md font-medium mr-3"></span>
+        </label>
+
+        <img alt="..." src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" class="shadow-xl rounded-full border-none w-[32px] mr-3">
+        
         <a href="/logout">
           <button class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Logout
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
@@ -32,6 +45,7 @@
           </button>
         </a>
       </div>
+
 
       <div class="overflow-hidden rounded-xl border border-gray-100 bg-gray-50 p-1">
         <ul class="flex items-center gap-2 text-sm font-medium">
@@ -61,10 +75,14 @@
               class="flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow">
               Random</a>
           </li>
+          <li class="flex-1">
+            <a href="#"
+              class="flex items-center justify-center gap-2 rounded-lg px-3 py-2 bg-blue-100 font-bold hover:font-bold hover:bg-white hover:shadow">
+              Zdroje</a>
+          </li>
         </ul>
       </div>
     </div>
-
 
     </header>
 
@@ -75,94 +93,86 @@
     </div>
 
     <div class="grid grid-cols-8 gap-2">
+ 
+      <div class="flex h-screen items-center col-span-2">
 
+        {% if features %}     
+          {% include 'voting.html' %}
+        {% endif %}
       
-      
-      
-      
-    <div class="flex h-screen items-center col-span-2">
+      </div>
+        
+        <div class="col-span-4">
+          <div id="page-content" class="mt-8">
 
-      {% if features %}     
-        {% include 'voting.html' %}
-      {% endif %}
-    
-    </div>
-
-      
-      
-      
-      <div class="col-span-4">
-        <div id="page-content" class="mt-8">
-
-          <div class="flex items-center justify-center w-1/2 shadow-md hover:shodow-lg rounded-2xl click-button bg-blue-50 container px-5 mx-auto md:flex-row mt-15 ">
-            <div class="flex items-center">
+            <div class="flex items-center justify-center w-1/2 shadow-md hover:shodow-lg rounded-2xl click-button bg-blue-50 container px-5 mx-auto md:flex-row mt-15 ">
               <div class="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                  class="w-16 h-16 rounded-2xl p-3 text-blue-400 bg-blue-50" fill="none"
-                  viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <div class="flex flex-col ml-3">
-                  <div id="new-articles-span" class="font-medium leading-none ">No new articles</div>
+                <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-16 h-16 rounded-2xl p-3 text-blue-400 bg-blue-50" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <div class="flex flex-col ml-3">
+                    <div id="new-articles-span" class="font-medium leading-none ">No new articles</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-      
-          <section id="articles" class="text-blueGray-700 bg-white mt-5">
-      
-            {% if articles %}
-      
-              {% for article in articles %}
-                
-                {% include 'news-item.html' %}
-      
-                {% empty %}
-                  <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
-                    <p class="font-bold">Uh-oh!</p>
-                    <p>No articles to display. Check back later or make sure youre ok.</p>
-                  </div>
-      
-              {% endfor %}
-            </section>
-            
-            {% else %}
-              <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
-                <p class="font-bold">Uh-oh!</p>
-                <p>No articles to display. Check back later.</p>
-              </div>
-      
-              <section class="text-blueGray-700 bg-white mt-20">
-                <div class="container flex flex-col items-center px-5 py-16 mx-auto md:flex-row lg:px-28">
-                    <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 md:mb-0">
-                        <h2 class="mb-8 text-xs font-semibold tracking-widest text-black uppercase title-font"> Your tagline </h2>
-                        <h1 class="mb-8 text-2xl font-black tracking-tighter text-black md:text-5xl title-font"> Medium length display headline. </h1>
-                        <p class="mb-8 text-base leading-relaxed text-left text-blueGray-600 "> Deploy your mvp in minutes, not days. WT offers you a a wide selection swapable sections for your landing page. </p>
-                        <div class="flex flex-col justify-center lg:flex-row">
-                            <button class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-lg hover:bg-blue-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"> Show me </button>
-                            <p class="mt-2 text-sm text-left text-blueGray-600 md:ml-6 md:mt-0"> It will take you to candy shop. <br class="hidden lg:block">
-                            <a href="#" class="inline-flex items-center font-semibold text-blue-600 md:mb-2 lg:mb-0 hover:text-black " title="read more"> Read more about it » </a>
-                            </p>
-                        </div>
+        
+            <section id="articles" class="text-blueGray-700 bg-white mt-5">
+        
+              {% if articles %}
+        
+                {% for article in articles %}
+                  
+                  {% include 'news-item.html' %}
+        
+                  {% empty %}
+                    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
+                      <p class="font-bold">Uh-oh!</p>
+                      <p>No articles to display. Check back later or make sure youre ok.</p>
                     </div>
-                    <div class="w-full lg:w-1/3 lg:max-w-lg md:w-1/2">
-                        <img class="object-cover object-center rounded-lg " alt="hero" src="https://dummyimage.com/720x600/F3F4F7/8693ac">
-                    </div>
-                </div>
+        
+                {% endfor %}
+              </section>
               
-            {% endif %}
-      
-          <div class="d-flex justify-content-center more-content-load">
-              <div class="spinner-border" role="status">
-                  <h2 class="">Loading new posts...</h2>
-              </div>
-          </div>
-      
-          </section>
+              {% else %}
+                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
+                  <p class="font-bold">Uh-oh!</p>
+                  <p>No articles to display. Check back later.</p>
+                </div>
+        
+                <section class="text-blueGray-700 bg-white mt-20">
+                  <div class="container flex flex-col items-center px-5 py-16 mx-auto md:flex-row lg:px-28">
+                      <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 md:mb-0">
+                          <h2 class="mb-8 text-xs font-semibold tracking-widest text-black uppercase title-font"> Your tagline </h2>
+                          <h1 class="mb-8 text-2xl font-black tracking-tighter text-black md:text-5xl title-font"> Medium length display headline. </h1>
+                          <p class="mb-8 text-base leading-relaxed text-left text-blueGray-600 "> Deploy your mvp in minutes, not days. WT offers you a a wide selection swapable sections for your landing page. </p>
+                          <div class="flex flex-col justify-center lg:flex-row">
+                              <button class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-lg hover:bg-blue-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"> Show me </button>
+                              <p class="mt-2 text-sm text-left text-blueGray-600 md:ml-6 md:mt-0"> It will take you to candy shop. <br class="hidden lg:block">
+                              <a href="#" class="inline-flex items-center font-semibold text-blue-600 md:mb-2 lg:mb-0 hover:text-black " title="read more"> Read more about it » </a>
+                              </p>
+                          </div>
+                      </div>
+                      <div class="w-full lg:w-1/3 lg:max-w-lg md:w-1/2">
+                          <img class="object-cover object-center rounded-lg " alt="hero" src="https://dummyimage.com/720x600/F3F4F7/8693ac">
+                      </div>
+                  </div>
+                
+              {% endif %}
+        
+            <div class="d-flex justify-content-center more-content-load">
+                <div class="spinner-border" role="status">
+                    <h2 class="">Loading new posts...</h2>
+                </div>
+            </div>
+        
+            </section>
 
-        </div>
-      
+          </div>
       
       </div>
 
@@ -180,6 +190,9 @@
 
     <!-- Voting scripts -->
     <script src="/static/js/voting.js"></script>
+
+    <!-- Unbiased scripts -->
+    <script src="/static/js/unbiased.js"></script>
 
     <div class="bg-gray-100">
       <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">

@@ -5,10 +5,12 @@
     <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-24 md:pr-8 md:mb-0">
         <h4 class="mb-1 text-xs font-semibold tracking-widest text-black uppercase title-font"> #Slovensko #Kalinak #Financie #ZaseKrandu </h4>
 
-        <div class="flex items-center mb-2">
-          <img src="{{ article.source_pfp }}" class="source-pfp" alt="Article photo" />
-          <h3 class="ml-2 text-s font-semibold tracking-widest text-black uppercase title-font article-info"> <a href="{{ article.source_link }}" target="_blank" class="article-source-name">{{article.source_display_name}}</a> | {{ article.authors }} </h3>
-        </div>
+        {% if unbiased == "false" %}
+          <div class="flex items-center mb-2">
+            <img src="{{ article.source_pfp }}" class="source-pfp" alt="Article photo" />
+            <h3 class="ml-2 text-s font-semibold tracking-widest text-black uppercase title-font article-info"> <a href="{{ article.source_link }}" target="_blank" class="article-source-name">{{article.source_display_name}}</a> | {{ article.authors }} </h3>
+          </div>
+        {% endif %}
         
         <a href="{{ article.link }}" class="article-link" target="_blank"><h2 class="mb-4 text-2xl font-black tracking-normal text-black md:text-4xl title-font headline"> {{ article.headline }} </h2></a>
         <p class="mb-4 text-2xl leading-relaxed text-left text-blueGray-600 subtitle"> {{ article.subtitle }} </p>
