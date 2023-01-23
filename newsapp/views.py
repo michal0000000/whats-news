@@ -355,8 +355,6 @@ def insert_dummy_articles(request):
             link = "",
             source = source,
             published = datetime.datetime.now().replace(tzinfo=pytz.UTC),
-            paywall = True,
-            img_is_video = False,
         )
         article_object.save()
     

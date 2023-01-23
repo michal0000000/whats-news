@@ -25,12 +25,8 @@
     </div>
     <div class="w-full lg:w-1/4 lg:max-w-lg md:w-1/2 image-holder">
 
-      {% if article.img_is_video == False and article.image != None %}
+      {% if article.image != None %}
         <img class="object-cover object-center rounded-lg article-img" alt="Article Image" src="{{ article.image }}">
-      {% elif article.img_is_video == False and article.image != None %}
-        <div class="object-cover object-center rounded-lg article-img">
-            {{ article.image }}
-        <div>
       {% else %}
         <img class="object-cover object-center rounded-lg article-img" alt="Article Video" src="{% static 'images/index.png' %}">
       {% endif %}

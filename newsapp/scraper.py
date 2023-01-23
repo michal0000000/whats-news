@@ -177,8 +177,6 @@ class WhatsNewsScraper():
                     content = article_data['content'],
                     link = article_data['link'],
                     published = article_data['published'],
-                    paywall = article_data['paywall'],
-                    img_is_video = article_data['img_is_video'],
                     source = article_data['source']
                 )
                 
@@ -285,7 +283,6 @@ class WhatsNewsScraper():
             # Define source
             article_source = Source.objects.get(name='sme')
             article_link = url
-            article_img_is_video = False
 
             # Define unsupported domains
             unsupported_domains = ['sportnet.sme.sk']
@@ -322,15 +319,6 @@ class WhatsNewsScraper():
                     'div', {'class': 'wideform-perex-photo'}).find('img')['src']
             except:
                 pass
-
-            # Check if article image is a video
-            if article_image == None:
-                try:
-                    article_image = soup.find_all('iframe')[0]
-                    article_image['style'] = 'width:300px; height:200px'
-                    article_img_is_video = True
-                except:
-                    pass
 
             # Find article rubric
             article_rubtic = soup.find('h1')['data-article-rubric']
@@ -376,17 +364,6 @@ class WhatsNewsScraper():
             except:
                 article_subtitle = article_exerpt
 
-            # Find paywall
-            article_paywall = False
-            find_paywall = soup.find_all('div', {'class': 'editorial-promo'})
-            if len(find_paywall) > 0:
-                article_paywall = True
-
-            # Return None if article is a quiz
-                # - keeping quizes for now, not interested in content of article
-            #if 'kvíz' in article_content.lower():
-            #    return None
-
             # Return result
             result = {
                 'headline': article_title,
@@ -398,8 +375,6 @@ class WhatsNewsScraper():
                 'authors': article_authors,
                 'link': article_link,
                 'published': article_published,
-                'paywall': article_paywall,
-                'img_is_video': article_img_is_video
             }
             
             return result

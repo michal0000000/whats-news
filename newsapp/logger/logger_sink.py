@@ -9,3 +9,4 @@ class LoggerSink(Enum):
     SCRAPER = "SCRAPER"
     AUTH = "AUTH"
     NEWS = "NEWS"
+    SOURCES = "SOURCES"
