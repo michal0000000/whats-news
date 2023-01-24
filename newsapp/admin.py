@@ -11,7 +11,8 @@ class UpcomingFeaturesAdminDisplay(admin.ModelAdmin):
     list_editable = ('visible',)
     
 class SourceAdminDisplay(admin.ModelAdmin):
-    list_display = ('display_name','scraping_link')
+    list_display = ('display_name','scraping_link','active')
+    list_editable = ('active',)
     
 class ArticleAdminDisplay(admin.ModelAdmin):
     list_display = ('headline','source','added')

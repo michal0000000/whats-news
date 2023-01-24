@@ -46,8 +46,7 @@ class Source(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50)              # SME
     display_name = models.CharField(max_length=50)      # Dennik Sme
-    pfp = models.CharField(max_length=512)              # pfp link
-    link = models.CharField(max_length=512)             # homepage link
+    pfp = models.CharField(max_length=512,default='static/default_source.png')              # pfp link         # homepage link
     scraping_link = models.CharField(max_length=512)    # scraping link
     active = models.BooleanField(default=False)
     
@@ -120,8 +119,3 @@ class UpcomingFeatures(models.Model):
             'first' : False
         }
         
-class LastScrape(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=256)
-    link = models.CharField(max_length=256)
-    last_scrape = models.DateTimeField(default=now)

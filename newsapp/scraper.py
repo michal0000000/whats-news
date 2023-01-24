@@ -5,10 +5,11 @@ import requests
 import re
 import datetime
 import time
-import signal
+import pytz
 
 from .logger.logger import log
 from .logger.logger_sink import LoggerSink
+from .platforms import SourceHandler
 
 from newsapp.models import Article
 from newsapp.models import Author
@@ -23,12 +24,10 @@ DENNIKN = 'https://dennikn.sk/najnovsie'
 
 """
 TODO:
-- implement logging
 - adding and extracting Tags from Articles
+- make last_scrape functionality inside scrape_new_links_and_add_to_queue() better
  
 - scrape with proxy rotation
-- platform recognition in scrape_articles_from_queue()
-- create script that runs on startups that checks if needed classes have changed on news websites
 - proper starting and terminating of threads
 """
 
@@ -85,25 +84,24 @@ class WhatsNewsScraper():
         
         # Dont fetch latest article if debug mode is enabled
         if DEBUG == False:
-            last_scrape = Article.objects.latest('published').published
+            #last_scrape = Article.objects.latest('published').published
+            last_scrape = datetime.datetime.now() - datetime.timedelta(hours = 1)
         else:
             last_scrape = datetime.datetime.now() - datetime.timedelta(days = 300)
+            
+        # Make last_scrape timezone aware    
+        last_scrape = last_scrape.replace(tzinfo=pytz.timezone('Europe/Bratislava'))
+        
+        # Spawn SourceHandler
+        source_handler = SourceHandler()
         
         # While scraper hasn't been stopped
         while self.__running == True:
             
-            # Get new links from one publisher
-            links = self.get_front_page_links_from_sme()
-            
-            # Filter out only new articles
-            for link in links:
-                if link['published'] > last_scrape:
-                    
-                    # Append new link to queue
-                    self.__new_article_queue.append(link)
-                    
-                    # Change last scrape time
-                    last_scrape = link['published']
+            for source in source_handler.get_new_articles():
+                
+                # Append new articles to queue
+                self.__new_article_queue += source
             
             # Wait x mins before checking new articles
             print('Waiting before checking new articles.')
@@ -124,10 +122,10 @@ class WhatsNewsScraper():
             
             # Get oldest article in queue
             print('Fetching article from queue.')
-            article_link = self.get_article_from_queue()
+            article_data = self.get_article_from_queue()
             
              # If queue is empty, wait 2 mins and try again
-            if article_link == None:        
+            if article_data == None:        
                 print('No new articles, sleeping...')
                 
                 # Wait x amount of time depending of debug mode
@@ -138,11 +136,7 @@ class WhatsNewsScraper():
                     
                 # Poll for articles again
                 continue
-            
-            # Scrape article data
-            # TODO -> add platform recognition for multiple platform support
-            print(article_link['url'])
-            article_data = self.scrape_article_from_sme_links(article_link['url'])
+
             
             # If article was succesfully extracted
             if article_data != False and article_data != None:
@@ -171,10 +165,8 @@ class WhatsNewsScraper():
                 # Create new Article object
                 article_object = Article(
                     headline = article_data['headline'],
-                    headline_img = article_data['image'],
-                    excerpt = article_data['excerpt'], 
+                    headline_img = article_data['headline_img'],
                     subtitle = article_data['subtitle'],
-                    content = article_data['content'],
                     link = article_data['link'],
                     published = article_data['published'],
                     source = article_data['source']
@@ -192,7 +184,7 @@ class WhatsNewsScraper():
                 print(f'Article "{headline[:int(len(headline)/3)]}..." addeed to DB!')
                 
                 # Remove article from queue
-                self.__new_article_queue.remove(article_link)
+                del self.__new_article_queue[0]
                 
         # Change state of article_extractor
         self.article_extrator_running = False
@@ -211,196 +203,5 @@ class WhatsNewsScraper():
             # If queue is empty
             return None
 
-    """ GET LINKS FROM _____ """
-
-    def get_front_page_links_from_sme(self):
-        """Gets all links from front page."""
-
-        # Send a request to the website and retrieve the HTML
-        url = SME
-        response = requests.get(url)
-        html = response.text
-
-        # Parse the HTML with Beautiful Soup
-        soup = BeautifulSoup(html, 'html.parser')
-
-        # Find the parent div
-        parent_div = soup.find('div', {'class': 'my-m'})
-
-        # Find all child divs with articles
-        child_divs = parent_div.find_all('div', {'class': 'media'})
-
-        # Get urls of new posts
-        posts = []
-        for div in child_divs:
-            
-            # Find date in post and extract it by removing author info
-            date_str = div.find('small', {'class': 'media-bottom'}).text
-            author_str = div.find('address',{'class':'media-author'}).text
-            extracted_date = date_str.replace(author_str,'').strip()
-            
-            # Convert date to datetime object
-            pub_date = datetime.datetime.strptime(extracted_date, '%d. %b %Y, o %H:%M')
-            url = div.find('a', {'class': 'media-image'})['href']
-            
-            # Append new article to list
-            posts.append({'published':pub_date,'url':url})
-
-        # Reverse order of links to start with oldest
-        posts.reverse()
-
-        return posts
-
-    def get_new_links_from_dennikn(self):
-
-        # Send a request to the website and retrieve the HTML
-        url = DENNIKN
-        response = requests.get(url)
-        html = response.text
-
-        # Parse the HTML with Beautiful Soup
-        soup = BeautifulSoup(html, 'html.parser')
-
-        # Find the parent div
-        parent_div = soup.find('div', {'class': 'tiles'})
-
-        # Find all child divs with articles
-        child_divs = parent_div.find_all('article', {'class': 'tile'})
-
-        # Get urls of new posts
-        posts = []
-        for div in child_divs:
-            url = div.find('a')['href']
-            posts.append(url)
-
-        return posts
-
-    """ SCRAPE ARTICLES FROM _____ """
-
-    def scrape_article_from_sme_links(self,url):
-        
-        try:
-            # Define source
-            article_source = Source.objects.get(name='sme')
-            article_link = url
-
-            # Define unsupported domains
-            unsupported_domains = ['sportnet.sme.sk']
-
-            # Check if domain is supported
-            url = self.verify_domain(url, unsupported_domains)
-
-            # Return "None" if unsupported url
-            if url == None:
-                return None
-
-            # Fetch html of article
-            response = requests.get(url)
-            html = response.text
-
-            # Parse the HTML with Beautiful Soup
-            soup = BeautifulSoup(html,features='lxml')
-
-            # Find div containing article
-            article = soup.find('div', {'class': 'left-panel'})
-
-            # Find article title
-            article_title = soup.find('h1').text
-
-            # Find article image
-            article_image = None
-            try:
-                article_image = soup.find(
-                    'div', {'class': 'article-main-img'}).find('img')['src']
-            except:
-                pass
-            try:
-                article_image = soup.find(
-                    'div', {'class': 'wideform-perex-photo'}).find('img')['src']
-            except:
-                pass
-
-            # Find article rubric
-            article_rubtic = soup.find('h1')['data-article-rubric']
-
-            # Find article publish date
-            article_published = soup.find('h1')['data-publish-date']
-            article_published = datetime.datetime.strptime(article_published, '%Y%m%d')
-
-            # Find authors
-            article_authors = []
-            author_data = soup.find('div', {'class': 'pr-m'}).find_all('a')
-            
-            # If author not found, try another method (for external authors)
-            if len(author_data) == 0:
-                author_data = soup.find('div', {'class': 'pr-m'}).find_all('span')
-            
-            # Append authors to list
-            for author in author_data:
-                article_authors.append(author.text)
-
-            # Get article data
-            article_data = soup.find('article').find_all('p')
-
-            # Return None if content wasn't found
-            #   - irrelevant for now, not working with content
-            #if len(article_data) < 3:
-            #    return None
-
-            # Find article content
-            article_content = ''
-            for p in article_data:
-                article_content += str(p.text) + '\n\n'
-
-            # Create exerpt from first few lines
-            #   - irrelevant for now, not working with content
-            article_exerpt = ''
-            #for i in range(0, 3):
-            #    article_exerpt += str(article_data[i])
-                
-            # Find subtitle
-            try:
-                article_subtitle = soup.find('p', {'class': 'perex'}).text
-            except:
-                article_subtitle = article_exerpt
-
-            # Return result
-            result = {
-                'headline': article_title,
-                'image': article_image,
-                'excerpt': article_exerpt,
-                'subtitle': article_subtitle,
-                'content': article_content,
-                'source': article_source,
-                'authors': article_authors,
-                'link': article_link,
-                'published': article_published,
-            }
-            
-            return result
-        except Exception as e:
-            print(e)
-            return False
-
-    """ UTIL FUNCTIONS """
-
-    def verify_domain(self, url, unsupported_domains):
-        # Compile the regular expression
-        pattern = re.compile(r"^(?:https?:\/\/)?(?:[^@\n]+@)?([^:\/\n]+)")
-
-        # Search for the domain in the URL
-        match = pattern.search(url)
-
-        # Get the domain from the match object
-        domain = match.group(1)
-
-        # Filter out unwanted domains
-        found = False
-        for dom in unsupported_domains:
-            if domain == dom:
-                return None
-
-        return url
-
-#scraper = WhatsNewsScraper()
-#scraper.start_scraper() 
+scraper = WhatsNewsScraper()
+scraper.start_scraper() 

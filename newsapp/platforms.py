@@ -9,14 +9,11 @@ import re
 from .logger.logger import log
 from .logger.logger_sink import LoggerSink
 
-from newsapp.models import LastScrape
+from newsapp.models import Source
 
 # TODO
 """
-- implement heartbeat for each source
-    - heartbeat function will also add Sources to DB if theyre new
-    - "Source" model gets fetched from DB on class init
-        the model dictates wether each source should be scraped or not
+- methods for fetching sources that are failing and sources that are up
 """
 
 """
@@ -34,9 +31,26 @@ SAMPLE ARTICLE DATA:
         'subtitle' : 'Something has happenned and you should know about it!',
         'link' : 'https://example.com/articles/link_to_article',
         'published' : <DateTime object>,
-        'source' : <source_signature>,   # e.g. 'SME'
+        'source' : <Source DB Object>,
         'authors' : ['Ben Dover', 'Moe Lester'],
     }
+"""
+
+"""
+OTHER INFO:
+- each scraping function returns either data or an empty string (in case of error or no new articles)
+- if scraping fails for some reason, 'last_seen' is not updated
+- SourceHandler keeps track of last cycle and returns only new articles added after last scrape
+
+- source uptime monitoring happens and is handled in this class, 
+    the WhatsNewsScraper class can query this data but should not be expected to handle any errors
+- 'active' attribute of each source has two functions:
+    1. determines the state of the source in the DB when initially added to db
+    2. is a guidline for scraping wether to scrape or not (gets updated from db if source is not new on init)
+"""
+
+"""TODO:
+- sources failing on some elements
 """
 
 class SourceHandler():
@@ -47,18 +61,62 @@ class SourceHandler():
             'PRAVDA' : {
                 'link': 'https://spravy.pravda.sk/',
                 'scrape' : self.get_front_page_links_from_pravda,
-                'active': None}, # Determined by heartbeat function
+                'last_seen': None, # <Datetime object> - gets updated each time a successful scrape happens
+                'display_name' : 'Dennik Pravda',
+                'active' : True},
             
             'SME' : {
                 'link': 'https://www.sme.sk/najnovsie?f=bez-sportu/', 
                 'scrape' : self.get_front_page_links_from_sme,
-                'active': None}, # Determined by heartbeat function
+                'last_seen': None, # <Datetime object> - gets updated each time a successful scrape happens
+                'display_name' : 'Dennik SME',
+                'active' : True},
             
             'DENNIKN' : {
                 'link': 'https://dennikn.sk/najnovsie/',
                 'scrape' : self.get_front_page_links_from_dennikn,
-                'active': None}, # Determined by heartbeat function
+                'last_seen': None, # <Datetime object> - gets updated each time a successful scrape happens
+                'display_name' : 'DennikN',
+                'active' : True},
         }
+        
+        # Verify if all sources exist
+        for key,val in self.sources.items():
+            try:
+                
+                # Verify if source exists
+                source = Source.objects.get(name=key)
+                
+                # Change local active status if active values dont match
+                if source.active != val['active']:
+                    self.sources[key]['active'] = source.active
+                    
+                # Add source object
+                self.sources[key]['source'] = source
+                    
+            except:
+                
+                # If source doesnt exist, create new one
+                try:
+                    log(f"Adding new source to DB - {key}.",LoggerSink.SOURCES)
+                    new_source = Source(
+                        name=key,
+                        display_name=val['display_name'],
+                        scraping_link = val['link'],
+                        active = val['active']
+                    )
+                    new_source.save()
+                    
+                    # Add source object
+                    self.sources[key]['source'] = new_source
+                    
+                # Handle error
+                except:
+                    self.sources[key]['active'] = False
+                    log(f"Error adding new source {key}:",LoggerSink.SOURCES)
+                    log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
+        
+        log(f"All sources initiated.",LoggerSink.SOURCES)
 
     def get_front_page_links_from_sme(self):
         """Gets all links from front page."""
@@ -66,18 +124,7 @@ class SourceHandler():
         # Mandatory variables
         source_signature = 'SME'
         source_link = self.sources[source_signature]['link']
-        
-        # Get last scrape time
-        """
-        try:
-            last_scrape = LastScrape.objects.get(name=source_signature)
-        except Exception as e:
-            
-            # If source is new, add it to database
-            new_source = LastScrape(name=source_signature,link=SOURCES[source_signature]['link'])
-            new_source.save()
-            last_scrape = new_source.last_scrape
-        """
+        last_seen = self.sources[source_signature]['last_seen']
 
         # Mandatory try handler
         try:
@@ -128,18 +175,21 @@ class SourceHandler():
                     # Find author
                     authors = [author_str.split('a')[0].strip()]
                     
-                    # Append new article to list
-                    posts.append({
-                        'headline' : headline,
-                        'headline_img' : image,
-                        'subtitle' : subtitle,
-                        'link' : url,
-                        'published' : pub_date,
-                        'source' : source_signature,
-                        'authors' : authors,
-                    })
+                    # Append post only if its new
+                    if last_seen == None or pub_date > last_seen:
                     
-                    suc += 1
+                        # Append new article to list
+                        posts.append({
+                            'headline' : headline,
+                            'headline_img' : image,
+                            'subtitle' : subtitle,
+                            'link' : url,
+                            'published' : pub_date,
+                            'source' : self.sources[source_signature]['source'],
+                            'authors' : authors,
+                        })
+                    
+                        suc += 1
                     
                 # Mandatory except functionality
                 except Exception as e:
@@ -153,19 +203,30 @@ class SourceHandler():
             if failed > suc:
                 log(f"{source_signature} - Failed scraping {failed}/{failed+suc}, reason: {traceback.print_exc()}",LoggerSink.SOURCES)
             
+            #
+            # Mandatory handling of result
+            #
+            
+            # If scraping of all articles failed, indicating scraping error
+            if failed+suc == failed:
+                return []
+            
+            # If at least some went through, meaning scraping is working
+            self.sources[source_signature]['last_seen'] = datetime.datetime.now()
             return posts
         
         # Mandatory except handler
         except Exception as e:
             log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SOURCES)
             log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
-            return False
+            return []
 
     def get_front_page_links_from_dennikn(self):
         
         # Mandatory variables
         source_signature = 'DENNIKN'
         source_link = self.sources[source_signature]['link']
+        last_seen = self.sources[source_signature]['last_seen']
 
         # Mandatory try handler
         try:
@@ -206,10 +267,31 @@ class SourceHandler():
                     headline = headline.findChildren('a' , recursive=False)[0]
                     headline = headline.findChildren('span' , recursive=False)[0].text
                     
-                    # Append new article to list
-                    posts.append({'published':pub_date,'link':url, 'headline':headline,'source':source_signature})
+                    # Find image
+                    image = div.find('figure', {'class':'title_figure'}).find('img')['src']
+                    image = image.split("&w=")[0] + "&w=600"
                     
-                    suc += 1
+                    # Find subtitle (doesnt have one)
+                    subtitle = ""
+                    
+                    # Find authors
+                    authors = [div.find('cite',{'class':'tile_meta__author'}).find('a').text]
+                    
+                    # Append post only if its new
+                    if last_seen == None or pub_date > last_seen:
+                    
+                        # Append new article to list
+                        posts.append({
+                            'headline' : headline,
+                            'headline_img' : image,
+                            'subtitle' : subtitle,
+                            'link' : url,
+                            'published' : pub_date,
+                            'source' : self.sources[source_signature]['source'],
+                            'authors' : authors,
+                        })
+                    
+                        suc += 1
                    
                 # Mandatory except functionality 
                 except Exception as e:
@@ -223,19 +305,30 @@ class SourceHandler():
             if failed > suc:
                 log(f"{source_signature} - Failed scraping {failed}/{failed+suc}, reason: {traceback.print_exc()}",LoggerSink.SOURCES)
             
+            #
+            # Mandatory handling of result
+            #
+            
+            # If scraping of all articles failed, indicating scraping error
+            if failed+suc == failed:
+                return []
+            
+            # If at least some went through, meaning scraping is working
+            self.sources[source_signature]['last_seen'] = datetime.datetime.now()
             return posts
         
         # Mandatory except handler
         except Exception as e:
             log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SOURCES)
             log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
-            return False
+            return []
 
     def get_front_page_links_from_pravda(self):
         
         # Mandatory variables
         source_signature = 'PRAVDA'
         source_link = self.sources[source_signature]['link']
+        last_seen = self.sources[source_signature]['last_seen']
 
         # Mandatory try handler
         try:
@@ -277,10 +370,30 @@ class SourceHandler():
                     # Find headline
                     headline = single_article.findChildren('a' , recursive=False)[0].text
                     
-                    # Append new article to list
-                    posts.append({'published':pub_date,'link':url, 'headline':headline,'source':source_signature})
+                    # Find image
+                    image = div.find('img')['src']
                     
-                    suc += 1
+                    # Find subtitle
+                    subtitle = div.find('p').text
+                    
+                    # Find authors
+                    authors = ["Pravda"] # They dont publish authors on first page
+                    
+                    # Append post only if its new
+                    if last_seen == None or pub_date > last_seen:
+                    
+                        # Append new article to list
+                        posts.append({
+                            'headline' : headline,
+                            'headline_img' : image,
+                            'subtitle' : subtitle,
+                            'link' : url,
+                            'published' : pub_date,
+                            'source' : self.sources[source_signature]['source'],
+                            'authors' : authors,
+                        })
+                    
+                        suc += 1
                     
                 # Mandatory except functionality
                 except Exception as e:
@@ -294,28 +407,28 @@ class SourceHandler():
             if failed > suc:
                 log(f"{source_signature} - Failed scraping {failed}/{failed+suc}, reason: {traceback.print_exc()}", LoggerSink.SOURCES)
             
+            #
+            # Mandatory handling of result
+            #
+            
+            # If scraping of all articles failed, indicating scraping error
+            if failed+suc == failed:
+                return []
+            
+            # If at least some went through, meaning scraping is working
+            self.sources[source_signature]['last_seen'] = datetime.datetime.now()
             return posts
         
         # Mandatory except handler
         except Exception as e:
             log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SOURCES)
             log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
-            return False
+            return []
+    
+    def get_new_articles(self):
         
-    def verify_domain(self, url, unsupported_domains):
-        # Compile the regular expression
-        pattern = re.compile(r"^(?:https?:\/\/)?(?:[^@\n]+@)?([^:\/\n]+)")
-
-        # Search for the domain in the URL
-        match = pattern.search(url)
-
-        # Get the domain from the match object
-        domain = match.group(1)
-
-        # Filter out unwanted domains
-        found = False
-        for dom in unsupported_domains:
-            if domain == dom:
-                return None
-
-        return url
+        # Generate articles source by source
+        for source,info in self.sources.items():
+            if info['active'] == True:
+                yield info['scrape']()
+                

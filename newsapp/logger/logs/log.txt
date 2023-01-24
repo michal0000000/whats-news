@@ -1,0 +1,3 @@
+2023-01-24 18:22:18.974981 [DEBUG] - connected: 
+2023-01-24 18:22:19.051962 [SOURCES] - All sources initiated.
+2023-01-24 18:22:19.457813 [SOURCES] - DENNIKN - Failed scraping 30/30, reason: None
