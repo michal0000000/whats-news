@@ -212,7 +212,7 @@ class SourceHandler():
                 return []
             
             # If at least some went through, meaning scraping is working
-            self.sources[source_signature]['last_seen'] = datetime.datetime.now()
+            self.sources[source_signature]['last_seen'] = datetime.datetime.now(tz=pytz.timezone('Europe/Bratislava'))
             return posts
         
         # Mandatory except handler
@@ -268,7 +268,7 @@ class SourceHandler():
                     headline = headline.findChildren('span' , recursive=False)[0].text
                     
                     # Find image
-                    image = div.find('figure', {'class':'title_figure'}).find('img')['src']
+                    image = div.find('img')['src']
                     image = image.split("&w=")[0] + "&w=600"
                     
                     # Find subtitle (doesnt have one)
@@ -295,6 +295,7 @@ class SourceHandler():
                    
                 # Mandatory except functionality 
                 except Exception as e:
+                    print(e)
                     failed += 1
                     
             # Reverse order of links to start with oldest
@@ -314,7 +315,7 @@ class SourceHandler():
                 return []
             
             # If at least some went through, meaning scraping is working
-            self.sources[source_signature]['last_seen'] = datetime.datetime.now()
+            self.sources[source_signature]['last_seen'] = datetime.datetime.now(tz=pytz.timezone('Europe/Bratislava'))
             return posts
         
         # Mandatory except handler
@@ -416,7 +417,7 @@ class SourceHandler():
                 return []
             
             # If at least some went through, meaning scraping is working
-            self.sources[source_signature]['last_seen'] = datetime.datetime.now()
+            self.sources[source_signature]['last_seen'] = datetime.datetime.now(tz=pytz.timezone('Europe/Bratislava'))
             return posts
         
         # Mandatory except handler

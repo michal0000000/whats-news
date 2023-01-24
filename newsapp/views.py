@@ -24,6 +24,7 @@ from . import utils
 
 
 """TODO:
+- scrolling is unbiased always
 - implement tags
 - quote of the day on login screen
 - connect twitter account and see live scrolling feed of cool threads regarding that topic (like stocks)

@@ -90,7 +90,7 @@ class Article(models.Model):
             "added" : self.added,
             "source_display_name" : self.source.display_name,
             "source_pfp" : self.source.pfp,
-            "source_link" : self.source.link,
+            "source_link" : self.source.scraping_link,
             "authors" : self.authors.all(),
             "tags" : self.tags.all(),
         }
