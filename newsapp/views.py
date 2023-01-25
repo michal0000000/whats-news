@@ -73,7 +73,7 @@ def news(request):
         return redirect(login)
     
     # Fetch latest articles from database
-    articles = Article.objects.all().order_by('-published')
+    articles = Article.objects.all().order_by('-added')
     
     # Set last visit
     time_of_visit = datetime.datetime.now().replace(tzinfo=pytz.UTC)
@@ -141,16 +141,25 @@ def news(request):
     else:
         content = ''
         
+        # Determine unbiased mode
+        unbiased = request.GET.get('u')
+        if unbiased == None:
+            unbiased = 'false'
+        
         # Render each post from template to string
         for article in article_page:
             content += render_to_string('news-item.html',
-                                        {'article': article},
+                                        {
+                                            'article': article,
+                                            'unbiased': unbiased
+                                         },
                                         request=request)
             
         # Serve new articles as Json
         return JsonResponse({
-            "content": content,
-            "end_pagination": True if page >= p.num_pages else False,
+            'unbiased': unbiased,
+            'content': content,
+            'end_pagination': True if page >= p.num_pages else False,
         })
 
 def logout(request):
@@ -236,7 +245,6 @@ def show_pages(request):
         })
 
 # TODO: implement bot check where a user can add only 5 functions within 5 minutes
-# TODO: split form entries by visible status in administration
 def submit_new_func(request):
     
     # If not post request, return forbidden
@@ -344,15 +352,13 @@ def fetch_new_articles(request):
         
 def insert_dummy_articles(request):
     
-    source = Source.objects.get(name='sme')
+    source = Source.objects.get(name='SME')
     
     for i in range(1,4):
         article_object = Article(
             headline = f"Dummy post {i}",
             headline_img = "static/images/index.png",
-            excerpt = "Something has happend and YOU should know about it.", 
             subtitle = "Something has happend and YOU should know about it.",
-            content = "",
             link = "",
             source = source,
             published = datetime.datetime.now().replace(tzinfo=pytz.UTC),

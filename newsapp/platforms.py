@@ -78,6 +78,13 @@ class SourceHandler():
                 'last_seen': None, # <Datetime object> - gets updated each time a successful scrape happens
                 'display_name' : 'DennikN',
                 'active' : True},
+            
+            'AKTUALITY' : {
+                'link': 'https://www.aktuality.sk/spravy/',
+                'scrape' : self.get_front_page_links_from_aktuality,
+                'last_seen': None, # <Datetime object> - gets updated each time a successful scrape happens
+                'display_name' : 'Aktuality',
+                'active' : False},
         }
         
         # Verify if all sources exist
@@ -118,6 +125,108 @@ class SourceHandler():
         
         log(f"All sources initiated.",LoggerSink.SOURCES)
 
+    def get_front_page_links_from_aktuality(self):
+        """Gets all links from front page."""
+        
+        # Mandatory variables
+        source_signature = 'AKTUALITY'
+        source_link = self.sources[source_signature]['link']
+        last_seen = self.sources[source_signature]['last_seen']
+
+        # Mandatory try handler
+        try:
+            # Send a request to the website and retrieve the HTML
+            response = requests.get(source_link)
+            html = response.text
+
+            # Parse the HTML with Beautiful Soup
+            soup = BeautifulSoup(html, 'html.parser')
+
+            # Find all child divs with articles
+            child_divs = soup.find_all('div', {'class': 'article-list'})
+
+            # Get urls of new posts
+            posts = []
+            suc = 0
+            failed = 0
+            
+            for div in child_divs:
+                
+                # Mandatory try functionality
+                try:
+                    # Find date in post and extract it by removing author info
+                    date_str = div.find('span', {'class': 'item-time'}).text
+                    date_str = date_str.split(" | ")[0]
+                
+                    ############# STOPPED HERE ##############
+                    extracted_date = date_str.replace(author_str,'').strip()
+                    
+                    # Convert date to datetime object
+                    pub_date = datetime.datetime.strptime(extracted_date, '%d. %b %Y, o %H:%M')
+                    pub_date = pub_date.replace(tzinfo=pytz.timezone('Europe/Bratislava'))
+                    
+                    # Find url
+                    url = div.find('a', {'class': 'media-image'})['href']
+                    
+                    # Find headline
+                    headline = div.find('a', {'class': 'js-pvt-title'}).text
+                    
+                    # Find article image
+                    image = div.find('a',{'class': 'media-image'})
+                    image = image.find('img')['src']
+                    
+                    # Find subtitle
+                    subtitle = div.find('p',{'class':'js-pvt-perex'}).text
+                    
+                    # Find author
+                    authors = [author_str.split('a')[0].strip()]
+                    
+                    # Append post only if its new
+                    if last_seen == None or pub_date > last_seen:
+                    
+                        # Append new article to list
+                        posts.append({
+                            'headline' : headline,
+                            'headline_img' : image,
+                            'subtitle' : subtitle,
+                            'link' : url,
+                            'published' : pub_date,
+                            'source' : self.sources[source_signature]['source'],
+                            'authors' : authors,
+                        })
+                    
+                        suc += 1
+                    
+                # Mandatory except functionality
+                except Exception as e:
+                    failed += 1
+                    
+            # Reverse order of links to start with oldest
+            posts.reverse()
+            
+            # Mandatory logger
+            # If there are many failed scrapes
+            if failed > suc:
+                log(f"{source_signature} - Failed scraping {failed}/{failed+suc}, reason: {traceback.print_exc()}",LoggerSink.SOURCES)
+            
+            #
+            # Mandatory handling of result
+            #
+            
+            # If scraping of all articles failed, indicating scraping error
+            if failed+suc == failed:
+                return []
+            
+            # If at least some went through, meaning scraping is working
+            self.sources[source_signature]['last_seen'] = datetime.datetime.now(tz=pytz.timezone('Europe/Bratislava'))
+            return posts
+        
+        # Mandatory except handler
+        except Exception as e:
+            log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SOURCES)
+            log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
+            return []
+    
     def get_front_page_links_from_sme(self):
         """Gets all links from front page."""
         
@@ -372,8 +481,8 @@ class SourceHandler():
                     headline = single_article.findChildren('a' , recursive=False)[0].text
                     
                     # Find image
-                    image = div.find('img')['src']
-                    
+                    image = div.find('img')['data-srcset'].split(' ')[0]
+
                     # Find subtitle
                     subtitle = div.find('p').text
                     

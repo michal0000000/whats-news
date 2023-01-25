@@ -19,9 +19,6 @@ DEBUG = True
 
 LOGGING = False
 
-SME = 'https://www.sme.sk/najnovsie?f=bez-sportu'
-DENNIKN = 'https://dennikn.sk/najnovsie'
-
 """
 TODO:
 - adding and extracting Tags from Articles
