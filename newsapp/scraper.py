@@ -9,11 +9,12 @@ import pytz
 
 from .logger.logger import log
 from .logger.logger_sink import LoggerSink
-from .platforms import SourceHandler
 
 from newsapp.models import Article
 from newsapp.models import Author
 from newsapp.models import Source
+
+from .slovak_news_cat import SlovakNewsSourceHandler
 
 DEBUG = True
 
@@ -90,7 +91,11 @@ class WhatsNewsScraper():
         last_scrape = last_scrape.replace(tzinfo=pytz.timezone('Europe/Bratislava'))
         
         # Spawn SourceHandler
-        source_handler = SourceHandler()
+        source_handler = SlovakNewsSourceHandler()
+        
+        # Wait for handler to be ready
+        while source_handler._ready == False:
+            time.sleep(5)
         
         # While scraper hasn't been stopped
         while self.__running == True:
@@ -118,7 +123,6 @@ class WhatsNewsScraper():
         while self.__running == True:
             
             # Get oldest article in queue
-            print('Fetching article from queue.')
             article_data = self.get_article_from_queue()
             
              # If queue is empty, wait 2 mins and try again
@@ -178,7 +182,7 @@ class WhatsNewsScraper():
                 
                 # Print progress into terminal
                 headline = article_object.headline
-                print(f'Article "{headline[:int(len(headline)/3)]}..." addeed to DB!')
+                print(f'{article_data["source"].name} - Article "{headline[:int(len(headline)/3)]}..." addeed to DB!')
                 
                 # Remove article from queue
                 del self.__new_article_queue[0]

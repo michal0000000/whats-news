@@ -46,7 +46,7 @@ class Source(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50)              # SME
     display_name = models.CharField(max_length=50)      # Dennik Sme
-    pfp = models.CharField(max_length=512,default='static/images/default_source.png')              # pfp link         # homepage link
+    pfp = models.CharField(max_length=512,default='static/images/default_source_20x20.png')              # pfp link         # homepage link
     scraping_link = models.CharField(max_length=512)    # scraping link
     active = models.BooleanField(default=False)
     
@@ -60,7 +60,13 @@ class Tag(models.Model):
     
     def __str__(self):
         return self.title
+
+class Category(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=50)
     
+    def __str__(self):
+        return self.title
 class Article(models.Model):
     
     id = models.BigAutoField(primary_key=True)
@@ -72,6 +78,7 @@ class Article(models.Model):
     added = models.DateTimeField(default=now)
     source = models.ForeignKey(Source,on_delete=models.CASCADE,null=True)
     authors = models.ManyToManyField(Author)
+    category = models.ManyToManyField(Category)
     tags = models.ManyToManyField(Tag)
     
     # Return id of post
@@ -94,7 +101,7 @@ class Article(models.Model):
             "authors" : self.authors.all(),
             "tags" : self.tags.all(),
         }
-
+    
 class UpcomingFeaturesForm(forms.Form):
     title = forms.CharField(label="Chytľavý názov", max_length=256)
     description = forms.CharField(label="Frajerský popis", max_length=512)

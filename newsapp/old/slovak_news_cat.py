@@ -5,6 +5,7 @@ import requests
 import datetime
 import pytz
 import re
+import urllib.parse
 
 from .logger.logger import log
 from .logger.logger_sink import LoggerSink
@@ -32,7 +33,10 @@ SAMPLE ARTICLE DATA:
         'link' : 'https://example.com/articles/link_to_article',
         'published' : <DateTime object>,
         'source' : <Source DB Object>,
-        'authors' : ['Ben Dover', 'Moe Lester'],
+        
+        'authors' : ['Ben Dover', 'Moe Lester'], 
+        or
+        'authors' : ['Aktuality'] # If source doesn't display. simply set Source name as author
     }
 """
 
@@ -53,9 +57,12 @@ OTHER INFO:
 - sources failing on some elements
 """
 
-class SourceHandler():
+class SlovakNewsSourceHandler():
     
     def __init__(self) -> None:
+        
+        # Signalizes handles is ready to work
+        self._ready = False
         
         self.sources = {
             'PRAVDA' : {
@@ -66,7 +73,7 @@ class SourceHandler():
                 'active' : True},
             
             'SME' : {
-                'link': 'https://www.sme.sk/najnovsie?f=bez-sportu/', 
+                'link': 'https://www.sme.sk/najnovsie?f=bez-sportu', 
                 'scrape' : self.get_front_page_links_from_sme,
                 'last_seen': None, # <Datetime object> - gets updated each time a successful scrape happens
                 'display_name' : 'Dennik SME',
@@ -84,8 +91,17 @@ class SourceHandler():
                 'scrape' : self.get_front_page_links_from_aktuality,
                 'last_seen': None, # <Datetime object> - gets updated each time a successful scrape happens
                 'display_name' : 'Aktuality',
-                'active' : False},
+                'active' : True},
         }
+        
+        
+        """
+        The below section takes care of the following:
+        1. Verifies if all sources exist in in database
+            - if not, they get added and initiated
+        2. Checks which sources are active
+        
+        """
         
         # Verify if all sources exist
         for key,val in self.sources.items():
@@ -105,7 +121,7 @@ class SourceHandler():
                 
                 # If source doesnt exist, create new one
                 try:
-                    log(f"Adding new source to DB - {key}.",LoggerSink.SOURCES)
+                    log(f"Adding new source to DB - {key}.",LoggerSink.SLOVAK_NEWS_SOURCES)
                     new_source = Source(
                         name=key,
                         display_name=val['display_name'],
@@ -120,13 +136,14 @@ class SourceHandler():
                 # Handle error
                 except:
                     self.sources[key]['active'] = False
-                    log(f"Error adding new source {key}:",LoggerSink.SOURCES)
-                    log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
+                    log(f"Error adding new source {key}:",LoggerSink.SLOVAK_NEWS_SOURCES)
+                    log(f"{traceback.print_exc()}",LoggerSink.SLOVAK_NEWS_SOURCES)
         
-        log(f"All sources initiated.",LoggerSink.SOURCES)
+        log(f"All sources initiated.",LoggerSink.SLOVAK_NEWS_SOURCES)
+        self._ready = True
 
     def get_front_page_links_from_aktuality(self):
-        """Gets all links from front page."""
+        """Gets all links from Aktuality.sk front page."""
         
         # Mandatory variables
         source_signature = 'AKTUALITY'
@@ -143,7 +160,7 @@ class SourceHandler():
             soup = BeautifulSoup(html, 'html.parser')
 
             # Find all child divs with articles
-            child_divs = soup.find_all('div', {'class': 'article-list'})
+            child_divs = soup.find_all('li', {'class': 'article-list-item'})
 
             # Get urls of new posts
             posts = []
@@ -152,43 +169,50 @@ class SourceHandler():
             
             for div in child_divs:
                 
+                # Skip mobile ad
+                if 'justify-content-center' in div['class']:
+                    continue
+                
                 # Mandatory try functionality
                 try:
                     # Find date in post and extract it by removing author info
                     date_str = div.find('span', {'class': 'item-time'}).text
-                    date_str = date_str.split(" | ")[0]
-                
-                    ############# STOPPED HERE ##############
-                    extracted_date = date_str.replace(author_str,'').strip()
-                    
+                    date_str = date_str.split(' | ')[0] # Select only day and time
+                    date_str = date_str.split(' ') # ['dnes','18:22']
+                        
                     # Convert date to datetime object
-                    pub_date = datetime.datetime.strptime(extracted_date, '%d. %b %Y, o %H:%M')
-                    pub_date = pub_date.replace(tzinfo=pytz.timezone('Europe/Bratislava'))
+                    pub_date = datetime.datetime.now().replace(tzinfo=pytz.timezone('Europe/Bratislava'))
+                        
+                    # If post was published yesterdat
+                    if date_str[0].lower() == 'včera':
+                        pub_date = pub_date - + datetime.timedelta(days=1)
+                    
+                    # Add time to date
+                    pub_time = date_str[1].split(":")
+                    pub_date = pub_date.replace(hour=int(pub_time[0]), minute=int(pub_time[1]))
                     
                     # Find url
-                    url = div.find('a', {'class': 'media-image'})['href']
+                    url = div.find('a', {'class': 'item-link'})['href']
                     
                     # Find headline
-                    headline = div.find('a', {'class': 'js-pvt-title'}).text
+                    headline = div.find('a', {'class': 'item-link'}).text
                     
-                    # Find article image
-                    image = div.find('a',{'class': 'media-image'})
-                    image = image.find('img')['src']
+                    # Find and process article image
+                    image = div.find('img',{'class': 'image'})
+                    image = image['data-src']
+                    image = urllib.parse.unquote(image)
                     
-                    # Find subtitle
-                    subtitle = div.find('p',{'class':'js-pvt-perex'}).text
-                    
-                    # Find author
-                    authors = [author_str.split('a')[0].strip()]
+                    # Find author (doesnt display)
+                    authors = ["Aktuality"]
                     
                     # Append post only if its new
                     if last_seen == None or pub_date > last_seen:
                     
                         # Append new article to list
                         posts.append({
-                            'headline' : headline,
+                            'headline' : headline.strip(),
                             'headline_img' : image,
-                            'subtitle' : subtitle,
+                            'subtitle' : '', # Doesnt display
                             'link' : url,
                             'published' : pub_date,
                             'source' : self.sources[source_signature]['source'],
@@ -223,8 +247,8 @@ class SourceHandler():
         
         # Mandatory except handler
         except Exception as e:
-            log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SOURCES)
-            log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
+            log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SLOVAK_NEWS_SOURCES)
+            log(f"{traceback.print_exc()}",LoggerSink.SLOVAK_NEWS_SOURCES)
             return []
     
     def get_front_page_links_from_sme(self):
@@ -276,7 +300,7 @@ class SourceHandler():
                     
                     # Find article image
                     image = div.find('a',{'class': 'media-image'})
-                    image = image.find('img')['src']
+                    image = image.find('img')['data-src']
                     
                     # Find subtitle
                     subtitle = div.find('p',{'class':'js-pvt-perex'}).text
@@ -310,7 +334,7 @@ class SourceHandler():
             # Mandatory logger
             # If there are many failed scrapes
             if failed > suc:
-                log(f"{source_signature} - Failed scraping {failed}/{failed+suc}, reason: {traceback.print_exc()}",LoggerSink.SOURCES)
+                log(f"{source_signature} - Failed scraping {failed}/{failed+suc}, reason: {traceback.print_exc()}",LoggerSink.SLOVAK_NEWS_SOURCES)
             
             #
             # Mandatory handling of result
@@ -326,8 +350,8 @@ class SourceHandler():
         
         # Mandatory except handler
         except Exception as e:
-            log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SOURCES)
-            log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
+            log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SLOVAK_NEWS_SOURCES)
+            log(f"{traceback.print_exc()}",LoggerSink.SLOVAK_NEWS_SOURCES)
             return []
 
     def get_front_page_links_from_dennikn(self):
@@ -413,7 +437,7 @@ class SourceHandler():
             # Mandatory logger
             # If there are many failed scrapes
             if failed > suc:
-                log(f"{source_signature} - Failed scraping {failed}/{failed+suc}, reason: {traceback.print_exc()}",LoggerSink.SOURCES)
+                log(f"{source_signature} - Failed scraping {failed}/{failed+suc}, reason: {traceback.print_exc()}",LoggerSink.SLOVAK_NEWS_SOURCES)
             
             #
             # Mandatory handling of result
@@ -429,8 +453,8 @@ class SourceHandler():
         
         # Mandatory except handler
         except Exception as e:
-            log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SOURCES)
-            log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
+            log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SLOVAK_NEWS_SOURCES)
+            log(f"{traceback.print_exc()}",LoggerSink.SLOVAK_NEWS_SOURCES)
             return []
 
     def get_front_page_links_from_pravda(self):
@@ -531,14 +555,20 @@ class SourceHandler():
         
         # Mandatory except handler
         except Exception as e:
-            log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SOURCES)
-            log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
+            log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SLOVAK_NEWS_SOURCES)
+            log(f"{traceback.print_exc()}",LoggerSink.SLOVAK_NEWS_SOURCES)
             return []
     
     def get_new_articles(self):
+        """ Generates a list of new articles per platform or returns empty list """
         
-        # Generate articles source by source
-        for source,info in self.sources.items():
-            if info['active'] == True:
-                yield info['scrape']()
+        # Checks if handler is ready to work
+        if self._ready == True:
+        
+            # Generate articles source by source
+            for source,info in self.sources.items():
+                if info['active'] == True:
+                    yield info['scrape']()
+        else:
+            yield []
                 
