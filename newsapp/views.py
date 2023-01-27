@@ -73,7 +73,7 @@ def news(request):
         return redirect(login)
     
     # Fetch latest articles from database
-    articles = Article.objects.all().order_by('-added')
+    articles = Article.objects.all().order_by('-published')
     
     # Set last visit
     time_of_visit = datetime.datetime.now().replace(tzinfo=pytz.UTC)

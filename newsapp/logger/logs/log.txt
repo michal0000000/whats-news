@@ -1,3 +1,2 @@
-2023-01-26 22:10:50.009696 [DEBUG] - connected: 
-2023-01-26 22:10:50.090036 [SLOVAK_NEWS_SOURCES] - All sources initiated.
-2023-01-26 22:10:50.176262 [SLOVAK_NEWS_SOURCES] - PRAVDA - Failed scraping 30/30, reason: None
+2023-01-27 21:41:14.094365 [DEBUG] - connected: 
+2023-01-27 21:41:14.185678 [SLOVAK_NEWS_SOURCES] - All sources initiated.

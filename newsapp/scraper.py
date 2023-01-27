@@ -166,12 +166,15 @@ class WhatsNewsScraper():
                 # Create new Article object
                 article_object = Article(
                     headline = article_data['headline'],
-                    headline_img = article_data['headline_img'],
                     subtitle = article_data['subtitle'],
                     link = article_data['link'],
                     published = article_data['published'],
                     source = article_data['source']
                 )
+                
+                # If article has headline image
+                if article_data.get('headline_img') != None:
+                    article_object.headline_img = article_data['headline_img']
                 
                 # Save new article to database
                 article_object.save()

@@ -71,10 +71,10 @@ class Article(models.Model):
     
     id = models.BigAutoField(primary_key=True)
     headline = models.CharField(max_length=256)
-    headline_img = models.CharField(max_length=512,null=True)
+    headline_img = models.CharField(max_length=512,default='static/images/index.png')
     subtitle = models.TextField()
     link = models.CharField(max_length=512) 
-    published = models.DateField(blank=True)
+    published = models.DateTimeField(blank=True)
     added = models.DateTimeField(default=now)
     source = models.ForeignKey(Source,on_delete=models.CASCADE,null=True)
     authors = models.ManyToManyField(Author)

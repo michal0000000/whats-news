@@ -15,7 +15,7 @@ class SourceAdminDisplay(admin.ModelAdmin):
     list_editable = ('active',)
     
 class ArticleAdminDisplay(admin.ModelAdmin):
-    list_display = ('headline','source','added')
+    list_display = ('headline','source','published','added')
     
 class MembershipTokenAdminDisplay(admin.ModelAdmin):
     list_display = ('id','username','valid_until','last_visit')
