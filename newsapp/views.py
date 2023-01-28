@@ -14,8 +14,9 @@ from django.contrib import messages
 from django.template import RequestContext
 from django.db.models import Count
 from django.conf import settings
+from django.db.models import Q
 
-from newsapp.models import MembershipToken
+from newsapp.models import MembershipToken, MemberPreference
 from newsapp.models import Article, Author, Source, Tag
 from newsapp.models import UpcomingFeatures, UpcomingFeaturesForm
 from newsapp.models import Category
@@ -27,11 +28,13 @@ from . import utils
 
 """TODO:
 - IMPORTANT: how long does loading take when there are thousands of articles? 
+- somehow generate images for articles that dont have an image (github logo, something related...)
+- add RSS feeds of cool reddit rooms
+- translation of titles and subtitles with chatgpt
 - implement content filters, so users can filter out words like %caputova%
+- when you click on "new articles" and then refresh, different feeds appear
 - handle /sk/ and /sk differences
 - if you want to add ALL sources, make sure the user can turn them off
-- implement categories
-- new article count for each category
 - finish profile handling - pfps, payment, invoicing...
 - quote of the day on login screen
 - add some feature on the right (hottest (most clicked) articles)
@@ -76,6 +79,13 @@ def news(request):
     # Redirect to login page if user not logged in
     if request.session.get('user') == None:
         return redirect(login)
+    
+    # TODO: Temporary handling of user source management
+    else:
+        ######## CONTINUE HERE #########
+        all_sources = Source.objects.all()
+        member = MembershipToken.objects.get(id=request.session.get('user'))
+        user_source_settings = MemberPreference.objects.filter(member=member)
         
     # Handle category GET param uppercase characters
     cat = request.GET.get('cat') or settings.DEFAULT_CATEGORY
@@ -394,7 +404,17 @@ def fetch_new_articles(request):
             'data' : processed_new_articles,
             'unbiased' : unbiased
             })
-        
+
+######## CONTINUE HERE #########
+def manage_sources(request):
+    
+    # Redirect to login page if user not logged in
+    if request.session.get('user') == None:
+        return redirect(login)
+    
+    # Fetch 
+    
+      
 def insert_dummy_articles(request):
     
     source = Source.objects.get(name='SME')

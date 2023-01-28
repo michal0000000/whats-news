@@ -26,8 +26,7 @@ urlpatterns = [
     path('new_posts/',views.fetch_new_articles),
     path('submit_new_func/',views.submit_new_func),
     path('vote_for_new_func/',views.vote_for_new_func),
-    
-    #path('sk/',views.news_sk),
+    path('source_management/',views.manage_sources),
     
     path('insert_posts/',views.insert_dummy_articles),
 ]

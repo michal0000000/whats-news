@@ -17,6 +17,7 @@ from newsapp.models import Source
 from .source_handler import SourceHandler
 
 DEBUG = True
+DEBUG_SLEEP = 120
 
 LOGGING = False
 
@@ -110,7 +111,7 @@ class WhatsNewsScraper():
             if DEBUG == False:
                     time.sleep(120)
             else:
-                time.sleep(3)
+                time.sleep(DEBUG_SLEEP)
             
         # Change state of queue_filler process
         self.queue_filler_running = False
@@ -133,11 +134,10 @@ class WhatsNewsScraper():
                 if DEBUG == False:
                     time.sleep(120)
                 else:
-                    time.sleep(3)
+                    time.sleep(DEBUG_SLEEP)
                     
                 # Poll for articles again
                 continue
-
             
             # If article was succesfully extracted
             if article_data != False and article_data != None:

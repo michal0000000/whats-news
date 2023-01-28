@@ -32,7 +32,7 @@ class MembershipToken(models.Model):
     """TODO:
         - def valid()
     """
- 
+
 class Author(models.Model):
     
     id = models.BigAutoField(primary_key=True)
@@ -130,3 +130,6 @@ class UpcomingFeatures(models.Model):
             'first' : False
         }
         
+class MemberPreference(models.Model):
+    member = models.OneToOneField(MembershipToken,on_delete=models.CASCADE)
+    sources = models.ManyToManyField(Source,blank=True)
