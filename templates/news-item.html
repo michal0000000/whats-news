@@ -1,24 +1,25 @@
 
 {% load static %}
 
-<div id="single-article" class="container flex flex-col items-center px-5 py-8 mx-auto md:flex-row">
-    <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-24 md:pr-8 md:mb-0">
+<div id="single-article" class="container flex flex-col items-center px-5 py-2 mx-auto md:flex-row divide-y">
+    <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-8 md:pr-8 md:mb-0">
         <!-- <h4 class="mb-1 text-xs font-semibold tracking-widest text-black uppercase title-font"> #Slovensko #Tu #Budu #Tagy </h4> -->
 
-        {% if unbiased == "false" %}
-          <div class="flex items-center mb-2">
-            <img src="{{ article.source_pfp }}" class="source-pfp" alt="Article photo" />
-            <h3 class="ml-2 text-s font-semibold tracking-widest text-black uppercase title-font article-info"> <a href="{{ article.source_link }}" target="_blank" class="article-source-name">{{article.source_display_name}}</a> | {{ article.authors }} </h3>
+        <div class="flex items-center mb-2 source-info w-full">
+          {% if unbiased == "false" %}
+            <a href="{{ article.source_link }}" target="_blank" class="flex items-center article-source-name">
+              <img src="{{ article.source_pfp }}" class="source-pfp" alt="Article photo" width="20px" height="20px"/>
+              <h3 class="ml-2 text-sm font-semibold text-black uppercase title-font article-info"> {{ article.authors }} </h3>
+            </a>
+          {% endif %}
+          <div class="text-grey-500 flex flex-row space-x-1 w-auto ml-auto">
+            <svg class="mt-[2px]" stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <p class="text-sm published">{{ article.published }}</p>
           </div>
-        {% endif %}
-        
-        <a href="{{ article.link }}" class="article-link" target="_blank"><h2 class="mb-4 text-2xl font-black tracking-normal text-black md:text-4xl title-font headline"> {{ article.headline }} </h2></a>
-        <p class="mb-4 text-2xl leading-relaxed text-left text-blueGray-600 subtitle"> {{ article.subtitle }} </p>
-
-        <div class="text-grey-500 flex flex-row space-x-1  my-4">
-          <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          <p class="text-m published">{{ article.published }}</p>
         </div>
+        
+        <a href="{{ article.link }}" class="article-link" target="_blank"><h2 class="font-black tracking-normal text-black md:text-2xl title-font headline"> {{ article.headline }} </h2></a>
+        <p class="mb-4 text-m leading-relaxed text-left text-blueGray-600 subtitle"> {{ article.subtitle }} </p>
 
         <div class="flex flex-col justify-center lg:flex-row">
         </div>
@@ -26,9 +27,9 @@
     <div class="w-full lg:w-1/4 lg:max-w-lg md:w-1/2 image-holder">
 
       {% if article.image != None %}
-        <img class="object-cover object-center rounded-lg article-img" alt="Article Image" src="{{ article.image }}">
+        <img class="w-full rounded-lg article-img" alt="Article Image" src="{{ article.image }}">
       {% else %}
-        <img class="object-cover object-center rounded-lg article-img" alt="Article Video" src="{% static 'images/index.png' %}">
+        <img class="w-full rounded-lg article-img" alt="Article Video" src="{% static 'images/index.png' %}">
       {% endif %}
     </div>
 </div>

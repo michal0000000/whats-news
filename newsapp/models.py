@@ -41,6 +41,15 @@ class Author(models.Model):
     def __str__(self):
         return self.name
     
+class Category(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=50,default='N/A')
+    display_title = models.CharField(max_length=50,default='N/A')
+    active = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.title
+
 class Source(models.Model):
     
     id = models.BigAutoField(primary_key=True)
@@ -48,6 +57,7 @@ class Source(models.Model):
     display_name = models.CharField(max_length=50)      # Dennik Sme
     pfp = models.CharField(max_length=512,default='static/images/default_source_20x20.png')              # pfp link         # homepage link
     scraping_link = models.CharField(max_length=512)    # scraping link
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
     active = models.BooleanField(default=False)
     
     def __str__(self):
@@ -56,17 +66,12 @@ class Source(models.Model):
 class Tag(models.Model):
     
     id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50,default='N/A')
+    
     
     def __str__(self):
         return self.title
-
-class Category(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=50)
     
-    def __str__(self):
-        return self.title
 class Article(models.Model):
     
     id = models.BigAutoField(primary_key=True)
@@ -78,7 +83,6 @@ class Article(models.Model):
     added = models.DateTimeField(default=now)
     source = models.ForeignKey(Source,on_delete=models.CASCADE,null=True)
     authors = models.ManyToManyField(Author)
-    category = models.ManyToManyField(Category)
     tags = models.ManyToManyField(Tag)
     
     # Return id of post

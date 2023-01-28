@@ -14,7 +14,7 @@ from newsapp.models import Article
 from newsapp.models import Author
 from newsapp.models import Source
 
-from .slovak_news_cat import SlovakNewsSourceHandler
+from .source_handler import SourceHandler
 
 DEBUG = True
 
@@ -91,7 +91,7 @@ class WhatsNewsScraper():
         last_scrape = last_scrape.replace(tzinfo=pytz.timezone('Europe/Bratislava'))
         
         # Spawn SourceHandler
-        source_handler = SlovakNewsSourceHandler()
+        source_handler = SourceHandler()
         
         # Wait for handler to be ready
         while source_handler._ready == False:

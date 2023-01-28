@@ -13,10 +13,12 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from django.template import RequestContext
 from django.db.models import Count
+from django.conf import settings
 
 from newsapp.models import MembershipToken
-from newsapp.models import Article, Author, Source, Tag, UpcomingFeatures
+from newsapp.models import Article, Author, Source, Tag
 from newsapp.models import UpcomingFeatures, UpcomingFeaturesForm
+from newsapp.models import Category
 
 from . import scraper
 from . import utils
@@ -24,12 +26,15 @@ from . import utils
 
 
 """TODO:
-- scrolling is unbiased always
-- implement tags
+- IMPORTANT: how long does loading take when there are thousands of articles? 
+- implement content filters, so users can filter out words like %caputova%
+- handle /sk/ and /sk differences
+- if you want to add ALL sources, make sure the user can turn them off
+- implement categories
+- new article count for each category
+- finish profile handling - pfps, payment, invoicing...
 - quote of the day on login screen
-- connect twitter account and see live scrolling feed of cool threads regarding that topic (like stocks)
-- implement categories (that are above tags and are assigned manually)
-- add some feature on the right (like hottest tags?)
+- add some feature on the right (hottest (most clicked) articles)
 - hover on profile picture should show subscription expiration
 """
 
@@ -71,9 +76,34 @@ def news(request):
     # Redirect to login page if user not logged in
     if request.session.get('user') == None:
         return redirect(login)
+        
+    # Handle category GET param uppercase characters
+    cat = request.GET.get('cat') or settings.DEFAULT_CATEGORY
+    cat = cat.lower()
+    
+    # Determine if unbiased
+    unbiased = request.GET.get('u') or 'false'
+    
+    # If an existing category is passed, fetch it
+    try:
+        category_choice = Category.objects.get(title=cat)
+    
+    # If invalid category is passed, default
+    except:
+        category_choice = Category.objects.get(title=settings.DEFAULT_CATEGORY)
+            
+    # If category exists, but isnt active, default
+    if category_choice.active == False:
+        category_choice = Category.objects.get(title=settings.DEFAULT_CATEGORY)
+        
+    # Get active categories
+    active_categories = utils.get_category_data_for_menu_display(current=cat,unbiased=unbiased)
+    
+    # Get sources that correspond to category
+    sources_from_category = Source.objects.filter(category=category_choice)
     
     # Fetch latest articles from database
-    articles = Article.objects.all().order_by('-published')
+    articles = Article.objects.filter(source__in=sources_from_category).order_by('-published')
     
     # Set last visit
     time_of_visit = datetime.datetime.now().replace(tzinfo=pytz.UTC)
@@ -85,7 +115,8 @@ def news(request):
         return HttpResponse(status=400)
     
     # Fetch upcoming features
-    upcoming_features_objects = UpcomingFeatures.objects.filter(visible=True).annotate(v_count=Count('votes')).order_by('-v_count')
+    upcoming_features_objects = UpcomingFeatures.objects.filter(visible=True) \
+        .annotate(v_count=Count('votes')).order_by('-v_count')
     upcoming_features = []
     for feature in upcoming_features_objects:
         
@@ -121,6 +152,7 @@ def news(request):
         
         # Create context for page
         context = {
+            'menu_categories' : active_categories,
             'articles': article_page,
             'features' : upcoming_features,
             'new_func_form' : new_func_form,
@@ -128,7 +160,6 @@ def news(request):
         }
         
         # Check for unbiased mode
-        unbiased = request.GET.get('u','')
         if unbiased == 'true':
             context['unbiased'] = 'true'
         
@@ -141,10 +172,8 @@ def news(request):
     else:
         content = ''
         
-        # Determine unbiased mode
-        unbiased = request.GET.get('u')
-        if unbiased == None:
-            unbiased = 'false'
+        # Determine if unbiased
+        unbiased = request.GET.get('u') or 'false'
         
         # Render each post from template to string
         for article in article_page:
@@ -157,7 +186,7 @@ def news(request):
             
         # Serve new articles as Json
         return JsonResponse({
-            'unbiased': unbiased,
+            #'unbiased': unbiased,
             'content': content,
             'end_pagination': True if page >= p.num_pages else False,
         })
@@ -312,15 +341,28 @@ def vote_for_new_func(request):
         log(f"ERR: vote_for_new_func() - Problem validating form. Traceback: {traceback.print_exc()}",LoggerSink.NEWS)
         return HttpResponse(status=403)
 
-# Function that handles refreshing feed with new articles
 def fetch_new_articles(request):
+    """ Function that handles refreshing feed with new articles """
 
     # Get last visit of user to determine what articles are new
     current_user = MembershipToken.objects.get(id=request.session['user'])
     current_user_last_visit = current_user.last_visit
-
-    # Fetch new articles that arent displayed on feed yet
-    new_articles = Article.objects.filter(added__gt = current_user_last_visit)
+    
+    # Determine unbiased
+    unbiased = request.GET.get('u') or 'false'
+    
+    # Get sources that correspond to category
+    cat = request.GET.get('cat') or settings.DEFAULT_CATEGORY
+    cat = cat.replace('/','')
+    
+    category_choice = Category.objects.get(title=cat)
+    sources_from_category = Source.objects.filter(category=category_choice)
+    
+    # Fetch latest articles from database
+    new_articles = Article.objects.filter(
+        source__in=sources_from_category,
+        added__gt = current_user_last_visit)\
+            .order_by('-published')
     
     # Handle no new articles
     if len(new_articles) == 0:
@@ -341,14 +383,17 @@ def fetch_new_articles(request):
                 current_user.last_visit = time_of_visit
                 current_user.save()
             else:
-                raise Exception("ERR: fetch_new_articles(): Time of visit is smaller than last visit!")
+                raise Exception('ERR: fetch_new_articles(): Time of visit is smaller than last visit!')
         except Exception as e:
             
             # Handle bad request
             return HttpResponse(status=400)
         
         # Send new articles to frontend
-        return JsonResponse({"data" : processed_new_articles})
+        return JsonResponse({
+            'data' : processed_new_articles,
+            'unbiased' : unbiased
+            })
         
 def insert_dummy_articles(request):
     

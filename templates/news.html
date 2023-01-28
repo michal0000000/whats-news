@@ -35,7 +35,7 @@
           <span class="ml-3 text-md font-medium mr-3"></span>
         </label>
 
-        <img alt="..." src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" class="shadow-xl rounded-full border-none w-[32px] mr-3">
+        <img alt="..." src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" class="shadow-xl rounded-full border-none w-[32px] mr-6">
         
         <a href="/logout">
           <button class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Logout
@@ -49,32 +49,18 @@
 
       <div class="overflow-hidden rounded-xl border border-gray-100 bg-gray-50 p-1">
         <ul class="flex items-center gap-2 text-sm font-medium">
-          <li class="flex-1">
-            <a href="#"
-              class="text-gra relative flex items-center justify-center gap-2 rounded-lg bg-white px-3 py-2 shadow hover:bg-white hover:text-gray-700">
-              Slovensko</a>
-          </li>
-          <li class="flex-1">
-            <a href="#"
-              class="flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow">
-              Ekonomika</a>
-          </li>
-          <li class="flex-1">
-            <a href="#"
-              class="flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow">
-              Tech
-              <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500"> 8 </span></a>
-          </li>
-          <li class="flex-1">
-            <a href="#"
-              class="flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow">
-              Kyberbezpečnosť</a>
-          </li>
-          <li class="flex-1">
-            <a href="#"
-              class="flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow">
-              Zaujímavé</a>
-          </li>
+
+
+          {% if menu_categories %}
+        
+            {% for category in menu_categories %}
+              
+              {% include 'category-item.html' %}
+    
+            {% endfor %}
+          
+          {% endif %}
+
           <li class="flex-1">
             <a href="#"
               class="flex items-center justify-center gap-2 rounded-lg px-3 py-2 bg-blue-100 font-bold hover:font-bold hover:bg-white hover:shadow">

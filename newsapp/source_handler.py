@@ -12,6 +12,7 @@ from .logger.logger import log
 from .logger.logger_sink import LoggerSink
 
 from newsapp.models import Source
+from newsapp.models import Category
 
 # TODO
 """
@@ -52,13 +53,15 @@ OTHER INFO:
 - 'active' attribute of each source has two functions:
     1. determines the state of the source in the DB when initially added to db
     2. is a guidline for scraping wether to scrape or not (gets updated from db if source is not new on init)
+        - when it comes to using 'active' attribute during development, while coding it can be set to False
+          to be added as such to the database, once you swtich it on, you have to control it from the DB
 """
 
 """TODO:
 - sources failing on some elements
 """
 
-class SlovakNewsSourceHandler():
+class SourceHandler():
     
     def __init__(self) -> None:
         
@@ -72,14 +75,16 @@ class SlovakNewsSourceHandler():
                 'scrape' : self.get_front_page_links_from_pravda,
                 'last_seen' : None, # <Datetime object> - gets updated each time a successful scrape happens
                 'display_name' : 'Dennik Pravda',
+                'category' : Category.objects.get(title='sk'),
                 'active' : True},
             
             'SME' : {
                 'link' : 'https://domov.sme.sk/rss', 
-                'icon' : 'static/images/sme-logo_20x20.png',
+                'icon' : 'static/images/sme-logo_20x20.jpeg',
                 'scrape' : self.get_front_page_links_from_sme,
                 'last_seen' : None, # <Datetime object> - gets updated each time a successful scrape happens
                 'display_name' : 'Dennik SME',
+                'category' : Category.objects.get(title='sk'),
                 'active' : True},
             
             'DENNIKN' : {
@@ -88,6 +93,7 @@ class SlovakNewsSourceHandler():
                 'scrape' : self.get_front_page_links_from_dennikn,
                 'last_seen' : None, # <Datetime object> - gets updated each time a successful scrape happens
                 'display_name' : 'DennikN',
+                'category' : Category.objects.get(title='sk'),
                 'active' : True},
             
             'AKTUALITY' : {
@@ -96,6 +102,7 @@ class SlovakNewsSourceHandler():
                 'scrape' : self.get_front_page_links_from_aktuality,
                 'last_seen' : None, # <Datetime object> - gets updated each time a successful scrape happens
                 'display_name' : 'Aktuality',
+                'category' : Category.objects.get(title='sk'),
                 'active' : True},
             
             'TA3' : {
@@ -104,6 +111,7 @@ class SlovakNewsSourceHandler():
                 'scrape' : self.get_front_page_links_from_ta3,
                 'last_seen' : None,
                 'display_name' :  'Ta3',
+                'category' : Category.objects.get(title='sk'),
                 'active' : True},
             
             'EURACTIV' : {
@@ -112,6 +120,7 @@ class SlovakNewsSourceHandler():
                 'scrape' : self.get_front_page_links_from_euractiv,
                 'last_seen' : None,
                 'display_name' :  'Euractiv',
+                'category' : Category.objects.get(title='ekonom'),
                 'active' : True},
         }
         
@@ -148,6 +157,7 @@ class SlovakNewsSourceHandler():
                         display_name=val['display_name'],
                         scraping_link = val['link'],
                         active = val['active'],
+                        category = val['category'],
                         pfp= val['icon'] if val.get('icon') != None else None
                     )
                     new_source.save()
@@ -623,8 +633,6 @@ class SlovakNewsSourceHandler():
             log(f"{traceback.print_exc()}",LoggerSink.SLOVAK_NEWS_SOURCES)
             return []
     
-    
-    # TOTO BUDE ASI EKONOMIKA SKOR
     def get_front_page_links_from_euractiv(self):
         
         # Mandatory variables

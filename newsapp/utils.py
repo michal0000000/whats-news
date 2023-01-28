@@ -1,17 +1,29 @@
+from datetime import datetime,timedelta
+import pytz
+
 from newsapp.models import Article
+from newsapp.models import Category
+
+def get_category_data_for_menu_display(current,unbiased):
+    """ Fetches active categories in formatted way """
+    categories = Category.objects.filter(active=True)
+    result = []
+    for cat in categories:
+        result.append({
+            'display_name' : cat.display_title,
+            'url' : cat.title,
+            'unbiased' : unbiased,
+            'current' : True if current == cat.title else False
+        })   
+    return result
 
 def prepare_article_data_for_feed(articles):
-    
     # Fetch feed-specific data for each article
     articles_feed_data = []
     for article in articles:
         
         # Get article data from db
         single_article_data = article.get_feed_data()
-        
-        """TODO:
-            - deal with video article pictures
-        """
         
         # Get names of authors
         authors = []
@@ -45,6 +57,35 @@ def prepare_article_data_for_feed(articles):
             
         # Replace authors list from DB with string
         single_article_data['authors'] = authors_string
+        
+        # Format date
+        single_article_data['published'] = single_article_data['published'] \
+            .replace(tzinfo=pytz.timezone('Europe/Bratislava'))
+            
+        # Create abbreviation for recent articles
+        abbreviation = ''
+        if single_article_data['published'].date() == datetime.now().date():
+            abbreviation = 'dnes'
+        elif single_article_data['published'].date() == datetime.now().date() - timedelta(days = 1):
+            abbreviation = 'včera'
+            
+        # If article is up to two days old, make it shorter
+        result_published = ''
+        if abbreviation != '':
+            time_published = datetime.strftime(
+                single_article_data['published'],
+                '%H:%M'
+            )
+            result_published = abbreviation + ' o ' + time_published
+        # If article is older than two days
+        else:
+            result_published = datetime.strftime(
+                single_article_data['published'],
+                '%d.%m.%Y o %H:%M'
+            )
+            
+        # Assign formatted pub date
+        single_article_data['published'] = result_published
         
         # Append processed data to final list 
         articles_feed_data.append(single_article_data)

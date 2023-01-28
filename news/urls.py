@@ -14,18 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include,re_path
 
 from newsapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.news),
+    path('', views.news),
     path('login/',views.login),
     path('logout/',views.logout),
     path('new_posts/',views.fetch_new_articles),
     path('submit_new_func/',views.submit_new_func),
     path('vote_for_new_func/',views.vote_for_new_func),
+    
+    #path('sk/',views.news_sk),
     
     path('insert_posts/',views.insert_dummy_articles),
 ]
