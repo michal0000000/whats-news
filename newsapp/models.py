@@ -131,5 +131,7 @@ class UpcomingFeatures(models.Model):
         }
         
 class MemberPreference(models.Model):
-    member = models.OneToOneField(MembershipToken,on_delete=models.CASCADE)
+    id = models.BigAutoField(primary_key=True)
+    member = models.ManyToManyField(MembershipToken,blank=True)
     sources = models.ManyToManyField(Source,blank=True)
+    display_in_feed = models.BooleanField(default=True)

@@ -6,7 +6,7 @@ from datetime import datetime
 from .logger_sink import LoggerSink
 
 # LOGGER SETUP - runs on server startup
-logger_root = "newsapp/logger"
+logger_root = "logger"
 logs_directory = logger_root + "/logs"
 if os.path.exists(logs_directory):
     shutil.rmtree(logs_directory)

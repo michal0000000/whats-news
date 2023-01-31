@@ -3,8 +3,8 @@ import datetime
 import pytz
 import traceback
 
-from .logger.logger import log
-from .logger.logger_sink import LoggerSink
+from logger.logger import log
+from logger.logger_sink import LoggerSink
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
@@ -14,7 +14,6 @@ from django.contrib import messages
 from django.template import RequestContext
 from django.db.models import Count
 from django.conf import settings
-from django.db.models import Q
 
 from newsapp.models import MembershipToken, MemberPreference
 from newsapp.models import Article, Author, Source, Tag
@@ -23,7 +22,6 @@ from newsapp.models import Category
 
 from . import scraper
 from . import utils
-
 
 
 """TODO:
@@ -43,36 +41,6 @@ from . import utils
 
 POSTS_PER_PAGE = 4
 
-def login(request):
-    
-    # Code to create first hash
-    #expiry = datetime.datetime.now(tz=pytz.UTC) + datetime.timedelta(days=14)
-    #hashed = hashlib.sha256('gayfrog'.encode('utf-8')).hexdigest()
-    #token = MembershipToken(hashed_token=hashed,username='mike2',email='miccheck@12.sk',valid_until=expiry)
-    #token.save()
-    
-    if request.method == 'POST':
-        
-        # Get token and hash it
-        raw_token = request.POST['token']
-        hashed_token = hashlib.sha256(raw_token.encode('utf-8')).hexdigest()
-        
-        # Handle login
-        try:
-            
-            # Get user with matching hash
-            user = MembershipToken.objects.get(hashed_token=hashed_token)
-            
-            # Create session variable with current user id
-            request.session['user'] = str(user)
-            
-            # Redirect to news page
-            return redirect(news)
-        
-        except:
-            pass
-    
-    return render(request,'login.html')
 
 def news(request):
     
@@ -200,16 +168,6 @@ def news(request):
             'content': content,
             'end_pagination': True if page >= p.num_pages else False,
         })
-
-def logout(request):
-    
-    # Delete cookie
-    response = redirect(login)
-    
-    # Create new session id and preserve data
-    request.session.cycle_key()
-    
-    return response
     
 def show_pages(request):
     
@@ -412,8 +370,7 @@ def manage_sources(request):
     if request.session.get('user') == None:
         return redirect(login)
     
-    # Fetch 
-    
+    return render(request,'news.html',{'source_preferences': True}) 
       
 def insert_dummy_articles(request):
     
@@ -431,3 +388,87 @@ def insert_dummy_articles(request):
         article_object.save()
     
     return HttpResponse("<h1>Done.</h1>")
+
+### AUTH FUNCTIONS ###
+
+def login(request):
+    
+    # Code to create first hash
+    #expiry = datetime.datetime.now(tz=pytz.UTC) + datetime.timedelta(days=14)
+    #hashed = hashlib.sha256('gayfrog'.encode('utf-8')).hexdigest()
+    #token = MembershipToken(hashed_token=hashed,username='mike2',email='miccheck@12.sk',valid_until=expiry)
+    #token.save()
+    
+    if request.method == 'POST':
+        
+        # Get token and hash it
+        raw_token = request.POST['token']
+        hashed_token = hashlib.sha256(raw_token.encode('utf-8')).hexdigest()
+        
+        # Handle login
+        try:
+            
+            # Get user with matching hash
+            user = MembershipToken.objects.get(hashed_token=hashed_token)
+            
+            # Create session variable with current user id
+            request.session['user'] = str(user)
+            
+            # Redirect to news page
+            return redirect(news)
+        
+        except:
+            pass
+    
+    return render(request,'login.html')
+
+def logout(request):
+    
+    # Delete cookie
+    del request.session['user']
+    
+    # Create new session id and preserve data
+    request.session.cycle_key()
+    
+    return redirect(login)
+
+def register(request):
+    
+    # Handle logged in user
+    if request.session.get('user') != None:
+        return redirect(news)
+    
+    # TODO: create email blacklist for spammers
+    
+    # Catch POST method
+    if request.method == 'POST':
+    
+        # Validate email and password
+        email = request.POST.get('email')
+        token = request.POST.get('token')
+        if utils.validate_email(email) == False or token == None:
+            messages.add_message(request,messages.ERROR,'Invalid email dumbass')
+            render(request,'register.html')
+        
+        # Generate new user_token
+        #TODO : finish registration functionaltiy to be secure
+        hashed_token = hashlib.sha256(token.encode('utf-8')).hexdigest()
+        
+        # Register new user
+        valid_until = datetime.datetime.now() + datetime.timedelta(days=7)
+        new_user = MembershipToken(hashed_token=hashed_token,username=email,email=email,valid_until=valid_until)
+        new_user.save()
+        
+        # Create default source preference
+        all_sources = Source.objects.all()
+        source_preference = MemberPreference.objects.create()
+        source_preference.save()
+        source_preference.member.add(new_user)
+        source_preference.sources.set(all_sources)
+    
+        # Print success message
+        messages.add_message(request,messages.SUCCESS,'Account created. Be nice inside.')
+    
+        return render(request,'login.html') 
+    
+    return render(request,'register.html') 

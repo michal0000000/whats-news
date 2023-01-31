@@ -7,8 +7,8 @@ import datetime
 import time
 import pytz
 
-from .logger.logger import log
-from .logger.logger_sink import LoggerSink
+from logger.logger import log
+from logger.logger_sink import LoggerSink
 
 from newsapp.models import Article
 from newsapp.models import Author
@@ -207,5 +207,5 @@ class WhatsNewsScraper():
             # If queue is empty
             return None
 
-scraper = WhatsNewsScraper()
-scraper.start_scraper() 
+#scraper = WhatsNewsScraper()
+#scraper.start_scraper() 

@@ -20,14 +20,6 @@
           <span class="ml-3 text-lg">PRO Version</span>
         </a>
 
-        <!--
-        <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-          <a class="mr-5 hover:text-gray-900">Daco</a>
-          <a class="mr-5 hover:text-gray-900">Zdroje</a>
-          <a class="mr-5 hover:text-gray-900">Daco</a>
-        </nav>
-        -->
-
         <span class="text-md font-medium mr-3 ml-auto">{% if unbiased == 'true' %} Unbiased {% else %} Biased {% endif %}</span>
         <label class="relative inline-flex items-center cursor-pointer">
           <input type="checkbox" onclick="changeBiasedMode( {{unbiased}} )" class="sr-only peer" {% if unbiased == 'true' %} checked {% endif %}>
@@ -62,7 +54,7 @@
           {% endif %}
 
           <li class="flex-1">
-            <a href="#"
+            <a href="source_management/"
               class="flex items-center justify-center gap-2 rounded-lg px-3 py-2 bg-blue-100 font-bold hover:font-bold hover:bg-white hover:shadow">
               Zdroje</a>
           </li>
@@ -107,9 +99,12 @@
               </div>
             </div>
         
-            <section id="articles" class="text-blueGray-700 bg-white mt-5">
-        
+
+              <!-- ARTICLE SECTION -->
+
               {% if articles %}
+
+              <section id="articles" class="text-blueGray-700 bg-white mt-5">
         
                 {% for article in articles %}
                   
@@ -122,41 +117,163 @@
                     </div>
         
                 {% endfor %}
-              </section>
-              
+
+                <div class="d-flex justify-content-center more-content-load">
+                  <div class="spinner-border" role="status">
+                      <h2 class="">Loading new posts...</h2>
+                  </div>
+                </div>
+
               {% else %}
                 <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
                   <p class="font-bold">Uh-oh!</p>
                   <p>No articles to display. Check back later.</p>
                 </div>
+
+              </section>
         
-                <section class="text-blueGray-700 bg-white mt-20">
-                  <div class="container flex flex-col items-center px-5 py-16 mx-auto md:flex-row lg:px-28">
-                      <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 md:mb-0">
-                          <h2 class="mb-8 text-xs font-semibold tracking-widest text-black uppercase title-font"> Your tagline </h2>
-                          <h1 class="mb-8 text-2xl font-black tracking-tighter text-black md:text-5xl title-font"> Medium length display headline. </h1>
-                          <p class="mb-8 text-base leading-relaxed text-left text-blueGray-600 "> Deploy your mvp in minutes, not days. WT offers you a a wide selection swapable sections for your landing page. </p>
-                          <div class="flex flex-col justify-center lg:flex-row">
-                              <button class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-lg hover:bg-blue-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"> Show me </button>
-                              <p class="mt-2 text-sm text-left text-blueGray-600 md:ml-6 md:mt-0"> It will take you to candy shop. <br class="hidden lg:block">
-                              <a href="#" class="inline-flex items-center font-semibold text-blue-600 md:mb-2 lg:mb-0 hover:text-black " title="read more"> Read more about it » </a>
-                              </p>
+              {% endif %}
+
+              <!-- END OF ARTICLE SECTION -->
+
+              <!-- SOURCE MANAGEMENT SECTION -->
+
+              {% if source_preferences %}
+
+              <section id="source-preferences" class="text-blueGray-700 bg-white mt-5">
+
+
+                                <!-- component -->
+                <section class="antialiased bg-gray-100 text-gray-600 h-screen px-4">
+                  <div class="flex flex-col justify-center h-full">
+                      <!-- Table -->
+                      <div class="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+                          <header class="px-5 py-4 border-b border-gray-100">
+                              <h2 class="font-semibold text-gray-800">Customers</h2>
+                          </header>
+                          <div class="p-3">
+                              <div class="overflow-x-auto">
+                                  <table class="table-auto w-full">
+                                      <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                                          <tr>
+                                              <th class="p-2 whitespace-nowrap">
+                                                  <div class="font-semibold text-left">Name</div>
+                                              </th>
+                                              <th class="p-2 whitespace-nowrap">
+                                                  <div class="font-semibold text-left">Email</div>
+                                              </th>
+                                              <th class="p-2 whitespace-nowrap">
+                                                  <div class="font-semibold text-left">Spent</div>
+                                              </th>
+                                              <th class="p-2 whitespace-nowrap">
+                                                  <div class="font-semibold text-center">Country</div>
+                                              </th>
+                                          </tr>
+                                      </thead>
+                                      <tbody class="text-sm divide-y divide-gray-100">
+                                          <tr>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="flex items-center">
+                                                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"></div>
+                                                      <div class="font-medium text-gray-800">Alex Shatov</div>
+                                                  </div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-left">alexshatov@gmail.com</div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-left font-medium text-green-500">$2,890.66</div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-lg text-center">??</div>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="flex items-center">
+                                                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-06.jpg" width="40" height="40" alt="Philip Harbach"></div>
+                                                      <div class="font-medium text-gray-800">Philip Harbach</div>
+                                                  </div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-left">philip.h@gmail.com</div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-left font-medium text-green-500">$2,767.04</div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-lg text-center">??</div>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="flex items-center">
+                                                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-07.jpg" width="40" height="40" alt="Mirko Fisuk"></div>
+                                                      <div class="font-medium text-gray-800">Mirko Fisuk</div>
+                                                  </div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-left">mirkofisuk@gmail.com</div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-left font-medium text-green-500">$2,996.00</div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-lg text-center">??</div>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="flex items-center">
+                                                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-08.jpg" width="40" height="40" alt="Olga Semklo"></div>
+                                                      <div class="font-medium text-gray-800">Olga Semklo</div>
+                                                  </div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-left">olga.s@cool.design</div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-left font-medium text-green-500">$1,220.66</div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-lg text-center">??</div>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="flex items-center">
+                                                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-09.jpg" width="40" height="40" alt="Burak Long"></div>
+                                                      <div class="font-medium text-gray-800">Burak Long</div>
+                                                  </div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-left">longburak@gmail.com</div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-left font-medium text-green-500">$1,890.66</div>
+                                              </td>
+                                              <td class="p-2 whitespace-nowrap">
+                                                  <div class="text-lg text-center">??</div>
+                                              </td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
                           </div>
                       </div>
-                      <div class="w-full lg:w-1/3 lg:max-w-lg md:w-1/2">
-                          <img class="object-cover object-center rounded-lg " alt="hero" src="https://dummyimage.com/720x600/F3F4F7/8693ac">
-                      </div>
                   </div>
-                
+                </section>
+
+
+              </section>
+
               {% endif %}
+
+              <!-- END OF SOURCE MANAGEMENT SECTION -->
         
-            <div class="d-flex justify-content-center more-content-load">
-                <div class="spinner-border" role="status">
-                    <h2 class="">Loading new posts...</h2>
-                </div>
-            </div>
+            
         
-            </section>
+            
 
           </div>
       

@@ -18,4 +18,16 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('', views.news),
+    path('new_posts/',views.fetch_new_articles),
+    path('submit_new_func/',views.submit_new_func),
+    path('vote_for_new_func/',views.vote_for_new_func),
+    path('source_management/',views.manage_sources),
+    
+    path('login/',views.login),
+    path('register/',views.register),
+    path('logout/',views.logout),
+    
+    path('insert_posts/',views.insert_dummy_articles),
 ]
+

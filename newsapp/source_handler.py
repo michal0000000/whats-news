@@ -9,8 +9,8 @@ import xmltodict
 import html
 from bs4 import BeautifulSoup
 
-from .logger.logger import log
-from .logger.logger_sink import LoggerSink
+from logger.logger import log
+from logger.logger_sink import LoggerSink
 
 from newsapp.models import Source
 from newsapp.models import Category

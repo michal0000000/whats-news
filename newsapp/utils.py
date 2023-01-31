@@ -1,5 +1,6 @@
 from datetime import datetime,timedelta
 import pytz
+import re
 
 from newsapp.models import Article
 from newsapp.models import Category
@@ -94,3 +95,11 @@ def prepare_article_data_for_feed(articles):
         articles_feed_data.reverse()
         
     return articles_feed_data
+
+def validate_email(email):
+    """ Checks if string is a valid email address """
+    if email == None:
+        return False
+    pat = '^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{1,3}$'
+    validation_result = True if re.match(pat,email) else False
+    return validation_result
