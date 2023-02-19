@@ -5,6 +5,40 @@ import re
 from newsapp.models import Article
 from newsapp.models import Category
 
+def format_member_preference(member_preference):
+    """ Prepares memebr preference for front end display """
+
+    # Handle each preference
+    result = []
+
+    print(member_preference.member.all())
+    print(member_preference.sources.all())
+    print(len(member_preference))
+
+    for pref in member_preference:
+
+        # Format 'checked' html input attrib
+        checked = 'checked' if pref.display_in_feed else ''
+
+        print(pref.sources)
+        print(str((pref.id)))
+        print(str((pref.member)))
+        print(str((pref.sources)))
+        print(str((pref.member_name)))
+        print(str((pref.source_name)))
+        print(str((pref.display_in_feed)))
+
+        # Check if source is globally active
+        if pref.sources.active == True:
+            result.append({
+                'preference_id' : pref.id,
+                'source_display_name' : pref.sources.display_name,
+                'source_pfp' : pref.sources.pfp,
+                'source_category' : pref.sources.category,
+                'source_active' : checked
+            })
+    return result
+
 def get_category_data_for_menu_display(current,unbiased):
     """ Fetches active categories in formatted way """
     categories = Category.objects.filter(active=True)

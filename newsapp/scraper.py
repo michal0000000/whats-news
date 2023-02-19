@@ -10,9 +10,10 @@ import pytz
 from logger.logger import log
 from logger.logger_sink import LoggerSink
 
-from newsapp.models import Article
+
 from newsapp.models import Author
 from newsapp.models import Source
+from newsapp.models import Article #######
 
 from .source_handler import SourceHandler
 
@@ -54,12 +55,18 @@ class WhatsNewsScraper():
         self.__running = True
         
         # Scrape front page links and add the new one to the queue
-        queue_filler = Thread(target=self.scrape_new_links_and_add_to_queue)
+        queue_filler = Thread(
+            target=self.scrape_new_links_and_add_to_queue,
+            name='Queue Filler'
+            )
         queue_filler.start()
         self.queue_filler_running = True
         
         # Start adding new articles to database
-        article_extractor = Thread(target=self.scrape_articles_from_queue)
+        article_extractor = Thread(
+            target=self.scrape_articles_from_queue,
+            name='Article Extractor'
+            )
         article_extractor.start()
         self.article_extrator_running = True
         
@@ -96,8 +103,11 @@ class WhatsNewsScraper():
         
         # Wait for handler to be ready
         while source_handler._ready == False:
+            log('Handlder not ready......')
             time.sleep(5)
         
+        log('Source Handler ready')
+
         # While scraper hasn't been stopped
         while self.__running == True:
             
@@ -207,5 +217,5 @@ class WhatsNewsScraper():
             # If queue is empty
             return None
 
-#scraper = WhatsNewsScraper()
-#scraper.start_scraper() 
+scraper = WhatsNewsScraper()
+scraper.start_scraper() 

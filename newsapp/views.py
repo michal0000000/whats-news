@@ -140,6 +140,10 @@ def news(request):
         # Check for unbiased mode
         if unbiased == 'true':
             context['unbiased'] = 'true'
+
+        # Pass empty array if no articles are present for category
+        if context.get('articles') == None:
+            context['articles'] = []
         
         # Render page
         return render(request,
@@ -363,14 +367,26 @@ def fetch_new_articles(request):
             'unbiased' : unbiased
             })
 
-######## CONTINUE HERE #########
-def manage_sources(request):
+def account_settings(request):
     
     # Redirect to login page if user not logged in
-    if request.session.get('user') == None:
+    member = request.session.get('user')
+    if member == None:
         return redirect(login)
-    
-    return render(request,'news.html',{'source_preferences': True}) 
+
+    # Get members preference
+    member_object = MembershipToken.objects.get(id=member)
+    member_preference = MemberPreference.objects.filter(member=member_object)
+
+    # Prepare data for display
+    member_preference_formatted = \
+        utils.format_member_preference(member_preference)
+
+    print(member_preference_formatted)
+
+    # Return preferences
+    return render(request,'news.html', \
+        {'account_preferences': member_preference_formatted})
       
 def insert_dummy_articles(request):
     
@@ -456,19 +472,27 @@ def register(request):
         
         # Register new user
         valid_until = datetime.datetime.now() + datetime.timedelta(days=7)
-        new_user = MembershipToken(hashed_token=hashed_token,username=email,email=email,valid_until=valid_until)
+        new_user = MembershipToken(
+            hashed_token=hashed_token,
+            username=email,
+            email=email,
+            valid_until=valid_until)
         new_user.save()
         
         # Create default source preference
         all_sources = Source.objects.all()
-        source_preference = MemberPreference.objects.create()
-        source_preference.save()
+
+        # Create DB entry for each source
+
+        source_preference = MemberPreference.objects.create(
+                name = new_user.username + "_",
+            )
         source_preference.member.add(new_user)
         source_preference.sources.set(all_sources)
     
         # Print success message
         messages.add_message(request,messages.SUCCESS,'Account created. Be nice inside.')
     
-        return render(request,'login.html') 
+        return redirect(login) 
     
     return render(request,'register.html') 

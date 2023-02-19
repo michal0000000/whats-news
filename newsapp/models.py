@@ -3,15 +3,36 @@ from django.utils.timezone import now
 from django.db import models
 from django import forms
 
+class Category(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=50,default='N/A')
+    display_title = models.CharField(max_length=50,default='N/A')
+    active = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.title
+class Source(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=50)              # SME
+    display_name = models.CharField(max_length=50)      # Dennik Sme
+    pfp = models.CharField(max_length=512,default='static/images/default_source_20x20.png')              # pfp link         # homepage link
+    scraping_link = models.CharField(max_length=512)    # scraping link
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
+    active = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.name
+
 # TODO: research GDPR, if neccessary dont store PI info (i.e. email)
 class MembershipToken(models.Model):
-    
     id = models.BigAutoField(primary_key=True)
     hashed_token = models.CharField(max_length=64) # sha256
     username = models.CharField(max_length=64,unique=True)
     email = models.CharField(max_length=64,unique=True)
     valid_until = models.DateTimeField()
     last_visit = models.DateTimeField(default=now)
+
+    preferences = models.ManyToManyField(Source,through='MemberPreference',default=None)
     
     def __str__(self):
         return str(self.id)
@@ -28,37 +49,11 @@ class MembershipToken(models.Model):
     
     class Meta:
         app_label = 'newsapp'
-    
-    """TODO:
-        - def valid()
-    """
 
 class Author(models.Model):
     
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50)
-    
-    def __str__(self):
-        return self.name
-    
-class Category(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=50,default='N/A')
-    display_title = models.CharField(max_length=50,default='N/A')
-    active = models.BooleanField(default=False)
-    
-    def __str__(self):
-        return self.title
-
-class Source(models.Model):
-    
-    id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=50)              # SME
-    display_name = models.CharField(max_length=50)      # Dennik Sme
-    pfp = models.CharField(max_length=512,default='static/images/default_source_20x20.png')              # pfp link         # homepage link
-    scraping_link = models.CharField(max_length=512)    # scraping link
-    category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
-    active = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name
@@ -70,8 +65,8 @@ class Tag(models.Model):
     
     
     def __str__(self):
-        return self.title
-    
+        return self.title  
+          
 class Article(models.Model):
     
     id = models.BigAutoField(primary_key=True)
@@ -132,6 +127,7 @@ class UpcomingFeatures(models.Model):
         
 class MemberPreference(models.Model):
     id = models.BigAutoField(primary_key=True)
-    member = models.ManyToManyField(MembershipToken,blank=True)
-    sources = models.ManyToManyField(Source,blank=True)
+    name = models.CharField(max_length=50,blank=True) # 'username_source'
+    member = models.ForeignKey(MembershipToken,on_delete=models.CASCADE)
+    sources = models.ForeignKey(Source,on_delete=models.CASCADE)
     display_in_feed = models.BooleanField(default=True)

@@ -22,7 +22,7 @@ urlpatterns = [
     path('new_posts/',views.fetch_new_articles),
     path('submit_new_func/',views.submit_new_func),
     path('vote_for_new_func/',views.vote_for_new_func),
-    path('source_management/',views.manage_sources),
+    path('account_settings/',views.account_settings),
     
     path('login/',views.login),
     path('register/',views.register),

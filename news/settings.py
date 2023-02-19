@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-5(@wp6*98u#zhg3p=(#y9s37bnn4sfwh+0s6@$&us@y#n&@kct
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.13']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -139,3 +139,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TAILWIND_APP_NAME = 'theme'
 
 DEFAULT_CATEGORY = 'sk'
+
+DEFAULT_CATEGORIES = {
+    'kyber':'Kyberbezpecnost',
+    'sk':'Slovensko',
+    'rand':'Zaujimavosti',
+    'ekon':'Ekonomika'
+
+}

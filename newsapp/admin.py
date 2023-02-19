@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from newsapp.models import MembershipToken
+from newsapp.models import MembershipToken, MemberPreference
 from newsapp.models import Article
 from newsapp.models import Source
 from newsapp.models import Tag
@@ -25,9 +25,15 @@ class CategoryAdminDisplay(admin.ModelAdmin):
     list_display = ('id','title','display_title','active')
     list_editable = ('active',)
 
+"""
+class PreferencesDisplay(admin.ModelAdmin):
+    list_display = ('id','title','display_title','active')
+"""
+
 admin.site.register(MembershipToken,MembershipTokenAdminDisplay)
 admin.site.register(Article,ArticleAdminDisplay)
 admin.site.register(Source,SourceAdminDisplay)
 admin.site.register(Tag)
 admin.site.register(UpcomingFeatures,UpcomingFeaturesAdminDisplay)
 admin.site.register(Category,CategoryAdminDisplay)
+#admin.site.register(MemberPreference,PreferencesDisplay)
