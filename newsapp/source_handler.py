@@ -12,6 +12,8 @@ from bs4 import BeautifulSoup
 from logger.logger import log
 from logger.logger_sink import LoggerSink
 
+from django.conf import settings
+
 from newsapp.models import Source
 from newsapp.models import Category
 
@@ -68,6 +70,24 @@ class SourceHandler():
         
         # Signalizes handles is ready to work
         self._ready = False
+        
+        # Verify or install Categories
+        existing_categories = Category.objects.all()
+        if len(existing_categories) != len(settings.DEFAULT_CATEGORY_LIST):
+            for cat in settings.DEFAULT_CATEGORY_LIST:
+                
+                # Try to fetch category, if error add it to database
+                try:
+                    does_cat_exist = Category.objects.get(title=cat['title'])
+                except:
+                    install_cat = Category(
+                        title = cat['title'],
+                        display_title = cat['display_title'],
+                        active = True
+                    )
+                    install_cat.save()
+                    
+        log(f"All Categories initiated.",LoggerSink.SLOVAK_NEWS_SOURCES) 
         
         self.sources = {
             
@@ -205,7 +225,8 @@ class SourceHandler():
                     log(f"Error adding new source {key}:",LoggerSink.SLOVAK_NEWS_SOURCES)
                     log(f"{traceback.print_exc()}",LoggerSink.SLOVAK_NEWS_SOURCES)
         
-        log(f"All sources initiated.",LoggerSink.SLOVAK_NEWS_SOURCES)
+        log(f"All Sources initiated.",LoggerSink.SLOVAK_NEWS_SOURCES)   
+        
         self._ready = True
 
     def get_front_page_links_from_aktuality(self):

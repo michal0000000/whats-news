@@ -95,6 +95,7 @@ def news(request):
     # Fetch upcoming features
     upcoming_features_objects = UpcomingFeatures.objects.filter(visible=True) \
         .annotate(v_count=Count('votes')).order_by('-v_count')
+        
     upcoming_features = []
     for feature in upcoming_features_objects:
         
@@ -105,7 +106,10 @@ def news(request):
             upcoming_features.append(feature.get_upcoming_features_data())
         
     # Set first feature to be "first" so it can be opened on frontend
-    upcoming_features[0]['first'] = True
+    try:
+        upcoming_features[0]['first'] = True
+    except:
+        pass
 
     # Fetch GET parameter from request
     page = int(request.GET.get('page',1))
@@ -364,13 +368,26 @@ def fetch_new_articles(request):
             })
 
 ######## CONTINUE HERE #########
-def manage_sources(request):
+def account_settings(request):
     
     # Redirect to login page if user not logged in
-    if request.session.get('user') == None:
+    member = request.session.get('user')
+    if member == None:
         return redirect(login)
-    
-    return render(request,'news.html',{'source_preferences': True}) 
+
+    # Get members preference
+    member_object = MembershipToken.objects.get(id=member)
+    member_preference = MemberPreference.objects.filter(member=member_object)
+
+    # Prepare data for display
+    member_preference_formatted = \
+        utils.format_member_preference(member_preference)
+
+    print(member_preference_formatted)
+
+    # Return preferences
+    return render(request,'news.html', \
+        {'account_preferences': member_preference_formatted})
       
 def insert_dummy_articles(request):
     
@@ -456,19 +473,28 @@ def register(request):
         
         # Register new user
         valid_until = datetime.datetime.now() + datetime.timedelta(days=7)
-        new_user = MembershipToken(hashed_token=hashed_token,username=email,email=email,valid_until=valid_until)
+        new_user = MembershipToken(
+            hashed_token=hashed_token,
+            username=email,
+            email=email,
+            valid_until=valid_until)
         new_user.save()
         
         # Create default source preference
         all_sources = Source.objects.all()
-        source_preference = MemberPreference.objects.create()
-        source_preference.save()
-        source_preference.member.add(new_user)
-        source_preference.sources.set(all_sources)
+
+        # Create DB entry for each source
+        for source in all_sources:
+            source_preference = MemberPreference.objects.create(
+                    name = new_user.username + "_",
+                    member = new_user,
+                    sources = source
+                    
+                )
     
         # Print success message
         messages.add_message(request,messages.SUCCESS,'Account created. Be nice inside.')
     
-        return render(request,'login.html') 
+        return redirect(login) 
     
     return render(request,'register.html') 

@@ -27,7 +27,7 @@
           <span class="ml-3 text-md font-medium mr-3"></span>
         </label>
 
-        <img alt="..." src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" class="shadow-xl rounded-full border-none w-[32px] mr-6">
+        <a href="account_settings/"><img alt="..." src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" class="shadow-xl rounded-full border-none w-[32px] mr-6"></a>
         
         <a href="/logout">
           <button class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Logout
@@ -53,11 +53,6 @@
           
           {% endif %}
 
-          <li class="flex-1">
-            <a href="source_management/"
-              class="flex items-center justify-center gap-2 rounded-lg px-3 py-2 bg-blue-100 font-bold hover:font-bold hover:bg-white hover:shadow">
-              Zdroje</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -80,29 +75,29 @@
       
       </div>
         
-        <div class="col-span-4">
-          <div id="page-content" class="mt-8">
+      <div class="col-span-4">
 
-            <div class="flex items-center justify-center w-1/2 shadow-md hover:shodow-lg rounded-2xl click-button bg-blue-50 container px-5 mx-auto md:flex-row mt-15 ">
-              <div class="flex items-center">
+          <!-- ARTICLE SECTION -->
+          {% if articles %}
+
+            <div id="page-content" class="mt-8">
+
+              <div class="flex items-center justify-center w-1/2 shadow-md hover:shodow-lg rounded-2xl click-button bg-blue-50 container px-5 mx-auto md:flex-row mt-15 ">
                 <div class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg"
-                    class="w-16 h-16 rounded-2xl p-3 text-blue-400 bg-blue-50" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                  </svg>
-                  <div class="flex flex-col ml-3">
-                    <div id="new-articles-span" class="font-medium leading-none ">No new articles</div>
+                  <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                      class="w-16 h-16 rounded-2xl p-3 text-blue-400 bg-blue-50" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div class="flex flex-col ml-3">
+                      <div id="new-articles-span" class="font-medium leading-none ">No new articles</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
         
-
-              <!-- ARTICLE SECTION -->
-
-              {% if articles %}
 
               <section id="articles" class="text-blueGray-700 bg-white mt-5">
         
@@ -124,11 +119,14 @@
                   </div>
                 </div>
 
+              
               {% else %}
+              <!--
                 <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
                   <p class="font-bold">Uh-oh!</p>
                   <p>No articles to display. Check back later.</p>
                 </div>
+              -->
 
               </section>
         
@@ -138,142 +136,13 @@
 
               <!-- SOURCE MANAGEMENT SECTION -->
 
-              {% if source_preferences %}
+              {% if account_preferences %}
 
-              <section id="source-preferences" class="text-blueGray-700 bg-white mt-5">
-
-
-                                <!-- component -->
-                <section class="antialiased bg-gray-100 text-gray-600 h-screen px-4">
-                  <div class="flex flex-col justify-center h-full">
-                      <!-- Table -->
-                      <div class="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-                          <header class="px-5 py-4 border-b border-gray-100">
-                              <h2 class="font-semibold text-gray-800">Customers</h2>
-                          </header>
-                          <div class="p-3">
-                              <div class="overflow-x-auto">
-                                  <table class="table-auto w-full">
-                                      <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-                                          <tr>
-                                              <th class="p-2 whitespace-nowrap">
-                                                  <div class="font-semibold text-left">Name</div>
-                                              </th>
-                                              <th class="p-2 whitespace-nowrap">
-                                                  <div class="font-semibold text-left">Email</div>
-                                              </th>
-                                              <th class="p-2 whitespace-nowrap">
-                                                  <div class="font-semibold text-left">Spent</div>
-                                              </th>
-                                              <th class="p-2 whitespace-nowrap">
-                                                  <div class="font-semibold text-center">Country</div>
-                                              </th>
-                                          </tr>
-                                      </thead>
-                                      <tbody class="text-sm divide-y divide-gray-100">
-                                          <tr>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="flex items-center">
-                                                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"></div>
-                                                      <div class="font-medium text-gray-800">Alex Shatov</div>
-                                                  </div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-left">alexshatov@gmail.com</div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-left font-medium text-green-500">$2,890.66</div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-lg text-center">??</div>
-                                              </td>
-                                          </tr>
-                                          <tr>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="flex items-center">
-                                                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-06.jpg" width="40" height="40" alt="Philip Harbach"></div>
-                                                      <div class="font-medium text-gray-800">Philip Harbach</div>
-                                                  </div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-left">philip.h@gmail.com</div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-left font-medium text-green-500">$2,767.04</div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-lg text-center">??</div>
-                                              </td>
-                                          </tr>
-                                          <tr>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="flex items-center">
-                                                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-07.jpg" width="40" height="40" alt="Mirko Fisuk"></div>
-                                                      <div class="font-medium text-gray-800">Mirko Fisuk</div>
-                                                  </div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-left">mirkofisuk@gmail.com</div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-left font-medium text-green-500">$2,996.00</div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-lg text-center">??</div>
-                                              </td>
-                                          </tr>
-                                          <tr>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="flex items-center">
-                                                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-08.jpg" width="40" height="40" alt="Olga Semklo"></div>
-                                                      <div class="font-medium text-gray-800">Olga Semklo</div>
-                                                  </div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-left">olga.s@cool.design</div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-left font-medium text-green-500">$1,220.66</div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-lg text-center">??</div>
-                                              </td>
-                                          </tr>
-                                          <tr>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="flex items-center">
-                                                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-09.jpg" width="40" height="40" alt="Burak Long"></div>
-                                                      <div class="font-medium text-gray-800">Burak Long</div>
-                                                  </div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-left">longburak@gmail.com</div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-left font-medium text-green-500">$1,890.66</div>
-                                              </td>
-                                              <td class="p-2 whitespace-nowrap">
-                                                  <div class="text-lg text-center">??</div>
-                                              </td>
-                                          </tr>
-                                      </tbody>
-                                  </table>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                </section>
-
-
-              </section>
+                {% include 'account-preferences.html' %}
 
               {% endif %}
 
               <!-- END OF SOURCE MANAGEMENT SECTION -->
-        
-            
-        
-            
 
           </div>
       

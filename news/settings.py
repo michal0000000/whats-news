@@ -139,3 +139,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TAILWIND_APP_NAME = 'theme'
 
 DEFAULT_CATEGORY = 'sk'
+
+DEFAULT_CATEGORY_LIST = [
+    {'display_title' : 'Slovensko',         'title' : 'sk'},
+    {'display_title' : 'Ekonomika',         'title' : 'ekonom'},
+    {'display_title' : 'Tech',              'title' : 'tech'},
+    {'display_title' : 'Kyberbezpečnosť',   'title' : 'kyber'},
+    {'display_title' : 'Zaujímavé',         'title' : 'rand'}
+]

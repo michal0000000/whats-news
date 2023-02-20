@@ -17,7 +17,7 @@ from newsapp.models import Source
 from .source_handler import SourceHandler
 
 DEBUG = True
-DEBUG_SLEEP = 120
+DEBUG_SLEEP = 5
 
 LOGGING = False
 
@@ -38,8 +38,7 @@ class WhatsNewsScraper():
         self.article_extrator_running = False
         self.__running = False
         self.__new_article_queue = []
-        
-        #signal.signal(signal.SIGINT,self.stop_scraper)
+
         
     # Override run() method
     def start_scraper(self):
@@ -207,5 +206,5 @@ class WhatsNewsScraper():
             # If queue is empty
             return None
 
-#scraper = WhatsNewsScraper()
-#scraper.start_scraper() 
+scraper = WhatsNewsScraper()
+scraper.start_scraper() 
