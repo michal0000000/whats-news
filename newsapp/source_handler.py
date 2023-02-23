@@ -458,7 +458,7 @@ class SourceHandler():
                     article_authors = [i['dc:creator']]
                     
                     # Handle image
-                    article_image = i['enclosure']['@url'].split('.jpg')[0] + '.jpg'
+                    article_image = i['image:image']['image:url'].split('.jpg')[0] + '.jpg'
                     
                     # Append post only if its new
                     if last_seen == None or article_publish_date > last_seen:

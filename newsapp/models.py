@@ -2,6 +2,7 @@
 from django.utils.timezone import now
 from django.db import models
 from django import forms
+from django.utils.safestring import mark_safe
 
 class Category(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -138,3 +139,43 @@ class MemberPreference(models.Model):
     member = models.ForeignKey(MembershipToken,on_delete=models.CASCADE)
     sources = models.ForeignKey(Source,on_delete=models.CASCADE,blank=True,null=True)
     display_in_feed = models.BooleanField(default=True)
+    
+    
+class SourcesCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
+    def render(self, name, value, attrs=None, renderer=None):
+        output = []
+        for pref_id, src_name, src_pfp, cat_title, checked in self.choices:
+            output.append(f"""
+                          <tr>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="flex items-center h-10">
+                                        <div class="w-10 flex-shrink-0"><img class="rounded-none m-auto" src="{src_pfp}" alt="{src_name}"></div>
+                                        <div class="font-medium text-gray-800">{src_name}</div>
+                                    </div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-left">{cat_title}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-left font-medium text-green-500">
+                                        
+                                        <input type="checkbox" id="{pref_id}" name="{pref_id}" value="{pref_id}" {checked} />
+                                    
+                                    </div>
+                                </td>
+                                </tr>
+                          """)
+        return mark_safe('\n'.join(output))
+
+class SourceManagementDynamicForm(forms.Form):
+    def __init__(self, choices, *args, **kwargs):
+        super(SourceManagementDynamicForm, self).__init__(*args, **kwargs)
+        self.fields['dynamic_checkboxes'] = forms.MultipleChoiceField(
+            choices=choices,
+            widget=SourcesCheckboxSelectMultiple
+        )
+    save = forms.BooleanField(initial=False, widget=forms.HiddenInput)
+    def process(self):
+        if self.is_valid():
+            selected_checkboxes = self.cleaned_data['dynamic_checkboxes']
+            print(selected_checkboxes)

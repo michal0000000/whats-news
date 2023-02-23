@@ -1,4 +1,4 @@
-
+{% load static %}
 <section id="source-preferences" class="text-blueGray-700 bg-white mt-5">
     <section class="antialiased bg-gray-100 text-gray-600 h-screen px-4">
     <div class="flex flex-col justify-center h-full">
@@ -9,46 +9,47 @@
             </header>
             <div class="p-3">
                 <div class="overflow-x-auto">
-                    <table class="table-auto w-full">
-                        <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-                            <tr>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Stranka</div>
-                                </th>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Kategoria</div>
-                                </th>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Zobrazit</div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-sm divide-y divide-gray-100">
-                            
-                            {% for pref in account_preferences %}
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <table class="table-auto w-full">
+
+                            <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                 <tr>
-                                <td class="p-2 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="{{ pref.source_pfp }}" width="40" height="40" alt="{{ pref.source_display_name }}"></div>
-                                        <div class="font-medium text-gray-800">{{ pref.source_display_name }}</div>
-                                    </div>
-                                </td>
-                                <td class="p-2 whitespace-nowrap">
-                                    <div class="text-left">{{ pref.source_category }}</div>
-                                </td>
-                                <td class="p-2 whitespace-nowrap">
-                                    <div class="text-left font-medium text-green-500">
-                                        
-                                        <input type="checkbox" id="{{ pref.preference_id }}" name="{{ pref.preference_id }}" value="{{ pref.preference_id }}" {{ pref.source_active }} />
-                                    
-                                    </div>
-                                </td>
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">Stranka</div>
+                                    </th>
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">Kategoria</div>
+                                    </th>
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">Zobrazit</div>
+                                    </th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-gray-100">
+                                
+                                {% for field in form %}
+                                    {% if field.name != 'save' %}
+                                        <div class="form-check">
+                                            {{ field }}
+                                            <label class="form-check-label">{{ field.label }}</label>
+                                        </div>
+                                    {% else %}
+                                        {{ field }}
+                                    {% endif %}
+                                {% endfor %}
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </tbody>
+
+                        </table>
+
+                    </form>
                 </div>
             </div>
+
+
+
         </div>
     </div>
     </section>

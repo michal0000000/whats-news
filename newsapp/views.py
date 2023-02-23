@@ -19,6 +19,7 @@ from newsapp.models import MembershipToken, MemberPreference
 from newsapp.models import Article, Author, Source, Tag
 from newsapp.models import UpcomingFeatures, UpcomingFeaturesForm
 from newsapp.models import Category
+from newsapp.models import SourceManagementDynamicForm
 
 from . import scraper
 from . import utils
@@ -382,12 +383,25 @@ def account_settings(request):
     # Prepare data for display
     member_preference_formatted = \
         utils.format_member_preference(member_preference)
+          
+    # Handle form submission
+    if request.method == 'POST':
+        form = SourceManagementDynamicForm(member_preference_formatted, request.POST) # ???? what is POST for?
+        if form.is_valid():
+            if form.cleaned_data['save']:
+                # Perform some save operation
+                # ...
+                pass
+            # Process the selected checkboxes
+            form.process()
+    else:
+        form = SourceManagementDynamicForm(member_preference_formatted)
 
-    print(member_preference_formatted)
+    print(form)
 
     # Return preferences
-    return render(request,'news.html', \
-        {'account_preferences': member_preference_formatted})
+    return render(request,'account-preferences-outer.html', \
+        {'form': form})
       
 def insert_dummy_articles(request):
     

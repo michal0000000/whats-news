@@ -15,21 +15,17 @@ def format_member_preference(member_preference):
 
         # Format 'checked' html input attrib
         checked = 'checked' if pref.display_in_feed else ''
-
-        print(str((pref.id)))
-        print(str((pref.member)))
-        print(str((pref.sources)))
-        print(str((pref.display_in_feed)))
-
+    
         # Check if source is globally active
         if pref.sources.active == True:
-            result.append({
-                'preference_id' : pref.id,
-                'source_display_name' : pref.sources.display_name,
-                'source_pfp' : pref.sources.pfp,
-                'source_category' : pref.sources.category,
-                'source_active' : checked
-            })
+            result.append((
+                pref.id,
+                pref.sources.display_name,
+                (pref.sources.pfp).replace('static/',''),
+                pref.sources.category.display_title,
+                checked
+            ))
+                
     return result
 
 
