@@ -170,12 +170,20 @@ class SourcesCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
 class SourceManagementDynamicForm(forms.Form):
     def __init__(self, choices, *args, **kwargs):
         super(SourceManagementDynamicForm, self).__init__(*args, **kwargs)
-        self.fields['dynamic_checkboxes'] = forms.MultipleChoiceField(
+        self.fields['choices_field'] = forms.ChoiceField( # used to be MultipleChoiceField here
             choices=choices,
-            widget=SourcesCheckboxSelectMultiple
+            widget=SourcesCheckboxSelectMultiple,
+            required=False,
+            label=None,
+            label_suffix=None
         )
-    save = forms.BooleanField(initial=False, widget=forms.HiddenInput)
     def process(self):
         if self.is_valid():
-            selected_checkboxes = self.cleaned_data['dynamic_checkboxes']
-            print(selected_checkboxes)
+            post_data = self.clean()
+            print(post_data)
+            result = []
+            for key,val in post_data.items():
+                if key != 'csrfmiddlewaretoken':
+                    result.append(val)
+                    
+            print(f'VALID {result}')

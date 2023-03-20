@@ -388,16 +388,24 @@ def account_settings(request):
     if request.method == 'POST':
         form = SourceManagementDynamicForm(member_preference_formatted, request.POST) # ???? what is POST for?
         if form.is_valid():
-            if form.cleaned_data['save']:
-                # Perform some save operation
-                # ...
-                pass
+            
             # Process the selected checkboxes
             form.process()
+            
+            """ Somethings not right here, I can feel it """
+            # Extract selected fields
+            pref_srces_list = []
+            print(form.clean())
+            prefered_sources = form.clean()
+            for key,val in prefered_sources.items():
+                if key != 'csrfmiddlewaretoken':
+                    pref_srces_list.append(val)
+            
+            print(pref_srces_list)
+            
+            
     else:
         form = SourceManagementDynamicForm(member_preference_formatted)
-
-    print(form)
 
     # Return preferences
     return render(request,'account-preferences-outer.html', \

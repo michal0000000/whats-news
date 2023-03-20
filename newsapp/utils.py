@@ -5,6 +5,8 @@ import re
 from newsapp.models import Article
 from newsapp.models import Category
 
+from django.conf import settings
+
 def format_member_preference(member_preference):
     """ Prepares memebr preference for front end display """
 
@@ -15,13 +17,16 @@ def format_member_preference(member_preference):
 
         # Format 'checked' html input attrib
         checked = 'checked' if pref.display_in_feed else ''
+        
+        # Format source pic source
+        src_pfp = 'http://' + settings.ALLOWED_HOSTS[0] + ':8000/' + pref.sources.pfp
     
         # Check if source is globally active
         if pref.sources.active == True:
             result.append((
                 pref.id,
                 pref.sources.display_name,
-                (pref.sources.pfp).replace('static/',''),
+                src_pfp,
                 pref.sources.category.display_title,
                 checked
             ))

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+{% load static %}
+{% load tailwind_tags %}
+<html lang="sk">
+  <head>
+    <title>News Page</title>
+    {% tailwind_css %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/voting.css' %}">
+  </head>
+  <body>
+
+    <header class="text-gray-600 body-font">
+      <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+          </svg>
+          <span class="ml-3 text-xl">What's News?</span>
+          <span class="ml-3 text-lg">PRO Version</span>
+        </a>
+
+        <span class="text-md font-medium mr-3 ml-auto">{% if unbiased == 'true' %} Unbiased {% else %} Biased {% endif %}</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" onclick="changeBiasedMode( {{unbiased}} )" class="sr-only peer" {% if unbiased == 'true' %} checked {% endif %}>
+          <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          <span class="ml-3 text-md font-medium mr-3"></span>
+        </label>
+
+        <a href="account_settings/"><img alt="..." src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" class="shadow-xl rounded-full border-none w-[32px] mr-6"></a>
+        
+        <a href="/logout">
+          <button class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Logout
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </a>
+      </div>
+
+
+      <div class="overflow-hidden rounded-xl border border-gray-100 bg-gray-50 p-1">
+        <ul class="flex items-center gap-2 text-sm font-medium">
+
+
+          {% if menu_categories %}
+        
+            {% for category in menu_categories %}
+              
+              {% include 'category-item.html' %}
+    
+            {% endfor %}
+          
+          {% endif %}
+
+        </ul>
+      </div>
+    </div>
+
+    </header>
+
+    <div class="grid grid-cols-8 gap-2">
+ 
+      <div class="flex h-screen items-center col-span-2">
+
+        <!-- 
+        <div class="p-3">
+            <div class="overflow-x-auto">
+                <div class="table-auto w-full">
+                    <div class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                        <h2>Nastavenia uctu</h2>
+                    </div>
+                    <ul class="text-sm divide-y divide-gray-100">
+                        
+                            <li class="p-2 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="font-medium text-gray-800">Zdroje</div>
+                                </div>
+                            </li>
+
+                        </ul>
+                </div>
+            </div>
+        </div>
+        -->
+      
+      </div>
+        
+      <div class="col-span-4">
+
+            <!-- SOURCE MANAGEMENT SECTION -->
+
+            {% include 'account-preferences.html' %}
+
+            <!-- END OF SOURCE MANAGEMENT SECTION -->
+
+          </div>
+      
+      </div>
+
+      <div class="col-span-2">Right Column</div>
+    
+    </div>
+
+  </body>
+
+  <footer>
+
+    <!-- Articles functionality -->
+    <script src="/static/js/jquery-2.2.4.min.js"></script>
+
+    <!-- Unbiased scripts -->
+    <script src="/static/js/unbiased.js"></script>
+
+    <div class="bg-gray-100">
+      <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
+        <p class="text-gray-500 text-sm text-center sm:text-left">© 2021 Michal Pavliš —
+        <a href="https://twitter.com/slimpavlil" rel="noopener noreferrer" class="text-gray-600 ml-1" target="_blank">@slimpavlil</a>
+        </p>
+        <span class="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">
+        <a class="text-gray-500">
+          <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+          <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+          </svg>
+        </a>
+
+        <a class="ml-3 text-gray-500">
+          <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+          <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+          </svg>
+        </a>
+        <a class="ml-3 text-gray-500">
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+          </svg>
+        </a>
+        <a class="ml-3 text-gray-500">
+          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+          <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+          <circle cx="4" cy="4" r="2" stroke="none"></circle>
+          </svg>
+        </a>
+
+        </span>
+      </div>
+
+  </footer>
+</html>
