@@ -159,7 +159,7 @@ class SourcesCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-left font-medium text-green-500">
                                         
-                                        <input type="checkbox" id="{pref_id}" name="{pref_id}" value="{pref_id}" {checked} />
+                                        <input type="checkbox" id="{pref_id}" name="choice" value="{pref_id}" {checked} />
                                     
                                     </div>
                                 </td>
@@ -170,20 +170,22 @@ class SourcesCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
 class SourceManagementDynamicForm(forms.Form):
     def __init__(self, choices, *args, **kwargs):
         super(SourceManagementDynamicForm, self).__init__(*args, **kwargs)
-        self.fields['choices_field'] = forms.ChoiceField( # used to be MultipleChoiceField here
+        self.fields['choices_field'] = forms.MultipleChoiceField( # used to be MultipleChoiceField here
             choices=choices,
             widget=SourcesCheckboxSelectMultiple,
             required=False,
-            label=None,
+            label="",
             label_suffix=None
-        )
-    def process(self):
-        if self.is_valid():
-            post_data = self.clean()
-            print(post_data)
-            result = []
-            for key,val in post_data.items():
-                if key != 'csrfmiddlewaretoken':
-                    result.append(val)
+        )   
+    
+    def validate_choices(self,form_data):    
+        # Extract selected sources
+        result = [int(x) for x in form_data.getlist('choice')]
+
+        # Validate selected sources
+        validation_queryset = MemberPreference.objects.filter(pk__in=result)
+        if len(result) != len(validation_queryset):
+            return False
+        else:
+            return result
                     
-            print(f'VALID {result}')

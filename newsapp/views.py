@@ -49,12 +49,10 @@ def news(request):
     if request.session.get('user') == None:
         return redirect(login)
     
-    # TODO: Temporary handling of user source management
-    else:
-        ######## CONTINUE HERE #########
-        all_sources = Source.objects.all()
-        member = MembershipToken.objects.get(id=request.session.get('user'))
-        user_source_settings = MemberPreference.objects.filter(member=member)
+    ######## CONTINUE HERE #########
+    all_sources = Source.objects.all()
+    member = MembershipToken.objects.get(id=request.session.get('user'))
+    user_source_settings = MemberPreference.objects.filter(member=member,display_in_feed=True)
         
     # Handle category GET param uppercase characters
     cat = request.GET.get('cat') or settings.DEFAULT_CATEGORY
@@ -387,22 +385,34 @@ def account_settings(request):
     # Handle form submission
     if request.method == 'POST':
         form = SourceManagementDynamicForm(member_preference_formatted, request.POST) # ???? what is POST for?
+        
+        # Perform default validation
         if form.is_valid():
             
-            # Process the selected checkboxes
-            form.process()
+            # Validate selected sources
+            preferred_sources = form.validate_choices(form.data)
             
-            """ Somethings not right here, I can feel it """
-            # Extract selected fields
-            pref_srces_list = []
-            print(form.clean())
-            prefered_sources = form.clean()
-            for key,val in prefered_sources.items():
-                if key != 'csrfmiddlewaretoken':
-                    pref_srces_list.append(val)
-            
-            print(pref_srces_list)
-            
+            # If all selected sources were valid
+            if preferred_sources != False:
+                
+                # Save preferrence choice
+                disabled_srcs = []
+                for pref in member_preference:
+                    if pref.id not in preferred_sources:
+                        disabled_srcs.append(pref.id)
+                    
+                # Update preferrences in database
+                MemberPreference.objects.filter(id__in=preferred_sources).update(display_in_feed=True)
+                MemberPreference.objects.filter(id__in=disabled_srcs).update(display_in_feed=False)
+                
+                # Print success message
+                messages.add_message(request,messages.SUCCESS,'Successfully saved.')
+                
+                return redirect(account_settings)
+                
+            else:
+                # Print success message
+                messages.add_message(request,messages.ERROR,'Invalid data.')     
             
     else:
         form = SourceManagementDynamicForm(member_preference_formatted)
@@ -510,8 +520,7 @@ def register(request):
             source_preference = MemberPreference.objects.create(
                     name = new_user.username + "_",
                     member = new_user,
-                    sources = source
-                    
+                    sources = source   
                 )
     
         # Print success message
