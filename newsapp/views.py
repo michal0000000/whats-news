@@ -49,10 +49,11 @@ def news(request):
     if request.session.get('user') == None:
         return redirect(login)
     
-    ######## CONTINUE HERE #########
-    all_sources = Source.objects.all()
+
+    # Fetch user's preferred sources
     member = MembershipToken.objects.get(id=request.session.get('user'))
     user_source_settings = MemberPreference.objects.filter(member=member,display_in_feed=True)
+    preferred_sources = [cat.sources.id for cat in user_source_settings]
         
     # Handle category GET param uppercase characters
     cat = request.GET.get('cat') or settings.DEFAULT_CATEGORY
@@ -77,7 +78,7 @@ def news(request):
     active_categories = utils.get_category_data_for_menu_display(current=cat,unbiased=unbiased)
     
     # Get sources that correspond to category
-    sources_from_category = Source.objects.filter(category=category_choice)
+    sources_from_category = Source.objects.filter(category=category_choice,id__in=preferred_sources)
     
     # Fetch latest articles from database
     articles = Article.objects.filter(source__in=sources_from_category).order_by('-published')
