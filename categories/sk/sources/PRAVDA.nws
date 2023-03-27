@@ -1,0 +1,6 @@
+[source]
+link = https://spravy.pravda.sk/rss/xml/
+icon = static/images/pravda-logo_20x20.png
+scrape = default
+display_name = Dennik Pravda
+active = True
