@@ -1,0 +1,6 @@
+[source]
+link = https://www.securitymagazine.com/rss/15
+icon = static/images/security-magazine_logo_20x20.png
+scrape = default
+display_name = Security Magazine
+active = True
