@@ -14,7 +14,8 @@ from newsapp.models import Article
 from newsapp.models import Author
 from newsapp.models import Source
 
-from .source_handler import SourceHandler
+#from .source_handler import SourceHandler
+from .new_handler_TEST import SourceHandler
 
 DEBUG = True
 DEBUG_SLEEP = 5
@@ -206,5 +207,5 @@ class WhatsNewsScraper():
             # If queue is empty
             return None
 
-#scraper = WhatsNewsScraper()
-#scraper.start_scraper() 
+scraper = WhatsNewsScraper()
+scraper.start_scraper() 

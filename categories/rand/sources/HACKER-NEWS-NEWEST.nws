@@ -1,5 +1,5 @@
 [source]
-link = https://hnrss.org/newest
+scraping_link = https://hnrss.org/newest
 icon = static/images/hacker-news-newest_logo_20x20.png
 scrape = default
 display_name = Hacker News

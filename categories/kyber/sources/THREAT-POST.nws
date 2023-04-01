@@ -1,5 +1,5 @@
 [source]
-link = https://threatpost.com/feed/
+scraping_link = https://threatpost.com/feed/
 icon = static/images/threat-post_logo_20x20.png
 scrape = default
 display_name = Threat Post

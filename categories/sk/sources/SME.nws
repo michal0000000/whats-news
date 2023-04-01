@@ -1,5 +1,5 @@
 [source]
-link = https://domov.sme.sk/rss
+scraping_link = https://domov.sme.sk/rss
 icon = static/images/sme-logo_20x20.jpeg
 scrape = default
 display_name = Dennik SME

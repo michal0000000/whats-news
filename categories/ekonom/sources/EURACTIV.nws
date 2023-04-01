@@ -1,5 +1,5 @@
 [source]
-link = https://euractiv.sk/feed/
+scraping_link = https://euractiv.sk/feed/
 icon = static/images/euractiv-logo_20x20.png
 scrape = default
 display_name = Euractiv

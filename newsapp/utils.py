@@ -1,11 +1,46 @@
 from datetime import datetime,timedelta
 import pytz
 import re
+import traceback
 
 from newsapp.models import Article
 from newsapp.models import Category
+from newsapp.models import Source
 
 from django.conf import settings
+
+def create_new_source(source_name,val,category_object):
+    return Source(
+        name=source_name,
+        display_name=val['display_name'],
+        scraping_link = val['link'],
+        active = val['active'],
+        category = category_object,
+        pfp= val['icon'] if val.get('icon') != None else None
+    )
+
+def sync_source(source_obj,source_dict,category_object):  
+      
+    try: 
+        if source_obj.name != source_dict['name'] or \
+            source_obj.display_name != source_dict['display_name'] or \
+            source_obj.scraping_link != source_dict['scraping_link'] or \
+            source_obj.active != source_dict['active'] or \
+            source_obj.category.title != source_dict['category'] or \
+            source_obj.pfp != source_dict['icon']:
+                
+            source_obj.name = source_dict['name']
+            source_obj.display_name = source_dict['display_name']
+            source_obj.scraping_link = source_dict['scraping_link']
+            source_obj.active = source_dict['active']
+            source_obj.category = category_object
+            source_obj.pfp = source_dict['pfp']
+            
+            source_obj.save()
+        return True
+        
+    except:
+        return False
 
 def format_member_preference(member_preference):
     """ Prepares memebr preference for front end display """

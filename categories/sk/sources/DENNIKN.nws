@@ -1,5 +1,5 @@
 [source]
-link = https://dennikn.sk/slovensko/feed/
+scraping_link = https://dennikn.sk/slovensko/feed/
 icon = static/images/dennikn-logo_20x20.png
 scrape = default
 display_name = DennikN

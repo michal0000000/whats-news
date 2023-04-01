@@ -1,5 +1,5 @@
 [source]
-link = https://www.ta3.com/rss/5/novinky-z-domova
+scraping_link = https://www.ta3.com/rss/5/novinky-z-domova
 icon = static/images/ta3-logo_20x20.png
 scrape = default
 display_name = Ta3

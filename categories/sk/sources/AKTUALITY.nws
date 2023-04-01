@@ -1,5 +1,5 @@
 [source]
-link = https://www.aktuality.sk/rss/domace/
+scraping_link = https://www.aktuality.sk/rss/domace/
 icon = static/images/aktuality-logo_20x20.png
 scrape = default
 display_name = Aktuality
