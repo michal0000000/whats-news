@@ -147,10 +147,10 @@ class SourcesCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
         for pref_id, src_name, src_pfp, cat_title, checked in self.choices:
             output.append(f"""
                           <tr>
-                                <td class="p-2 whitespace-nowrap">
+                                <td class="p-4 whitespace-nowrap">
                                     <div class="flex items-center h-10">
                                         <div class="w-10 flex-shrink-0"><img class="rounded-none m-auto" src="{src_pfp}" alt="{src_name}"></div>
-                                        <div class="font-medium text-gray-800">{src_name}</div>
+                                        <div class="font-medium ml-3 text-gray-800">{src_name}</div>
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">

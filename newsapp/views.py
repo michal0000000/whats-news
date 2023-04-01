@@ -28,6 +28,8 @@ from . import utils
 """TODO:
 - IMPORTANT: how long does loading take when there are thousands of articles? 
 - somehow generate images for articles that dont have an image (github logo, something related...)
+    - instead of that create multiple templtes for posts to make the feed look more interesting
+        - template for pic,excerpt,header, template for only header...
 - add RSS feeds of cool reddit rooms
 - translation of titles and subtitles with chatgpt
 - implement content filters, so users can filter out words like %caputova%
@@ -367,7 +369,6 @@ def fetch_new_articles(request):
             'unbiased' : unbiased
             })
 
-######## CONTINUE HERE #########
 def account_settings(request):
     
     # Redirect to login page if user not logged in
@@ -498,7 +499,7 @@ def register(request):
         token = request.POST.get('token')
         if utils.validate_email(email) == False or token == None:
             messages.add_message(request,messages.ERROR,'Invalid email dumbass')
-            render(request,'register.html')
+            return render(request,'register.html')
         
         # Generate new user_token
         #TODO : finish registration functionaltiy to be secure

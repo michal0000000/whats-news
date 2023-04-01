@@ -68,7 +68,6 @@ def format_member_preference(member_preference):
                 
     return result
 
-
 def get_category_data_for_menu_display(current,unbiased):
     """ Fetches active categories in formatted way """
     categories = Category.objects.filter(active=True)
@@ -166,4 +165,7 @@ def validate_email(email):
         return False
     pat = '^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{1,3}$'
     validation_result = True if re.match(pat,email) else False
+    
+    print(validation_result)
+    
     return validation_result
