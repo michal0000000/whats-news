@@ -12,8 +12,8 @@ class UpcomingFeaturesAdminDisplay(admin.ModelAdmin):
     list_editable = ('visible',)
     
 class SourceAdminDisplay(admin.ModelAdmin):
-    list_display = ('display_name','scraping_link','category','active')
-    list_editable = ('active',)
+    list_display = ('name','display_name','scraping_link','category','visible','active')
+    list_editable = ('visible','active')
     
 class ArticleAdminDisplay(admin.ModelAdmin):
     list_display = ('headline','source','published','added')
@@ -22,8 +22,8 @@ class MembershipTokenAdminDisplay(admin.ModelAdmin):
     list_display = ('id','username','valid_until','last_visit')
     
 class CategoryAdminDisplay(admin.ModelAdmin):
-    list_display = ('id','title','display_title','active','order')
-    list_editable = ('active',)
+    list_display = ('title','display_title','visible','active','order')
+    list_editable = ('visible','active')
 
 admin.site.register(MembershipToken,MembershipTokenAdminDisplay)
 admin.site.register(Article,ArticleAdminDisplay)

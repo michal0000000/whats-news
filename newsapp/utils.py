@@ -18,6 +18,7 @@ def update_category_config(new_category):
         config['category-settings'] = {
             'display_title': new_category.display_title,
             'active': new_category.active,
+            'visible' : new_category.visible,
             'order': new_category.order
         }
         
@@ -38,6 +39,7 @@ def update_source_config(new_source):
             'display_name': new_source.display_name,
             'scraping_link': new_source.scraping_link,
             'active' : new_source.active,
+            'visible' : new_source.visible,
             'pfp' : new_source.pfp
         }
         
@@ -58,8 +60,9 @@ def create_new_source(source_name,val,category_object):
         display_name = val['display_name'],
         scraping_link = val['scraping_link'],
         active = val['active'],
+        visible = val['visible'],
         category = category_object,
-        pfp = val['icon'] if val.get('icon') != None else None
+        pfp = val['pfp'] 
     )
 
 def sync_categories(category_obj,category_dict): 
@@ -84,21 +87,23 @@ def sync_categories(category_obj,category_dict):
 
 def sync_source(source_obj,source_dict,category_object):
     """ Synchronizes sources and returns True if all went well """
-      
+
     try: 
         if source_obj.name != source_dict['name'] or \
             source_obj.display_name != source_dict['display_name'] or \
             source_obj.scraping_link != source_dict['scraping_link'] or \
             source_obj.active != source_dict['active'] or \
+            source_obj.visible != source_dict['visible'] or \
             source_obj.category.title != category_object.title or \
-            source_obj.pfp != source_dict['icon']:
+            source_obj.pfp != source_dict['pfp']:
                 
             source_obj.name = source_dict['name']
             source_obj.display_name = source_dict['display_name']
             source_obj.scraping_link = source_dict['scraping_link']
             source_obj.active = source_dict['active']
+            source_obj.visible = source_dict['visible']
             source_obj.category = category_object
-            source_obj.pfp = source_dict['icon']
+            source_obj.pfp = source_dict['pfp']
             
             source_obj.save()
         return True
@@ -134,7 +139,7 @@ def format_member_preference(member_preference):
 
 def get_category_data_for_menu_display(current,unbiased):
     """ Fetches active categories in formatted way """
-    categories = Category.objects.filter(active=True).order_by('order')
+    categories = Category.objects.filter(visible=True).order_by('order')
     result = []
     for cat in categories:
         result.append({

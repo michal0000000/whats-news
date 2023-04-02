@@ -5,24 +5,23 @@ from django import forms
 from django.utils.safestring import mark_safe
 
 class Category(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=50,default='N/A')
+    title = models.CharField(primary_key=True,max_length=50,default='N/A')
     display_title = models.CharField(max_length=50,default='N/A')
     active = models.BooleanField(default=False)
+    visible = models.BooleanField(default=False)
     order = models.IntegerField(null=True)
     
     def __str__(self):
         return self.title
     
 class Source(models.Model):
-    
-    id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=50)              # SME
+    name = models.CharField(primary_key=True,max_length=50)              # SME
     display_name = models.CharField(max_length=50)      # Dennik Sme
     pfp = models.CharField(max_length=512,default='static/images/default_source_20x20.png')              # pfp link         # homepage link
     scraping_link = models.CharField(max_length=512)    # scraping link
     category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
     active = models.BooleanField(default=False)
+    visible = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name

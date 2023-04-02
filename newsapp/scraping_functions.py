@@ -32,6 +32,9 @@ def get_functions():
         ### CYBERSECURITY ###
         'THREAT-POST' : get_front_page_links_from_threat_post,
         'SECURITY-MAGAZINE' : get_front_page_links_from_security_magazine,
+        
+        # DUMMY
+        'AKTUALITY2' : get_front_page_links_from_aktuality,
                
     }
     

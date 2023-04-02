@@ -61,7 +61,7 @@ def news(request):
     
     # If login disabled, fetch all sources
     else:
-        preferred_sources = [src.id for src in Source.objects.all()]
+        preferred_sources = [src.name for src in Source.objects.all()]
         
     # Handle category GET param uppercase characters
     cat = request.GET.get('cat') or settings.DEFAULT_CATEGORY
@@ -86,7 +86,7 @@ def news(request):
     active_categories = utils.get_category_data_for_menu_display(current=cat,unbiased=unbiased)
     
     # Get sources that correspond to category
-    sources_from_category = Source.objects.filter(category=category_choice,id__in=preferred_sources)
+    sources_from_category = Source.objects.filter(visible=True,category=category_choice,name__in=preferred_sources)
     
     # Fetch latest articles from database
     articles = Article.objects.filter(source__in=sources_from_category).order_by('-published')
@@ -443,7 +443,7 @@ def account_settings(request):
       
 def insert_dummy_articles(request):
     
-    source = Source.objects.get(name='SME')
+    source = Source.objects.get(name='AKTUALITY2')
     
     for i in range(1,4):
         article_object = Article(
@@ -452,7 +452,7 @@ def insert_dummy_articles(request):
             subtitle = "Something has happend and YOU should know about it.",
             link = "",
             source = source,
-            published = datetime.datetime.now().replace(tzinfo=pytz.UTC),
+            published = datetime.datetime.now().replace(tzinfo=pytz.UTC)
         )
         article_object.save()
     

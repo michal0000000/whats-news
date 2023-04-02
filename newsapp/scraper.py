@@ -47,7 +47,7 @@ class WhatsNewsScraper():
         # Drop all articles if in debug mode
         if DEBUG == True:
             Article.objects.all().delete()
-            print('DEBUG: All articles deleted')
+            log('DEBUG: All articles deleted')
             log("connected: ",LoggerSink.DEBUG)
         
         # Change state of scraper
@@ -63,12 +63,12 @@ class WhatsNewsScraper():
         article_extractor.start()
         self.article_extrator_running = True
         
-        print("Scraper sucessfully started.\n")
+        log("Scraper sucessfully started.\n")
         
     def stop_scraper(self,sig,frame):
         
-        print("Waiting for processes to terminate...")
-        print("This may take a few minutes.")
+        log("Waiting for processes to terminate...")
+        log("This may take a few minutes.")
         
         # Change state of scraper to initiate stopping of processes
         self.__running = False
@@ -77,7 +77,7 @@ class WhatsNewsScraper():
         while self.queue_filler_running == True or self.article_extrator_running == True:
             time.sleep(5)
         
-        print("Scraper sucessfully stopped.")
+        log("Scraper sucessfully stopped.")
         
     def scrape_new_links_and_add_to_queue(self):
         
@@ -107,7 +107,7 @@ class WhatsNewsScraper():
                 self.__new_article_queue += source
             
             # Wait x mins before checking new articles
-            print('Waiting before checking new articles.')
+            log('Waiting before checking new articles.')
             if DEBUG == False:
                     time.sleep(120)
             else:
@@ -128,7 +128,7 @@ class WhatsNewsScraper():
             
              # If queue is empty, wait 2 mins and try again
             if article_data == None:        
-                print('No new articles, sleeping...')
+                log('No new articles, sleeping...',LoggerSink.DEFAULT)
                 
                 # Wait x amount of time depending of debug mode
                 if DEBUG == False:
@@ -185,7 +185,7 @@ class WhatsNewsScraper():
                 
                 # Print progress into terminal
                 headline = article_object.headline
-                print(f'{article_data["source"].name} - Article "{headline[:int(len(headline)/3)]}..." addeed to DB!')
+                log(f'{article_data["source"].name} - Article "{headline[:int(len(headline)/3)]}..." addeed to DB!',LoggerSink.ARTICLES)
                 
                 # Remove article from queue
                 del self.__new_article_queue[0]
@@ -199,11 +199,9 @@ class WhatsNewsScraper():
     def get_article_from_queue(self):
         
         try:
-            
             # Return oldest article in queue
             return self.__new_article_queue[0]
         except:
-            
             # If queue is empty
             return None
 

@@ -1,6 +1,8 @@
 [source]
-scraping_link = https://www.securitymagazine.com/rss/15
-icon = static/images/security-magazine_logo_20x20.png
-scrape = default
+name = SECURITY-MAGAZINE
 display_name = Security Magazine
+scraping_link = https://www.securitymagazine.com/rss/15
 active = True
+visible = True
+pfp = static/images/security-magazine_logo_20x20.png
+

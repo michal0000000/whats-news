@@ -1,6 +1,6 @@
 [source]
-name = AKTUALITY
-display_name = Aktuality
+name = AKTUALITY2
+display_name = Aktuality2
 scraping_link = https://www.aktuality.sk/rss/domace/
 active = True
 visible = True

@@ -3,5 +3,6 @@ name = HACKER-NEWS-NEWEST
 display_name = Hacker News
 scraping_link = https://hnrss.org/newest
 active = True
+visible = True
 pfp = static/images/hacker-news-newest_logo_20x20.png
 

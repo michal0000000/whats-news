@@ -1,6 +1,8 @@
 [source]
-scraping_link = https://dennikn.sk/slovensko/feed/
-icon = static/images/dennikn-logo_20x20.png
-scrape = default
+name = DENNIKN
 display_name = DennikN
+scraping_link = https://dennikn.sk/slovensko/feed/
 active = True
+visible = True
+pfp = static/images/dennikn-logo_20x20.png
+

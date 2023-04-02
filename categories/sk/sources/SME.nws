@@ -1,6 +1,8 @@
 [source]
-scraping_link = https://domov.sme.sk/rss
-icon = static/images/sme-logo_20x20.jpeg
-scrape = default
+name = SME
 display_name = Dennik SME
+scraping_link = https://domov.sme.sk/rss
 active = True
+visible = True
+pfp = static/images/sme-logo_20x20.jpeg
+

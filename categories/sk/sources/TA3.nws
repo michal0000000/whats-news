@@ -1,6 +1,8 @@
 [source]
-scraping_link = https://www.ta3.com/rss/5/novinky-z-domova
-icon = static/images/ta3-logo_20x20.png
-scrape = default
+name = TA3
 display_name = Ta3
+scraping_link = https://www.ta3.com/rss/5/novinky-z-domova
 active = True
+visible = True
+pfp = static/images/ta3-logo_20x20.png
+

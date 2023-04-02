@@ -1,6 +1,8 @@
 [source]
-scraping_link = https://threatpost.com/feed/
-icon = static/images/threat-post_logo_20x20.png
-scrape = default
+name = THREAT-POST
 display_name = Threat Post
+scraping_link = https://threatpost.com/feed/
 active = True
+visible = True
+pfp = static/images/threat-post_logo_20x20.png
+

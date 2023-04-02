@@ -63,9 +63,7 @@ class SourceHandler():
             except:
                 log(f"ERR: No category {os.path.join('categories', category)}.",LoggerSink.SOURCES)
                 continue
-            
-            #log(f'{category_path} - {os.path.isdir(category_path)} / {os.path.join(category_path, "sources")} - {os.path.isdir(os.path.join(category_path, "sources"))}')
-            
+                        
             if os.path.isdir(category_path) and os.path.isdir(os.path.join(category_path, 'sources')):
                 
                 # Create a dictionary entry with the folder name as key
@@ -81,8 +79,9 @@ class SourceHandler():
                         # Read the config file
                         category_dict[category]['title'] = category
                         category_dict[category]['display_title'] = config.get('category-settings','display_title')
-                        category_dict[category]['active'] = config.getboolean('category-settings','active')
-                        category_dict[category]['order'] = config.getint('category-settings','order') or 999
+                        category_dict[category]['active'] = config.getboolean('category-settings','active',fallback=False)
+                        category_dict[category]['visible'] = config.getboolean('category-settings','visible',fallback=False)
+                        category_dict[category]['order'] = config.getint('category-settings','order',fallback=999)
                             
                         # Try to fetch category, if error add it to database
                         try:
@@ -109,7 +108,9 @@ class SourceHandler():
                             install_cat = Category(
                                 title = category,
                                 display_title = category_dict[category]['display_title'],
-                                active = category_dict[category]['active']
+                                active = category_dict[category]['active'],
+                                visible = category_dict[category]['visible'],
+                                order = category_dict[category]['order']
                             )
                             install_cat.save()
                             
@@ -124,7 +125,9 @@ class SourceHandler():
                             install_cat = Category(
                                 title = category,
                                 display_title = category_dict[category]['display_title'],
-                                active = True
+                                active = category_dict[category]['active'],
+                                visible = category_dict[category]['visible'],
+                                order = category_dict[category]['order']
                             )
                             install_cat.save()
                             
@@ -158,12 +161,16 @@ class SourceHandler():
                             source_name = source_file.replace('.nws','')
                             category_dict[category]['sources'][source_name] = {}
                             source = category_dict[category]['sources'][source_name]
-                            for key, value in config.items('source'):
-                                source[key] = value
+                                
                             source['last_seen'] = None
-                            source['name'] = source_name
                             source['category'] = category
-                            source['active'] = bool(source['active'])
+                            
+                            source['name'] = source_name
+                            source['display_name'] = config.get('source','display_name')
+                            source['scraping_link'] = config.get('source','scraping_link')
+                            source['active'] = config.getboolean('source','active',fallback=False)
+                            source['visible'] = config.getboolean('source','active',fallback=False)
+                            source['pfp'] = config.get('source','pfp')
 
                             if self.sfs.get(source_name):
                                 source['scrape'] = self.sfs[source_name]
@@ -176,6 +183,8 @@ class SourceHandler():
                             try:
                                 does_src_exist = Source.objects.get(name=source_name)
                                 category_dict[category]['sources'][source_name]['source'] = does_src_exist
+                                
+                                log(f"{source_name} - {sync_source(does_src_exist,source,category_object)}")
                                 
                                 # Check if source in DB matches config
                                 if not sync_source(does_src_exist,source,category_object) or not does_src_exist.active:
@@ -195,10 +204,12 @@ class SourceHandler():
                             # If source doesn't exist in DB, create it
                             except:                                
                                 val = category_dict[category]['sources'][source_name]
+                                
                                 new_source = create_new_source(source_name,val,category_object)
                                 new_source.save()
+
                                 category_dict[category]['sources'][source_name]['source'] = new_source
-                                log(f"INFO: Added new source to DB - {key}.",LoggerSink.SOURCES)
+                                log(f"INFO: Added new source to DB {source_name}.",LoggerSink.SOURCES)
                         
                     except Exception as e:
                         
@@ -221,12 +232,19 @@ class SourceHandler():
             # Generate articles source by source
             for category,data in self.sources.items():
                 for source,info in self.sources[category]['sources'].items():
-                    if info['active'] == True:
+                    
+                    """ Remember, we want to scrape every source even if it isnt online
+                        because you never know when we will want to put it back online
+                    """ 
                         
-                        result_of_scrape = info['scrape'](info)
-                        
-                        if result_of_scrape != False:
-                            info['last_seen'] = result_of_scrape[0]
-                            yield result_of_scrape[1]
+                    result_of_scrape = info['scrape'](info)
+                    
+                    if info['name'] == 'AKTUALITY2':
+                        print(result_of_scrape)
+                    
+                    # TODO: this was not yet sufficiently tested
+                    if result_of_scrape != False:
+                        info['last_seen'] = result_of_scrape[0]
+                        yield result_of_scrape[1]
         else:
             yield []
