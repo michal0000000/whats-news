@@ -9,6 +9,7 @@ class Category(models.Model):
     title = models.CharField(max_length=50,default='N/A')
     display_title = models.CharField(max_length=50,default='N/A')
     active = models.BooleanField(default=False)
+    order = models.IntegerField(null=True)
     
     def __str__(self):
         return self.title
@@ -110,8 +111,15 @@ class Article(models.Model):
         }
     
 class UpcomingFeaturesForm(forms.Form):
-    title = forms.CharField(label="Chytľavý názov", max_length=256)
-    description = forms.CharField(label="Frajerský popis", max_length=512)
+    title = forms.CharField(label="Predmet", 
+                            widget=forms.TextInput(attrs={'class':'flex bg-gray-50 rounded-lg shadow-lg focus:border focus:border-teal-400 px-6',
+                                                          'cols':20}),
+                            max_length=256)
+    description = forms.CharField(label="Správa", 
+                            widget=forms.Textarea(attrs={'class':'flex bg-gray-50 rounded-lg shadow-lg focus:border focus:border-teal-400',
+                                                         'cols':22,
+                                                         'rows':6}),
+                            max_length=512)
       
 class UpcomingFeatures(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -139,8 +147,7 @@ class MemberPreference(models.Model):
     member = models.ForeignKey(MembershipToken,on_delete=models.CASCADE)
     sources = models.ForeignKey(Source,on_delete=models.CASCADE,blank=True,null=True)
     display_in_feed = models.BooleanField(default=True)
-    
-    
+       
 class SourcesCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
     def render(self, name, value, attrs=None, renderer=None):
         output = []

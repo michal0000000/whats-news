@@ -1,6 +1,8 @@
 import os
 import configparser
 import traceback
+from collections import OrderedDict
+from operator import getitem
 
 from django.core.exceptions import MultipleObjectsReturned
 
@@ -10,7 +12,7 @@ from logger.logger_sink import LoggerSink
 from newsapp.models import Category,Source
 
 import newsapp.scraping_functions as sfs
-from newsapp.utils import sync_source, create_new_source
+from newsapp.utils import sync_source, create_new_source, sync_categories
 
 class SourceHandler():
     
@@ -30,8 +32,6 @@ class SourceHandler():
          
         self._ready = True
         
-    
-
     def refresh_sources(self, categories=None):
         """ Refreshes categories to memory and to database, can also be used for a specific category """
         
@@ -77,29 +77,47 @@ class SourceHandler():
                         
                         # Parse the category config file
                         config.read(os.path.join(category_path, 'category.conf'))
-                        for key, value in config.items('source-settings'):
-                            category_dict[category][key] = value
-                        category_dict[category]['active'] = bool(category_dict[category]['active'])
                         
+                        # Read the config file
+                        category_dict[category]['title'] = category
+                        category_dict[category]['display_title'] = config.get('category-settings','display_title')
+                        category_dict[category]['active'] = config.getboolean('category-settings','active')
+                        category_dict[category]['order'] = config.getint('category-settings','order') or 999
                             
                         # Try to fetch category, if error add it to database
                         try:
                             does_cat_exist = Category.objects.get(title=category)
+                            
+                            # Sync category object with dict
+                            if not sync_categories(does_cat_exist,category_dict[category]):
+                                del category_dict[category]
+                                continue
                             
                             # Assign for usage during source creation
                             category_object = does_cat_exist
                             
                             # Check if category is active
                             if does_cat_exist.active == False:
-                                
-                                #
-                                # Config files are the highet authority, DB should always mirror the configs
-                                # therefore, change to inactive in neccessary
-                                if does_cat_exist.active == True:
-                                    does_cat_exist.active = False
-                                    does_cat_exist.save()
+                                del category_dict[category]
+                                continue
+                            
+                        # If multiple categories get returned delete all of them and create a new one    
+                        except MultipleObjectsReturned as e:
+                            Category.objects.filter(title=category).delete()
+                            
+                            # Add category to database
+                            install_cat = Category(
+                                title = category,
+                                display_title = category_dict[category]['display_title'],
+                                active = category_dict[category]['active']
+                            )
+                            install_cat.save()
+                            
+                            if install_cat.active == False:
+                                del category_dict[category]
                                 continue
                         
+                        # If source doesn't exist in DB, create it                       
                         except:
                             
                             # Add category to database
@@ -113,7 +131,7 @@ class SourceHandler():
                             # Assign for usage during source creation
                             category_object = install_cat
                             
-                            log(f"INFO: Added new category to DB - {category}.",LoggerSink.SOURCES)
+                            log(f"INFO: Added new category to DB - {category}.",LoggerSink.SOURCES)  
                         
                         # Break if category inactive
                         if bool(category_dict[category]['active']) == False:
@@ -146,7 +164,7 @@ class SourceHandler():
                             source['name'] = source_name
                             source['category'] = category
                             source['active'] = bool(source['active'])
-                            
+
                             if self.sfs.get(source_name):
                                 source['scrape'] = self.sfs[source_name]
                             else:
@@ -158,6 +176,7 @@ class SourceHandler():
                             try:
                                 does_src_exist = Source.objects.get(name=source_name)
                                 category_dict[category]['sources'][source_name]['source'] = does_src_exist
+                                
                                 # Check if source in DB matches config
                                 if not sync_source(does_src_exist,source,category_object) or not does_src_exist.active:
                                     del category_dict[category]['sources'][source_name]
@@ -180,9 +199,9 @@ class SourceHandler():
                                 new_source.save()
                                 category_dict[category]['sources'][source_name]['source'] = new_source
                                 log(f"INFO: Added new source to DB - {key}.",LoggerSink.SOURCES)
-                                log(traceback.print_exc())
                         
                     except Exception as e:
+                        
                         try:
                             del category_dict[category]['sources'][source_name]
                         except:

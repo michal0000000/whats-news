@@ -13,10 +13,18 @@ $(document).ready(function() {
     $(".vote-func-tab").click(function() {
       $(".submit-func").hide();
       $(".vote-func").show();
+      $(".vote-func-tab").removeClass('border-gray-600')
+      $(".vote-func-tab").addClass(' border-teal-400')
+      $(".submit-func-tab").removeClass(' border-teal-400')
+      $(".submit-func-tab").addClass(' border-gray-600')
     });
     
     $(".submit-func-tab").click(function() {
       $(".vote-func").hide();
       $(".submit-func").show();
+      $(".submit-func-tab").removeClass(' border-gray-600')
+      $(".submit-func-tab").addClass(' border-teal-400')
+      $(".vote-func-tab").removeClass('border-teal-400')
+      $(".vote-func-tab").addClass('border-gray-600')
     });
   });

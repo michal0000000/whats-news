@@ -6,7 +6,7 @@
         <!-- <h4 class="mb-1 text-xs font-semibold tracking-widest text-black uppercase title-font"> #Slovensko #Tu #Budu #Tagy </h4> -->
 
         <div class="flex items-center mb-2 source-info w-full">
-          {% if unbiased == "false" %}
+          {% if unbiased == "false" or enable_biased == False%}
             <a href="{{ article.source_link }}" target="_blank" class="flex items-center article-source-name">
               <img src="{{ article.source_pfp }}" class="source-pfp" alt="Article photo" width="20px" height="20px"/>
               <h3 class="ml-2 text-sm font-semibold text-black uppercase title-font article-info"> {{ article.authors }} </h3>

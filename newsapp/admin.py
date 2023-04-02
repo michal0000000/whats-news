@@ -22,7 +22,7 @@ class MembershipTokenAdminDisplay(admin.ModelAdmin):
     list_display = ('id','username','valid_until','last_visit')
     
 class CategoryAdminDisplay(admin.ModelAdmin):
-    list_display = ('id','title','display_title','active')
+    list_display = ('id','title','display_title','active','order')
     list_editable = ('active',)
 
 admin.site.register(MembershipToken,MembershipTokenAdminDisplay)

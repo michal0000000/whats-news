@@ -13,8 +13,10 @@
     <header class="text-gray-600 body-font">
       <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-          <img src="{% static 'images/whats_news_logo.jpg' %}" style="width:65%" alt="">
+          <img src="{% static 'images/whats_news_logo.jpg' %}" style="width:50%" alt="">
         </a>
+
+        {% if enable_biased == True %}
 
         <span class="text-md font-medium mr-3 ml-auto">{% if unbiased == 'true' %} Unbiased {% else %} Biased {% endif %}</span>
         <label class="relative inline-flex items-center cursor-pointer">
@@ -23,6 +25,9 @@
           <span class="ml-3 text-md font-medium mr-3"></span>
         </label>
 
+        {% endif %}
+
+        {% if enable_login == True %}
         <a href="account_settings/"><img alt="Account Preferences" src="{% static 'images/preference.png' %}" class="shadow-xl rounded-full border-none w-[32px] mr-6"></a>
         
         <a href="/logout">
@@ -32,10 +37,10 @@
             </svg>
           </button>
         </a>
+        {% endif %}
       </div>
 
-
-      <div class="overflow-hidden rounded-xl border border-gray-100 bg-gray-50 p-1">
+      <div class="overflow-hidden mx-5 rounded-xl border border-gray-100 bg-gray-50 p-1">
         <ul class="flex items-center gap-2 text-sm font-medium">
 
 
@@ -55,15 +60,19 @@
 
     </header>
 
+    <!-- Only for testing holdReady in unfinite.min.js -->
+    <!-- Remove display:none if you need to hold readiness of page for testing -->
     <div class="d-flex justify-content-center page-load">
       <div class="spinner-border" role="status">
-          <h2 class="">Loading...</h2>
+          <h2 class="" style="display: none;">Loading...</h2>
       </div>
     </div>
+    
+    
 
     <div class="grid grid-cols-8 gap-2">
  
-      <div class="flex h-screen items-center col-span-2">
+      <div class="flex h-screen col-span-2">
 
         {% if features %}     
           {% include 'voting.html' %}
@@ -78,6 +87,7 @@
 
             <div id="page-content" class="mt-8">
 
+              {% if continuous_refresh == True %}
               <div class="flex items-center justify-center shadow-md p-2 hover:shodow-lg border-teal-400 click-button bg-teal-50 container px-2 mx-auto md:flex-row">
                 <div class="flex items-center">
                   <div class="flex items-center">
@@ -93,7 +103,7 @@
                   </div>
                 </div>
               </div>
-        
+              {% endif %}
 
               <section id="articles" class="text-blueGray-700 bg-white mt-5">
         
@@ -144,7 +154,7 @@
       
       </div>
 
-      <div class="col-span-2">Right Column</div>
+      <div class="col-span-2"></div> <!--Right column -->
     
     </div>
 

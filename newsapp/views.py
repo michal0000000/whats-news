@@ -43,19 +43,25 @@ from . import utils
 """
 
 POSTS_PER_PAGE = 4
-
+ENABLE_LOGIN = False
+ENABLE_BIASED = False
+CONTINUOUS_REFRESH = False
 
 def news(request):
     
-    # Redirect to login page if user not logged in
-    if request.session.get('user') == None:
-        return redirect(login)
-    
+    if ENABLE_LOGIN == True:
+        # Redirect to login page if user not logged in
+        if request.session.get('user') == None:
+            return redirect(login)
 
-    # Fetch user's preferred sources
-    member = MembershipToken.objects.get(id=request.session.get('user'))
-    user_source_settings = MemberPreference.objects.filter(member=member,display_in_feed=True)
-    preferred_sources = [cat.sources.id for cat in user_source_settings]
+        # Fetch user's preferred sources
+        member = MembershipToken.objects.get(id=request.session.get('user'))
+        user_source_settings = MemberPreference.objects.filter(member=member,display_in_feed=True)
+        preferred_sources = [cat.sources.id for cat in user_source_settings]
+    
+    # If login disabled, fetch all sources
+    else:
+        preferred_sources = [src.id for src in Source.objects.all()]
         
     # Handle category GET param uppercase characters
     cat = request.GET.get('cat') or settings.DEFAULT_CATEGORY
@@ -85,14 +91,15 @@ def news(request):
     # Fetch latest articles from database
     articles = Article.objects.filter(source__in=sources_from_category).order_by('-published')
     
-    # Set last visit
-    time_of_visit = datetime.datetime.now().replace(tzinfo=pytz.UTC)
-    token = MembershipToken.objects.get(id=request.session['user'])
-    result_of_new_visit_time = token.set_last_visit(time_of_visit)
+    if ENABLE_LOGIN == True:
+        # Set last visit
+        time_of_visit = datetime.datetime.now().replace(tzinfo=pytz.UTC)
+        token = MembershipToken.objects.get(id=request.session['user'])
+        result_of_new_visit_time = token.set_last_visit(time_of_visit)
     
-    # Handle bad request
-    if result_of_new_visit_time == False:
-        return HttpResponse(status=400)
+        # Handle bad request
+        if result_of_new_visit_time == False:
+            return HttpResponse(status=400)
     
     # Fetch upcoming features
     upcoming_features_objects = UpcomingFeatures.objects.filter(visible=True) \
@@ -140,7 +147,10 @@ def news(request):
             'articles': article_page,
             'features' : upcoming_features,
             'new_func_form' : new_func_form,
-            'unbiased' : 'false'
+            'unbiased' : 'false',
+            'enable_login' : ENABLE_LOGIN,
+            'continuous_refresh' : CONTINUOUS_REFRESH,
+            'enable_biased' : ENABLE_BIASED
         }
         
         # Check for unbiased mode
@@ -164,7 +174,8 @@ def news(request):
             content += render_to_string('news-item.html',
                                         {
                                             'article': article,
-                                            'unbiased': unbiased
+                                            'unbiased': unbiased,
+                                            'enable_biased' : ENABLE_BIASED
                                          },
                                         request=request)
             
@@ -317,6 +328,9 @@ def vote_for_new_func(request):
 
 def fetch_new_articles(request):
     """ Function that handles refreshing feed with new articles """
+    
+    if CONTINUOUS_REFRESH == False:
+        return HttpResponse(status=204)
 
     # Get last visit of user to determine what articles are new
     current_user = MembershipToken.objects.get(id=request.session['user'])
@@ -370,6 +384,10 @@ def fetch_new_articles(request):
             })
 
 def account_settings(request):
+    
+    # Handle disabled login
+    if ENABLE_LOGIN == False:
+        return redirect(news)
     
     # Redirect to login page if user not logged in
     member = request.session.get('user')
@@ -450,6 +468,9 @@ def login(request):
     #token = MembershipToken(hashed_token=hashed,username='mike2',email='miccheck@12.sk',valid_until=expiry)
     #token.save()
     
+    if ENABLE_LOGIN == False:
+        return redirect(news)
+    
     if request.method == 'POST':
         
         # Get token and hash it
@@ -475,6 +496,10 @@ def login(request):
 
 def logout(request):
     
+    # Handle disabled login
+    if ENABLE_LOGIN == False:
+        return redirect(news)
+    
     # Delete cookie
     del request.session['user']
     
@@ -484,6 +509,10 @@ def logout(request):
     return redirect(login)
 
 def register(request):
+    
+    # Handle disabled login
+    if ENABLE_LOGIN == False:
+        return redirect(news)
     
     # Handle logged in user
     if request.session.get('user') != None:

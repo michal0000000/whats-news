@@ -1,6 +1,7 @@
 [source]
-scraping_link = https://hnrss.org/newest
-icon = static/images/hacker-news-newest_logo_20x20.png
-scrape = default
+name = HACKER-NEWS-NEWEST
 display_name = Hacker News
+scraping_link = https://hnrss.org/newest
 active = True
+pfp = static/images/hacker-news-newest_logo_20x20.png
+

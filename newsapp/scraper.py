@@ -207,5 +207,5 @@ class WhatsNewsScraper():
             # If queue is empty
             return None
 
-#scraper = WhatsNewsScraper()
-#scraper.start_scraper() 
+scraper = WhatsNewsScraper()
+scraper.start_scraper() 
