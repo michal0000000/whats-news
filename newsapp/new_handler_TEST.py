@@ -9,7 +9,7 @@ from django.core.exceptions import MultipleObjectsReturned
 from logger.logger import log
 from logger.logger_sink import LoggerSink
 
-from newsapp.models import Category,Source
+from newsapp.models import Category,Source,Article
 
 import newsapp.scraping_functions as sfs
 from newsapp.utils import sync_source, create_new_source, sync_categories
@@ -161,8 +161,13 @@ class SourceHandler():
                             source_name = source_file.replace('.nws','')
                             category_dict[category]['sources'][source_name] = {}
                             source = category_dict[category]['sources'][source_name]
-                                
-                            source['last_seen'] = None
+                            
+                            # Determine last seen date and time
+                            try:
+                                source['last_seen'] = Article.objects.filter(source=source).latest('published')
+                            except Article.DoesNotExist:
+                                source['last_seen'] = None
+                            
                             source['category'] = category
                             
                             source['name'] = source_name
@@ -239,8 +244,9 @@ class SourceHandler():
                         
                     result_of_scrape = info['scrape'](info)
                     
-                    if info['name'] == 'AKTUALITY2':
+                    if info['name'] == 'TRUBAN':
                         print(result_of_scrape)
+                        print("-----------------")
                     
                     # TODO: this was not yet sufficiently tested
                     if result_of_scrape != False:

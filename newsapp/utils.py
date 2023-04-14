@@ -11,6 +11,14 @@ from newsapp.models import Source
 
 from django.conf import settings
 
+def determine_new_article_based_on_title(headline,source):
+    """ If article exists in database, article isn't new so dont add it. """
+    try:
+        exists = Article.objects.get(source=source,headline=headline)
+        return False
+    except:
+        return True
+
 def update_category_config(new_category):
     
     try:

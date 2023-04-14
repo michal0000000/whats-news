@@ -1,215 +1,269 @@
-2023-04-02 20:14:44.166027 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Scientists Found a 'Leak'..." addeed to DB!
-2023-04-02 20:14:44.172527 [ARTICLES] - HACKER-NEWS-NEWEST - Article "The Surprising Sin (Of C..." addeed to DB!
-2023-04-02 20:14:44.180690 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Show HN: Lore Sage – Tu..." addeed to DB!
-2023-04-02 20:14:44.186694 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Is AI Comi..." addeed to DB!
-2023-04-02 20:14:44.192333 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Flippi..." addeed to DB!
-2023-04-02 20:14:44.199484 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Lawmakers to meet w..." addeed to DB!
-2023-04-02 20:14:44.205370 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Beware Chro..." addeed to DB!
-2023-04-02 20:14:44.215171 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Planet..." addeed to DB!
-2023-04-02 20:14:44.220199 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Show HN: Tramline – relea..." addeed to DB!
-2023-04-02 20:14:44.224609 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Ask HN: Given LLMs mi..." addeed to DB!
-2023-04-02 20:14:44.229448 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Ask HN: What is the..." addeed to DB!
-2023-04-02 20:14:44.234068 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Samsung wants iPhone us..." addeed to DB!
-2023-04-02 20:14:44.237930 [ARTICLES] - HACKER-NEWS-NEWEST - Article "ChatGPT Expla..." addeed to DB!
-2023-04-02 20:14:44.242404 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Worrie..." addeed to DB!
-2023-04-02 20:14:44.248247 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Ask HN: What projects/busi..." addeed to DB!
-2023-04-02 20:14:44.253295 [ARTICLES] - HACKER-NEWS-NEWEST - Article "I am not afraid ..." addeed to DB!
-2023-04-02 20:14:44.257894 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Before Facebook, military ..." addeed to DB!
-2023-04-02 20:14:44.263967 [ARTICLES] - HACKER-NEWS-NEWEST - Article "GraphQL: Fro..." addeed to DB!
-2023-04-02 20:14:44.270932 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Chinese organizations f..." addeed to DB!
-2023-04-02 20:14:44.275775 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Apple M2 Mac m..." addeed to DB!
-2023-04-02 20:14:44.281461 [ARTICLES] - EURACTIV - Article "Únia sa dohodla na nástroj..." addeed to DB!
-2023-04-02 20:14:44.286720 [ARTICLES] - EURACTIV - Article "Rakúsky kompostmajster o precho..." addeed to DB!
-2023-04-02 20:14:44.291114 [ARTICLES] - EURACTIV - Article "Ministerstvám prekážajú..." addeed to DB!
-2023-04-02 20:14:44.296019 [ARTICLES] - EURACTIV - Article "Nemecko nezachr..." addeed to DB!
-2023-04-02 20:14:44.301162 [ARTICLES] - EURACTIV - Article "Polia obsadili Rusi a ..." addeed to DB!
-2023-04-02 20:14:44.306812 [ARTICLES] - EURACTIV - Article "Michal Maco o programe Obnov d..." addeed to DB!
-2023-04-02 20:14:44.312251 [ARTICLES] - EURACTIV - Article "O európskom financov..." addeed to DB!
-2023-04-02 20:14:44.318143 [ARTICLES] - EURACTIV - Article "Polovica medu d..." addeed to DB!
-2023-04-02 20:14:44.322648 [ARTICLES] - EURACTIV - Article "Slovensko nedá európskej prok..." addeed to DB!
-2023-04-02 20:14:44.328242 [ARTICLES] - EURACTIV - Article "Šéf hydinárov: V obohatenej k..." addeed to DB!
-2023-04-02 20:14:44.333295 [ARTICLES] - THREAT-POST - Article "Google Patches C..." addeed to DB!
-2023-04-02 20:14:44.337472 [ARTICLES] - THREAT-POST - Article "iPhone Users Urg..." addeed to DB!
-2023-04-02 20:14:44.341663 [ARTICLES] - THREAT-POST - Article "Fake Reservatio..." addeed to DB!
-2023-04-02 20:14:44.346801 [ARTICLES] - THREAT-POST - Article "Firewall Bug Under..." addeed to DB!
-2023-04-02 20:14:44.351572 [ARTICLES] - THREAT-POST - Article "Twitter Whistleb..." addeed to DB!
-2023-04-02 20:14:44.356277 [ARTICLES] - THREAT-POST - Article "Cybercriminals Are Se..." addeed to DB!
-2023-04-02 20:14:44.361562 [ARTICLES] - THREAT-POST - Article "Ransomware ..." addeed to DB!
-2023-04-02 20:14:44.366157 [ARTICLES] - THREAT-POST - Article "Tentacles of ‘0kta..." addeed to DB!
-2023-04-02 20:14:44.370230 [ARTICLES] - THREAT-POST - Article "Watering Hole ..." addeed to DB!
-2023-04-02 20:14:44.374802 [ARTICLES] - THREAT-POST - Article "Student Loan ..." addeed to DB!
-2023-04-02 20:14:44.381413 [ARTICLES] - SECURITY-MAGAZINE - Article "New legislation to ..." addeed to DB!
-2023-04-02 20:14:44.389703 [ARTICLES] - SECURITY-MAGAZINE - Article "Security leaders dis..." addeed to DB!
-2023-04-02 20:14:44.397333 [ARTICLES] - SECURITY-MAGAZINE - Article "Philadelphia warns c..." addeed to DB!
-2023-04-02 20:14:44.403639 [ARTICLES] - SECURITY-MAGAZINE - Article "Ransomware cases..." addeed to DB!
-2023-04-02 20:14:44.410098 [ARTICLES] - SECURITY-MAGAZINE - Article "Monitoring a workf..." addeed to DB!
-2023-04-02 20:14:44.417189 [ARTICLES] - SECURITY-MAGAZINE - Article "Susan Ferensic na..." addeed to DB!
-2023-04-02 20:14:44.421876 [ARTICLES] - SECURITY-MAGAZINE - Article "Report shows to..." addeed to DB!
-2023-04-02 20:14:44.426838 [ARTICLES] - SECURITY-MAGAZINE - Article "51% of users admit to..." addeed to DB!
-2023-04-02 20:14:44.431965 [ARTICLES] - SECURITY-MAGAZINE - Article "J.P. Morgan to ..." addeed to DB!
-2023-04-02 20:14:44.437018 [ARTICLES] - SECURITY-MAGAZINE - Article "West Virginia si..." addeed to DB!
-2023-04-02 20:14:44.441562 [ARTICLES] - SECURITY-MAGAZINE - Article "How small & medium-si..." addeed to DB!
-2023-04-02 20:14:44.446235 [ARTICLES] - SECURITY-MAGAZINE - Article "Andrusiak appointed a..." addeed to DB!
-2023-04-02 20:14:44.451249 [ARTICLES] - SECURITY-MAGAZINE - Article "DNV appoints Anette R..." addeed to DB!
-2023-04-02 20:14:44.455382 [ARTICLES] - SECURITY-MAGAZINE - Article "17% of security leade..." addeed to DB!
-2023-04-02 20:14:44.458955 [ARTICLES] - SECURITY-MAGAZINE - Article "68% of organizations..." addeed to DB!
-2023-04-02 20:14:44.465552 [ARTICLES] - SECURITY-MAGAZINE - Article "OSHA releases grai..." addeed to DB!
-2023-04-02 20:14:44.471580 [ARTICLES] - SECURITY-MAGAZINE - Article "PASS releases update..." addeed to DB!
-2023-04-02 20:14:44.477245 [ARTICLES] - SECURITY-MAGAZINE - Article "Benchmarking is t..." addeed to DB!
-2023-04-02 20:14:44.481746 [ARTICLES] - SECURITY-MAGAZINE - Article "Report: 58% of vict..." addeed to DB!
-2023-04-02 20:14:44.486354 [ARTICLES] - SECURITY-MAGAZINE - Article "How to cut the line on..." addeed to DB!
-2023-04-02 20:14:44.491345 [ARTICLES] - SECURITY-MAGAZINE - Article "Iowa school distr..." addeed to DB!
-2023-04-02 20:14:44.497213 [ARTICLES] - SECURITY-MAGAZINE - Article "U.S. announces $25M..." addeed to DB!
-2023-04-02 20:14:44.502154 [ARTICLES] - SECURITY-MAGAZINE - Article "CISA MTS Guide may e..." addeed to DB!
-2023-04-02 20:14:44.508631 [ARTICLES] - SECURITY-MAGAZINE - Article "Texas school distric..." addeed to DB!
-2023-04-02 20:14:44.515037 [ARTICLES] - SECURITY-MAGAZINE - Article "Biden Administration ..." addeed to DB!
-2023-04-02 20:14:44.521617 [ARTICLES] - SECURITY-MAGAZINE - Article "London city workers..." addeed to DB!
-2023-04-02 20:14:44.525884 [ARTICLES] - SECURITY-MAGAZINE - Article "Experts weigh..." addeed to DB!
-2023-04-02 20:14:44.531006 [ARTICLES] - SECURITY-MAGAZINE - Article "63,341 customers impac..." addeed to DB!
-2023-04-02 20:14:44.535416 [ARTICLES] - SECURITY-MAGAZINE - Article "Smaller School Distri..." addeed to DB!
-2023-04-02 20:14:44.540067 [ARTICLES] - SECURITY-MAGAZINE - Article "Sustainably meeting the..." addeed to DB!
-2023-04-02 20:14:44.544057 [ARTICLES] - AKTUALITY - Article "Proces v daňovej kauze..." addeed to DB!
-2023-04-02 20:14:44.549292 [ARTICLES] - AKTUALITY - Article "Slovensko a Ukrajina roku..." addeed to DB!
-2023-04-02 20:14:44.553375 [ARTICLES] - AKTUALITY - Article "Výskum naznačuje, že pohyb je ..." addeed to DB!
-2023-04-02 20:14:44.557512 [ARTICLES] - AKTUALITY - Article "Matky autistov: Čo bud..." addeed to DB!
-2023-04-02 20:14:44.563271 [ARTICLES] - AKTUALITY - Article "V Bratislave musia v ne..." addeed to DB!
-2023-04-02 20:14:44.568002 [ARTICLES] - AKTUALITY - Article "Herečka Zuzana Kubovčíková Še..." addeed to DB!
-2023-04-02 20:14:44.573026 [ARTICLES] - AKTUALITY - Article "Nespotrebované lieky treba..." addeed to DB!
-2023-04-02 20:14:44.577701 [ARTICLES] - AKTUALITY - Article "Pribudlo 26 ..." addeed to DB!
-2023-04-02 20:14:44.582699 [ARTICLES] - AKTUALITY - Article "SaS by v prezidentských voľb..." addeed to DB!
-2023-04-02 20:14:44.587142 [ARTICLES] - AKTUALITY - Article "Prieskum: Ako by uspeli He..." addeed to DB!
-2023-04-02 20:14:44.591396 [ARTICLES] - AKTUALITY - Article "Na toku rieky Slat..." addeed to DB!
-2023-04-02 20:14:44.595700 [ARTICLES] - AKTUALITY - Article "Život s autistickou poruchou: diagn..." addeed to DB!
-2023-04-02 20:14:44.600095 [ARTICLES] - AKTUALITY - Article "Minister Mikulec tvrdí, ..." addeed to DB!
-2023-04-02 20:14:44.604202 [ARTICLES] - AKTUALITY - Article "Mikulec mal mať previerku,..." addeed to DB!
-2023-04-02 20:14:44.609149 [ARTICLES] - AKTUALITY - Article "Medzi severom a juhom S..." addeed to DB!
-2023-04-02 20:14:44.613872 [ARTICLES] - PRAVDA - Article "Sýria myslí na návrat..." addeed to DB!
-2023-04-02 20:14:44.618179 [ARTICLES] - PRAVDA - Article "Jazdia tadiaľ aj formuly..." addeed to DB!
-2023-04-02 20:14:44.622088 [ARTICLES] - PRAVDA - Article "Obrovský hazard. S..." addeed to DB!
-2023-04-02 20:14:44.629694 [ARTICLES] - PRAVDA - Article "Podľa Krajniaka by Ča..." addeed to DB!
-2023-04-02 20:14:44.637903 [ARTICLES] - PRAVDA - Article "Tornáda v USA zabili 18 ľudí...." addeed to DB!
-2023-04-02 20:14:44.647886 [ARTICLES] - PRAVDA - Article "401. deň: Rusko šéfuje BR OSN..." addeed to DB!
-2023-04-02 20:14:44.652735 [ARTICLES] - PRAVDA - Article "Nedeľná Bratislava pa..." addeed to DB!
-2023-04-02 20:14:44.657367 [ARTICLES] - PRAVDA - Article "Počet obetí tornád v USA ..." addeed to DB!
-2023-04-02 20:14:44.664975 [ARTICLES] - PRAVDA - Article "Generál Šedivý pre CZDefence: V..." addeed to DB!
-2023-04-02 20:14:44.669641 [ARTICLES] - PRAVDA - Article "Najväčšie sídlisk..." addeed to DB!
-2023-04-02 20:14:44.673852 [ARTICLES] - PRAVDA - Article "Ťažká dopravná nehoda ..." addeed to DB!
-2023-04-02 20:14:44.678989 [ARTICLES] - PRAVDA - Article ""Ako sa dostanem do svoje..." addeed to DB!
-2023-04-02 20:14:44.684920 [ARTICLES] - PRAVDA - Article "Pád prežil, čakanie na záchr..." addeed to DB!
-2023-04-02 20:14:44.690191 [ARTICLES] - PRAVDA - Article "Dva dni, dvaja mŕtvi na c..." addeed to DB!
-2023-04-02 20:14:44.696085 [ARTICLES] - PRAVDA - Article "Do cely? Rovno a doľava. V USA sa ..." addeed to DB!
-2023-04-02 20:14:44.701319 [ARTICLES] - PRAVDA - Article "KDH postaví vlastného ..." addeed to DB!
-2023-04-02 20:14:44.708041 [ARTICLES] - PRAVDA - Article "Sulík o kauze Mikulca: Patrí k na..." addeed to DB!
-2023-04-02 20:14:44.713635 [ARTICLES] - PRAVDA - Article "Polícia za tuningo..." addeed to DB!
-2023-04-02 20:14:44.720290 [ARTICLES] - PRAVDA - Article "Čakalo sa aj 14 hodín. Lo..." addeed to DB!
-2023-04-02 20:14:44.725250 [ARTICLES] - PRAVDA - Article "Tisíce Poliakov vy..." addeed to DB!
-2023-04-02 20:14:44.730007 [ARTICLES] - PRAVDA - Article "Na severe tri, na ju..." addeed to DB!
-2023-04-02 20:14:44.735097 [ARTICLES] - PRAVDA - Article "Zbúrať most, stíhať k..." addeed to DB!
-2023-04-02 20:14:44.740288 [ARTICLES] - PRAVDA - Article "Demokrati nechápu, preč..." addeed to DB!
-2023-04-02 20:14:44.744762 [ARTICLES] - PRAVDA - Article "Spravodlivý mier j..." addeed to DB!
-2023-04-02 20:14:44.749932 [ARTICLES] - PRAVDA - Article "Právnik: Odmeny za voľ..." addeed to DB!
-2023-04-02 20:14:44.760854 [ARTICLES] - PRAVDA - Article "402. deň: Podľa Britov Rusi prišl..." addeed to DB!
-2023-04-02 20:14:44.769577 [ARTICLES] - PRAVDA - Article "Piate voľby za dva roky: Pod..." addeed to DB!
-2023-04-02 20:14:44.776249 [ARTICLES] - PRAVDA - Article "Harcovníka strieda novic...." addeed to DB!
-2023-04-02 20:14:44.781896 [ARTICLES] - PRAVDA - Article "Výbuch v Prigožinovej ..." addeed to DB!
-2023-04-02 20:14:44.786099 [ARTICLES] - PRAVDA - Article "Voľby vo Fínsku podľa progn..." addeed to DB!
-2023-04-02 20:14:44.790262 [ARTICLES] - DENNIKN - Article "Letuška: Noblesné povolanie v biely..." addeed to DB!
-2023-04-02 20:14:44.794092 [ARTICLES] - DENNIKN - Article "Imrecze: Útoky Sme..." addeed to DB!
-2023-04-02 20:14:44.797858 [ARTICLES] - DENNIKN - Article "Ak si chcete z knihy niečo pamätať, spra..." addeed to DB!
-2023-04-02 20:14:44.803179 [ARTICLES] - DENNIKN - Article "Sociológ Slosiarik: Ak nevoliči..." addeed to DB!
-2023-04-02 20:14:44.807700 [ARTICLES] - DENNIKN - Article "Bude mať SND nového riaditeľa ..." addeed to DB!
-2023-04-02 20:14:44.810889 [ARTICLES] - DENNIKN - Article "Platiť za voľby? Mnohí by iste ..." addeed to DB!
-2023-04-02 20:14:44.814465 [ARTICLES] - DENNIKN - Article "Komentátori Denníka N: Haščá..." addeed to DB!
-2023-04-02 20:14:44.818787 [ARTICLES] - DENNIKN - Article "Hegerovo ministerstvo navrhlo zas..." addeed to DB!
-2023-04-02 20:14:44.823131 [ARTICLES] - DENNIKN - Article "Začala sa vojna a ja mám myslie..." addeed to DB!
-2023-04-02 20:14:44.827056 [ARTICLES] - DENNIKN - Article "Lenárt vždy ustúpil, ..." addeed to DB!
-2023-04-02 20:14:44.830750 [ARTICLES] - SME - Article "Slovensko má na viac...." addeed to DB!
-2023-04-02 20:14:44.836620 [ARTICLES] - SME - Article "V mnohých ovocných sadoc..." addeed to DB!
-2023-04-02 20:14:44.840565 [ARTICLES] - SME - Article "Uplynulá noc bola chladn..." addeed to DB!
-2023-04-02 20:14:44.844549 [ARTICLES] - SME - Article "Slovensko má už takmer rok pos..." addeed to DB!
-2023-04-02 20:14:44.849906 [ARTICLES] - SME - Article "Najskôr ísť za lekárom, až ..." addeed to DB!
-2023-04-02 20:14:44.854868 [ARTICLES] - SME - Article "V prípade vraždy mafiána Sýkoru..." addeed to DB!
-2023-04-02 20:14:44.858547 [ARTICLES] - SME - Article "Progresívna Bratisl..." addeed to DB!
-2023-04-02 20:14:44.862902 [ARTICLES] - SME - Article "Ranný brífing: Fica zaujíma..." addeed to DB!
-2023-04-02 20:14:44.867409 [ARTICLES] - SME - Article "Na diaľnici z Bratislavy vý..." addeed to DB!
-2023-04-02 20:14:44.870913 [ARTICLES] - SME - Article "Penta otvára ambulancie v nemoc..." addeed to DB!
-2023-04-02 20:14:44.874900 [ARTICLES] - SME - Article "Podporuje Ukrajinu. Kaš..." addeed to DB!
-2023-04-02 20:14:44.878849 [ARTICLES] - SME - Article "Predĺžili memorandum. Do..." addeed to DB!
-2023-04-02 20:14:44.883789 [ARTICLES] - SME - Article "Matovič má plán B. OĽaNO bu..." addeed to DB!
-2023-04-02 20:14:44.889524 [ARTICLES] - SME - Article "Nižšia DPH ceny potrav..." addeed to DB!
-2023-04-02 20:14:44.895905 [ARTICLES] - SME - Article "Šramko: Deutsche Bank ..." addeed to DB!
-2023-04-02 20:14:44.900968 [ARTICLES] - SME - Article "Petrov na súde opísal, ako ..." addeed to DB!
-2023-04-02 20:14:44.904978 [ARTICLES] - SME - Article "Na zmeny čakali školy aj rod..." addeed to DB!
-2023-04-02 20:14:44.909745 [ARTICLES] - SME - Article "Rímskokatolíci strácajú vi..." addeed to DB!
-2023-04-02 20:14:44.915206 [ARTICLES] - SME - Article "Každá piata strela ukrajinských d..." addeed to DB!
-2023-04-02 20:14:44.919719 [ARTICLES] - SME - Article "Môže zachrániť deťom z..." addeed to DB!
-2023-04-02 20:14:44.923338 [ARTICLES] - SME - Article "Ranný brífing: Otvorili nemoc..." addeed to DB!
-2023-04-02 20:14:44.926737 [ARTICLES] - SME - Article "Heger sa stretol so Ze..." addeed to DB!
-2023-04-02 20:14:44.931665 [ARTICLES] - SME - Article "Prokurátor podal ob..." addeed to DB!
-2023-04-02 20:14:44.936258 [ARTICLES] - SME - Article "Zomrel člen ..." addeed to DB!
-2023-04-02 20:14:44.940574 [ARTICLES] - SME - Article "Slovák zo sankčného z..." addeed to DB!
-2023-04-02 20:14:44.945316 [ARTICLES] - SME - Article "Mikulec má právo na utajo..." addeed to DB!
-2023-04-02 20:14:44.949414 [ARTICLES] - SME - Article "Gröhling: V školác..." addeed to DB!
-2023-04-02 20:14:44.952908 [ARTICLES] - SME - Article "Šéf dubnickej zbrojovky:..." addeed to DB!
-2023-04-02 20:14:44.956921 [ARTICLES] - SME - Article "Britský novinár: Umelá inte..." addeed to DB!
-2023-04-02 20:14:44.961647 [ARTICLES] - SME - Article "Mikulec vraj previerku k ..." addeed to DB!
-2023-04-02 20:14:44.966617 [ARTICLES] - SME - Article "Ak by sa potvrdilo pochybenie M..." addeed to DB!
-2023-04-02 20:14:44.971673 [ARTICLES] - SME - Article "Trojica advokátov Kováčika posla..." addeed to DB!
-2023-04-02 20:14:44.976937 [ARTICLES] - SME - Article "Kaščákovo gesto rezonuje..." addeed to DB!
-2023-04-02 20:14:44.984191 [ARTICLES] - SME - Article "Z čoho obžalovali Kal..." addeed to DB!
-2023-04-02 20:14:44.989750 [ARTICLES] - SME - Article "Slovensko a Ukrajin..." addeed to DB!
-2023-04-02 20:14:44.997130 [ARTICLES] - SME - Article "Už ani rezort financií neve..." addeed to DB!
-2023-04-02 20:14:45.002636 [ARTICLES] - SME - Article "Smer aktuálne do podmienok..." addeed to DB!
-2023-04-02 20:14:45.007857 [ARTICLES] - SME - Article "KDH postaví vlastného kandidáta n..." addeed to DB!
-2023-04-02 20:14:45.013267 [ARTICLES] - SME - Article "Prieskum: Spájanie pravice?..." addeed to DB!
-2023-04-02 20:14:45.018076 [ARTICLES] - SME - Article "Už sama Republika atakuje dvojcif..." addeed to DB!
-2023-04-02 20:14:45.024252 [ARTICLES] - TA3 - Article "Tak takto?!: Nové pravidlá..." addeed to DB!
-2023-04-02 20:14:45.029383 [ARTICLES] - TA3 - Article "Dědeček môže dostať d..." addeed to DB!
-2023-04-02 20:14:45.034125 [ARTICLES] - TA3 - Article "Platy poslancov sa z..." addeed to DB!
-2023-04-02 20:14:45.039425 [ARTICLES] - TA3 - Article "Čaputová zakončila úradovanie ..." addeed to DB!
-2023-04-02 20:14:45.043551 [ARTICLES] - TA3 - Article "FOTO: Heger sa stretol so Zelens..." addeed to DB!
-2023-04-02 20:14:45.049263 [ARTICLES] - TA3 - Article "Rakúsko vo štvrtok zasi..." addeed to DB!
-2023-04-02 20:14:45.053936 [ARTICLES] - TA3 - Article "Daňovníci si plnia svoj..." addeed to DB!
-2023-04-02 20:14:45.058413 [ARTICLES] - TA3 - Article "USA uvalili sankcie na..." addeed to DB!
-2023-04-02 20:14:45.063569 [ARTICLES] - TA3 - Article "V politike: Kto, s kým, proti..." addeed to DB!
-2023-04-02 20:14:45.068831 [ARTICLES] - TA3 - Article "Prieskum: Časť Slovákov valcujú..." addeed to DB!
-2023-04-02 20:14:45.073505 [ARTICLES] - TA3 - Article "Čaputová: Ak sa potvrdí Mikulc..." addeed to DB!
-2023-04-02 20:14:45.077705 [ARTICLES] - TA3 - Article "Naď v Kyjeve: Obranný systém ..." addeed to DB!
-2023-04-02 20:14:45.082627 [ARTICLES] - TA3 - Article "Dezinformátori naleteli umelej i..." addeed to DB!
-2023-04-02 20:14:45.087493 [ARTICLES] - TA3 - Article "Tak takto?!: Domovy dôch..." addeed to DB!
-2023-04-02 20:14:45.092438 [ARTICLES] - TA3 - Article "Fico odmieta obžalob..." addeed to DB!
-2023-04-02 20:14:45.097356 [ARTICLES] - TA3 - Article "V rodinnom dome v Nove..." addeed to DB!
-2023-04-02 20:14:45.101766 [ARTICLES] - TA3 - Article "Zelenskyj sa osobne po..." addeed to DB!
-2023-04-02 20:14:45.106124 [ARTICLES] - TA3 - Article "Kauzou Mikulca sa bude zaober..." addeed to DB!
-2023-04-02 20:14:45.110256 [ARTICLES] - TA3 - Article "Obhajca Dedečka iný záver vyš..." addeed to DB!
-2023-04-02 20:14:45.115687 [ARTICLES] - TA3 - Article "Heger na summite o Buči: Slove..." addeed to DB!
-2023-04-02 20:14:45.120423 [ARTICLES] - TA3 - Article "Čo je to dark web? Dá sa tam ..." addeed to DB!
-2023-04-02 20:14:45.124999 [ARTICLES] - TA3 - Article "POČASIE: Na viacerých mi..." addeed to DB!
-2023-04-02 20:14:45.129759 [ARTICLES] - TA3 - Article "Čaputová by Matovičovu päťstovku ..." addeed to DB!
-2023-04-02 20:14:45.135190 [ARTICLES] - TA3 - Article "Jablko, Zdravý rozum či Nevak..." addeed to DB!
-2023-04-02 20:14:45.139527 [ARTICLES] - TA3 - Article "Heger a Naď sa vrátili z U..." addeed to DB!
-2023-04-02 20:14:45.143492 [ARTICLES] - TA3 - Article "Výstavbu Rázsoch chcú vyhodiť ..." addeed to DB!
-2023-04-02 20:14:45.149189 [ARTICLES] - TA3 - Article "Rusi zničili na Ukrajine len je..." addeed to DB!
-2023-04-02 20:14:45.153958 [ARTICLES] - TA3 - Article "Tragická nehoda pri Duna..." addeed to DB!
-2023-04-02 20:14:45.160001 [ARTICLES] - TA3 - Article "So slovenskou delegáciou..." addeed to DB!
-2023-04-02 20:14:45.166350 [ARTICLES] - TA3 - Article "Naša spoločnosť neurobil..." addeed to DB!
-2023-04-02 20:14:45.172808 [ARTICLES] - TA3 - Article "Sme rodina má pre povolebnú s..." addeed to DB!
-2023-04-02 20:14:45.178712 [ARTICLES] - TA3 - Article "Heger a Naď zhodnotili pr..." addeed to DB!
-2023-04-02 20:14:45.185275 [ARTICLES] - TA3 - Article "S infláciou bojujú aj pohre..." addeed to DB!
-2023-04-02 20:14:45.190910 [ARTICLES] - TA3 - Article "Detskí psychiatri bijú na poplac..." addeed to DB!
-2023-04-02 20:14:45.199617 [ARTICLES] - TA3 - Article "Rokovacie dni sa nateraz skon..." addeed to DB!
-2023-04-02 20:14:45.207668 [ARTICLES] - TA3 - Article "Šibačka, oblievanie vodou aj maľo..." addeed to DB!
-2023-04-02 20:14:45.215542 [ARTICLES] - TA3 - Article "POČASIE: Prevažne veľká obl..." addeed to DB!
-2023-04-02 20:14:45.221133 [ARTICLES] - TA3 - Article "Richard Dírer: Z Rázsoch sa stáva ..." addeed to DB!
-2023-04-02 20:14:45.225781 [ARTICLES] - TA3 - Article "Naď si na Ukrajine prevzal od R..." addeed to DB!
-2023-04-02 20:14:45.231068 [ARTICLES] - TA3 - Article "Sulík: Národ nesmie nikdy via..." addeed to DB!
-2023-04-02 20:14:45.236867 [ARTICLES] - TA3 - Article "Mikulec je podľa Sulíka sl..." addeed to DB!
-2023-04-02 20:14:45.241352 [ARTICLES] - TA3 - Article "Čo očakávajú Slováci od bud..." addeed to DB!
-2023-04-02 20:14:45.246577 [ARTICLES] - TA3 - Article "Mikulec mal mať previerku, ..." addeed to DB!
-2023-04-02 20:14:45.252623 [ARTICLES] - TA3 - Article "Bezpečnostnú previerku so..." addeed to DB!
-2023-04-02 20:14:45.256944 [ARTICLES] - TA3 - Article "Hádka o teplých rožkoch. Sulík ..." addeed to DB!
-2023-04-02 20:14:45.261281 [ARTICLES] - TA3 - Article "Prieskum: Spojenectvo by sa im vy..." addeed to DB!
-2023-04-02 20:14:45.265864 [ARTICLES] - TA3 - Article "Naď chce, aby lietanie ústavnýc..." addeed to DB!
-2023-04-02 20:14:45.271415 [ARTICLES] - TA3 - Article "S blížiacou sa Veľkou nocou rast..." addeed to DB!
-2023-04-02 20:14:45.275381 [ARTICLES] - TA3 - Article "Chcú predísť volebnej korupcii. R..." addeed to DB!
-2023-04-02 20:14:45.279737 [ARTICLES] - TA3 - Article "Top udalosti týždňa: Obvinili Trumpa,..." addeed to DB!
+2023-04-14 17:44:16.079333 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Mosquito factor..." addeed to DB!
+2023-04-14 17:44:16.084271 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Why ..." addeed to DB!
+2023-04-14 17:44:16.089153 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Vecto..." addeed to DB!
+2023-04-14 17:44:16.093633 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Interface..." addeed to DB!
+2023-04-14 17:44:16.099185 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Bizarre object 10M t..." addeed to DB!
+2023-04-14 17:44:16.103671 [ARTICLES] - HACKER-NEWS-NEWEST - Article "The Diabetes Dr..." addeed to DB!
+2023-04-14 17:44:16.108546 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Will the Ozempic Era Cha..." addeed to DB!
+2023-04-14 17:44:16.112924 [ARTICLES] - HACKER-NEWS-NEWEST - Article "An Interview wit..." addeed to DB!
+2023-04-14 17:44:16.116924 [ARTICLES] - HACKER-NEWS-NEWEST - Article "SavePop: AI M..." addeed to DB!
+2023-04-14 17:44:16.121474 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Robin Hanson's..." addeed to DB!
+2023-04-14 17:44:16.127251 [ARTICLES] - HACKER-NEWS-NEWEST - Article "I Stopped Using..." addeed to DB!
+2023-04-14 17:44:16.132164 [ARTICLES] - HACKER-NEWS-NEWEST - Article "RubyOnRails.jobs – Curated..." addeed to DB!
+2023-04-14 17:44:16.137002 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Ruby Bytes, or ..." addeed to DB!
+2023-04-14 17:44:16.142864 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Show HN:..." addeed to DB!
+2023-04-14 17:44:16.147600 [ARTICLES] - HACKER-NEWS-NEWEST - Article "AI System Patte..." addeed to DB!
+2023-04-14 17:44:16.151571 [ARTICLES] - HACKER-NEWS-NEWEST - Article "Look at Cyb..." addeed to DB!
+2023-04-14 17:44:16.157005 [ARTICLES] - HACKER-NEWS-NEWEST - Article "What does multic..." addeed to DB!
+2023-04-14 17:44:16.161952 [ARTICLES] - HACKER-NEWS-NEWEST - Article "LinkedIn deploys new ..." addeed to DB!
+2023-04-14 17:44:16.167274 [ARTICLES] - HACKER-NEWS-NEWEST - Article "ChatGPT and China: How to..." addeed to DB!
+2023-04-14 17:44:16.173486 [ARTICLES] - HACKER-NEWS-NEWEST - Article "It's good..." addeed to DB!
+2023-04-14 17:44:16.179071 [ARTICLES] - EURACTIV - Article "Maďarsko nedovolene pomáha ..." addeed to DB!
+2023-04-14 17:44:16.184399 [ARTICLES] - EURACTIV - Article "V Európe prebie..." addeed to DB!
+2023-04-14 17:44:16.190561 [ARTICLES] - EURACTIV - Article "Vláda prijala koncepciu ukonč..." addeed to DB!
+2023-04-14 17:44:16.195765 [ARTICLES] - EURACTIV - Article "LNG terminál na Dunaji dost..." addeed to DB!
+2023-04-14 17:44:16.200259 [ARTICLES] - EURACTIV - Article "Výkonnosť AI ..." addeed to DB!
+2023-04-14 17:44:16.207521 [ARTICLES] - EURACTIV - Article "Riaditeľka potravinárskej ..." addeed to DB!
+2023-04-14 17:44:16.211451 [ARTICLES] - EURACTIV - Article "Maďarsko prijalo ďalší ho..." addeed to DB!
+2023-04-14 17:44:16.215825 [ARTICLES] - EURACTIV - Article "Opätovne použiteľné oba..." addeed to DB!
+2023-04-14 17:44:16.220738 [ARTICLES] - EURACTIV - Article "Nové európske pravidlá ..." addeed to DB!
+2023-04-14 17:44:16.224685 [ARTICLES] - EURACTIV - Article "Slovensko chce pomôc..." addeed to DB!
+2023-04-14 17:44:16.228539 [ARTICLES] - THREAT-POST - Article "Google Patches C..." addeed to DB!
+2023-04-14 17:44:16.232807 [ARTICLES] - THREAT-POST - Article "iPhone Users Urg..." addeed to DB!
+2023-04-14 17:44:16.237724 [ARTICLES] - THREAT-POST - Article "Fake Reservatio..." addeed to DB!
+2023-04-14 17:44:16.241664 [ARTICLES] - THREAT-POST - Article "Firewall Bug Under..." addeed to DB!
+2023-04-14 17:44:16.246806 [ARTICLES] - THREAT-POST - Article "Twitter Whistleb..." addeed to DB!
+2023-04-14 17:44:16.251970 [ARTICLES] - THREAT-POST - Article "Cybercriminals Are Se..." addeed to DB!
+2023-04-14 17:44:16.255572 [ARTICLES] - THREAT-POST - Article "Ransomware ..." addeed to DB!
+2023-04-14 17:44:16.260547 [ARTICLES] - THREAT-POST - Article "Tentacles of ‘0kta..." addeed to DB!
+2023-04-14 17:44:16.264988 [ARTICLES] - THREAT-POST - Article "Watering Hole ..." addeed to DB!
+2023-04-14 17:44:16.268959 [ARTICLES] - THREAT-POST - Article "Student Loan ..." addeed to DB!
+2023-04-14 17:44:16.273740 [ARTICLES] - SECURITY-MAGAZINE - Article "PCCD awards $1.1M..." addeed to DB!
+2023-04-14 17:44:16.279499 [ARTICLES] - SECURITY-MAGAZINE - Article "Credit union fraud ..." addeed to DB!
+2023-04-14 17:44:16.284393 [ARTICLES] - SECURITY-MAGAZINE - Article "Over 40% of cybersecur..." addeed to DB!
+2023-04-14 17:44:16.288579 [ARTICLES] - SECURITY-MAGAZINE - Article "Best practices when ..." addeed to DB!
+2023-04-14 17:44:16.293103 [ARTICLES] - SECURITY-MAGAZINE - Article "A cyber perspe..." addeed to DB!
+2023-04-14 17:44:16.297062 [ARTICLES] - SECURITY-MAGAZINE - Article "How to make..." addeed to DB!
+2023-04-14 17:44:16.301167 [ARTICLES] - SECURITY-MAGAZINE - Article "The need for robust su..." addeed to DB!
+2023-04-14 17:44:16.305450 [ARTICLES] - SECURITY-MAGAZINE - Article "Don Kleoppel n..." addeed to DB!
+2023-04-14 17:44:16.309042 [ARTICLES] - SECURITY-MAGAZINE - Article "White House announc..." addeed to DB!
+2023-04-14 17:44:16.312527 [ARTICLES] - SECURITY-MAGAZINE - Article "Global Cyber Alliance r..." addeed to DB!
+2023-04-14 17:44:16.315824 [ARTICLES] - SECURITY-MAGAZINE - Article "Seven in eight organizati..." addeed to DB!
+2023-04-14 17:44:16.319461 [ARTICLES] - SECURITY-MAGAZINE - Article "Three common ..." addeed to DB!
+2023-04-14 17:44:16.323338 [ARTICLES] - SECURITY-MAGAZINE - Article "Leading wit..." addeed to DB!
+2023-04-14 17:44:16.327005 [ARTICLES] - SECURITY-MAGAZINE - Article "A bou..." addeed to DB!
+2023-04-14 17:44:16.330725 [ARTICLES] - SECURITY-MAGAZINE - Article "A Brass Tacks Loo..." addeed to DB!
+2023-04-14 17:44:16.335176 [ARTICLES] - SECURITY-MAGAZINE - Article "Dan Elston promoted to..." addeed to DB!
+2023-04-14 17:44:16.340246 [ARTICLES] - SECURITY-MAGAZINE - Article "Deron Grzetich hir..." addeed to DB!
+2023-04-14 17:44:16.345711 [ARTICLES] - SECURITY-MAGAZINE - Article "Cybersecurity less..." addeed to DB!
+2023-04-14 17:44:16.350231 [ARTICLES] - SECURITY-MAGAZINE - Article "Sixty-six percent of ..." addeed to DB!
+2023-04-14 17:44:16.354555 [ARTICLES] - SECURITY-MAGAZINE - Article "Sixty-three percent of..." addeed to DB!
+2023-04-14 17:44:16.358502 [ARTICLES] - SECURITY-MAGAZINE - Article "NYPD brings back r..." addeed to DB!
+2023-04-14 17:44:16.363580 [ARTICLES] - SECURITY-MAGAZINE - Article "Secure-by-design an..." addeed to DB!
+2023-04-14 17:44:16.368446 [ARTICLES] - SECURITY-MAGAZINE - Article "Multi-layered security ..." addeed to DB!
+2023-04-14 17:44:16.373520 [ARTICLES] - SECURITY-MAGAZINE - Article "Implementing techn..." addeed to DB!
+2023-04-14 17:44:16.377597 [ARTICLES] - SECURITY-MAGAZINE - Article "Thrive in a down mar..." addeed to DB!
+2023-04-14 17:44:16.381368 [ARTICLES] - SECURITY-MAGAZINE - Article "Improving retai..." addeed to DB!
+2023-04-14 17:44:16.384640 [ARTICLES] - SECURITY-MAGAZINE - Article "Non-internet facing..." addeed to DB!
+2023-04-14 17:44:16.388706 [ARTICLES] - SECURITY-MAGAZINE - Article "Biden administration..." addeed to DB!
+2023-04-14 17:44:16.393362 [ARTICLES] - SECURITY-MAGAZINE - Article "47% organizations exp..." addeed to DB!
+2023-04-14 17:44:16.398806 [ARTICLES] - SECURITY-MAGAZINE - Article "Cyber assets in..." addeed to DB!
+2023-04-14 17:44:16.403352 [ARTICLES] - TRUBAN - Article "23. Čo sa s nami deje, keď sa nám..." addeed to DB!
+2023-04-14 17:44:16.407214 [ARTICLES] - TRUBAN - Article "24. Ako sa dostať na obálku Forb..." addeed to DB!
+2023-04-14 17:44:16.411071 [ARTICLES] - TRUBAN - Article "25. Oktagon, MMA, biznis a polit..." addeed to DB!
+2023-04-14 17:44:16.415286 [ARTICLES] - TRUBAN - Article "26. Biznis a veda majú veľa s..." addeed to DB!
+2023-04-14 17:44:16.419147 [ARTICLES] - TRUBAN - Article "27. To, kým si teraz, je absolút..." addeed to DB!
+2023-04-14 17:44:16.423132 [ARTICLES] - TRUBAN - Article "28. Štyri scenáre, kam sa sve..." addeed to DB!
+2023-04-14 17:44:16.426765 [ARTICLES] - TRUBAN - Article "29. Vzostupy a pády | Jaros..." addeed to DB!
+2023-04-14 17:44:16.430831 [ARTICLES] - TRUBAN - Article "Tieto strategické knihy vám zásadn..." addeed to DB!
+2023-04-14 17:44:16.435211 [ARTICLES] - TRUBAN - Article "30. 17 rokov práce pre š..." addeed to DB!
+2023-04-14 17:44:16.439638 [ARTICLES] - TRUBAN - Article "31. Ako kariérne rásť, o sebav..." addeed to DB!
+2023-04-14 17:44:16.443456 [ARTICLES] - TRUBAN - Article "32. Ako som vybudoval 100-milióno..." addeed to DB!
+2023-04-14 17:44:16.447459 [ARTICLES] - TRUBAN - Article "33. Americký vs. izraelský ..." addeed to DB!
+2023-04-14 17:44:16.452050 [ARTICLES] - TRUBAN - Article "34. Rozdiel medzi PR a komun..." addeed to DB!
+2023-04-14 17:44:16.457640 [ARTICLES] - TRUBAN - Article "35. Aké investície z vás ur..." addeed to DB!
+2023-04-14 17:44:16.463031 [ARTICLES] - OKONTAJNEROCH - Article "Aho..." addeed to DB!
+2023-04-14 17:44:16.466991 [ARTICLES] - OKONTAJNEROCH - Article "Docker..." addeed to DB!
+2023-04-14 17:44:16.470870 [ARTICLES] - OKONTAJNEROCH - Article "Systémové..." addeed to DB!
+2023-04-14 17:44:16.475141 [ARTICLES] - OKONTAJNEROCH - Article "Menné..." addeed to DB!
+2023-04-14 17:44:16.479214 [ARTICLES] - OKONTAJNEROCH - Article "Súbor..." addeed to DB!
+2023-04-14 17:44:16.483597 [ARTICLES] - OKONTAJNEROCH - Article "Sieťová..." addeed to DB!
+2023-04-14 17:44:16.488458 [ARTICLES] - OKONTAJNEROCH - Article "Netlin..." addeed to DB!
+2023-04-14 17:44:16.494075 [ARTICLES] - OKONTAJNEROCH - Article "Sieťová..." addeed to DB!
+2023-04-14 17:44:16.498040 [ARTICLES] - OKONTAJNEROCH - Article "Cg..." addeed to DB!
+2023-04-14 17:44:16.501548 [ARTICLES] - OKONTAJNEROCH - Article "Ov..." addeed to DB!
+2023-04-14 17:44:16.505472 [ARTICLES] - OKONTAJNEROCH - Article "OCI..." addeed to DB!
+2023-04-14 17:44:16.509062 [ARTICLES] - OKONTAJNEROCH - Article "Alpine a..." addeed to DB!
+2023-04-14 17:44:16.512415 [ARTICLES] - OKONTAJNEROCH - Article "Injektovani..." addeed to DB!
+2023-04-14 17:44:16.516316 [ARTICLES] - BART - Article "Microsite – Mal..." addeed to DB!
+2023-04-14 17:44:16.521176 [ARTICLES] - BART - Article "Misia za inšpiráciami: Ce..." addeed to DB!
+2023-04-14 17:44:16.525597 [ARTICLES] - BART - Article "Rekordn..." addeed to DB!
+2023-04-14 17:44:16.529627 [ARTICLES] - BART - Article "ISO audit prine..." addeed to DB!
+2023-04-14 17:44:16.533032 [ARTICLES] - BART - Article "Ako vytvárať a s..." addeed to DB!
+2023-04-14 17:44:16.536488 [ARTICLES] - BART - Article "Živé IT proje..." addeed to DB!
+2023-04-14 17:44:16.540488 [ARTICLES] - BART - Article "Digitálne inšpirácie #64..." addeed to DB!
+2023-04-14 17:44:16.545949 [ARTICLES] - BART - Article "Martin Čuchta: Snažím s..." addeed to DB!
+2023-04-14 17:44:16.551727 [ARTICLES] - BART - Article "GraphQL verzus REST API: Ke..." addeed to DB!
+2023-04-14 17:44:16.555815 [ARTICLES] - BART - Article "Ako nám ChatGPT..." addeed to DB!
+2023-04-14 17:44:16.560665 [ARTICLES] - BART - Article "3 postrehy, ktoré ste..." addeed to DB!
+2023-04-14 17:44:16.565377 [ARTICLES] - BART - Article "Digitálne inšpirácie #6..." addeed to DB!
+2023-04-14 17:44:16.569635 [ARTICLES] - AKTUALITY2 - Article "Jeden lístok by mal podľa ..." addeed to DB!
+2023-04-14 17:44:16.574495 [ARTICLES] - AKTUALITY2 - Article "Na plnení memoranda s lek..." addeed to DB!
+2023-04-14 17:44:16.580370 [ARTICLES] - AKTUALITY2 - Article "Zakotvenie financovania..." addeed to DB!
+2023-04-14 17:44:16.585220 [ARTICLES] - AKTUALITY2 - Article "Fiduciárne vyhlásenie, riešenie vlády pr..." addeed to DB!
+2023-04-14 17:44:16.589456 [ARTICLES] - AKTUALITY2 - Article "Budaj dá preveriť pos..." addeed to DB!
+2023-04-14 17:44:16.594574 [ARTICLES] - AKTUALITY2 - Article "Prihlásili ste sa o štátny nájomný..." addeed to DB!
+2023-04-14 17:44:16.599106 [ARTICLES] - AKTUALITY2 - Article "V Medzilaborciach odšt..." addeed to DB!
+2023-04-14 17:44:16.603850 [ARTICLES] - AKTUALITY2 - Article "Zažili partnerské násilie: Bál..." addeed to DB!
+2023-04-14 17:44:16.608591 [ARTICLES] - AKTUALITY2 - Article "Parlamentné voľby 2023: Exminis..." addeed to DB!
+2023-04-14 17:44:16.612309 [ARTICLES] - AKTUALITY2 - Article "NA ROVINU s Martinom Čepčekom..." addeed to DB!
+2023-04-14 17:44:16.616389 [ARTICLES] - AKTUALITY2 - Article "Vitamín „zadarmo“ si treba na..." addeed to DB!
+2023-04-14 17:44:16.620833 [ARTICLES] - AKTUALITY2 - Article "Cez víkend u..." addeed to DB!
+2023-04-14 17:44:16.624925 [ARTICLES] - AKTUALITY2 - Article "Rezník zostáva v Českom rozhlase, 200..." addeed to DB!
+2023-04-14 17:44:16.628263 [ARTICLES] - AKTUALITY2 - Article "Niet týždňa bez nev..." addeed to DB!
+2023-04-14 17:44:16.631620 [ARTICLES] - AKTUALITY2 - Article "Do labute liali pivo, z kap..." addeed to DB!
+2023-04-14 17:44:16.637197 [ARTICLES] - AKTUALITY - Article "Jeden lístok by mal podľa ..." addeed to DB!
+2023-04-14 17:44:16.642812 [ARTICLES] - AKTUALITY - Article "Na plnení memoranda s lek..." addeed to DB!
+2023-04-14 17:44:16.646931 [ARTICLES] - AKTUALITY - Article "Zakotvenie financovania..." addeed to DB!
+2023-04-14 17:44:16.652167 [ARTICLES] - AKTUALITY - Article "Fiduciárne vyhlásenie, riešenie vlády pr..." addeed to DB!
+2023-04-14 17:44:16.655958 [ARTICLES] - AKTUALITY - Article "Budaj dá preveriť pos..." addeed to DB!
+2023-04-14 17:44:16.659571 [ARTICLES] - AKTUALITY - Article "Prihlásili ste sa o štátny nájomný..." addeed to DB!
+2023-04-14 17:44:16.664474 [ARTICLES] - AKTUALITY - Article "V Medzilaborciach odšt..." addeed to DB!
+2023-04-14 17:44:16.670685 [ARTICLES] - AKTUALITY - Article "Zažili partnerské násilie: Bál..." addeed to DB!
+2023-04-14 17:44:16.675539 [ARTICLES] - AKTUALITY - Article "Parlamentné voľby 2023: Exminis..." addeed to DB!
+2023-04-14 17:44:16.679818 [ARTICLES] - AKTUALITY - Article "NA ROVINU s Martinom Čepčekom..." addeed to DB!
+2023-04-14 17:44:16.683786 [ARTICLES] - AKTUALITY - Article "Vitamín „zadarmo“ si treba na..." addeed to DB!
+2023-04-14 17:44:16.687865 [ARTICLES] - AKTUALITY - Article "Cez víkend u..." addeed to DB!
+2023-04-14 17:44:16.692159 [ARTICLES] - AKTUALITY - Article "Rezník zostáva v Českom rozhlase, 200..." addeed to DB!
+2023-04-14 17:44:16.697046 [ARTICLES] - AKTUALITY - Article "Niet týždňa bez nev..." addeed to DB!
+2023-04-14 17:44:16.701346 [ARTICLES] - AKTUALITY - Article "Do labute liali pivo, z kap..." addeed to DB!
+2023-04-14 17:44:16.705187 [ARTICLES] - PRAVDA - Article "Trump vypovedal na proku..." addeed to DB!
+2023-04-14 17:44:16.708937 [ARTICLES] - PRAVDA - Article "Tvrdé boje o Bachmut: Ukrajinci čelia ..." addeed to DB!
+2023-04-14 17:44:16.713086 [ARTICLES] - PRAVDA - Article "Bývalému šéfredaktorovi nezáv..." addeed to DB!
+2023-04-14 17:44:16.716786 [ARTICLES] - PRAVDA - Article "Orbán: Maďarsko sa..." addeed to DB!
+2023-04-14 17:44:16.720306 [ARTICLES] - PRAVDA - Article "Stretnutie na podporu Čapu..." addeed to DB!
+2023-04-14 17:44:16.725041 [ARTICLES] - PRAVDA - Article "Alkohol na palube vládneho špeciál..." addeed to DB!
+2023-04-14 17:44:16.729859 [ARTICLES] - PRAVDA - Article "Slovenská vláda podporila..." addeed to DB!
+2023-04-14 17:44:16.734801 [ARTICLES] - PRAVDA - Article "Naď kritizuje vznik nových strán..." addeed to DB!
+2023-04-14 17:44:16.739110 [ARTICLES] - PRAVDA - Article "Polícia zadržala Nemca hľa..." addeed to DB!
+2023-04-14 17:44:16.743439 [ARTICLES] - PRAVDA - Article "Rusi neodborným spôsobom vedenia ..." addeed to DB!
+2023-04-14 17:44:16.747590 [ARTICLES] - PRAVDA - Article "Matovičov poslanec Gyimesi čelí..." addeed to DB!
+2023-04-14 17:44:16.751317 [ARTICLES] - PRAVDA - Article "NKÚ: K ochrane strategick..." addeed to DB!
+2023-04-14 17:44:16.759252 [ARTICLES] - PRAVDA - Article "Západ Slovenska potrápi dáž..." addeed to DB!
+2023-04-14 17:44:16.763995 [ARTICLES] - PRAVDA - Article "Karas: Riešenie pre n..." addeed to DB!
+2023-04-14 17:44:16.770239 [ARTICLES] - PRAVDA - Article "Konflikt medzi "potrebou vedieť" a..." addeed to DB!
+2023-04-14 17:44:16.774435 [ARTICLES] - PRAVDA - Article "Počet obetí ničivých ze..." addeed to DB!
+2023-04-14 17:44:16.779636 [ARTICLES] - PRAVDA - Article "Expolicajt Kaľavský mal od Pe..." addeed to DB!
+2023-04-14 17:44:16.785166 [ARTICLES] - PRAVDA - Article "Jediná cigareta. Rodinný d..." addeed to DB!
+2023-04-14 17:44:16.789957 [ARTICLES] - PRAVDA - Article "Maďarské fórum ide do ..." addeed to DB!
+2023-04-14 17:44:16.794160 [ARTICLES] - PRAVDA - Article "Francúzi očakávajú rozhodn..." addeed to DB!
+2023-04-14 17:44:16.797482 [ARTICLES] - PRAVDA - Article "Ruskí trolovia sa na Twi..." addeed to DB!
+2023-04-14 17:44:16.801166 [ARTICLES] - PRAVDA - Article "Katargate: Kailiovú prepustili..." addeed to DB!
+2023-04-14 17:44:16.805211 [ARTICLES] - PRAVDA - Article "Prigožin túži po politickej strane..." addeed to DB!
+2023-04-14 17:44:16.809465 [ARTICLES] - PRAVDA - Article "Korčok odmietol pon..." addeed to DB!
+2023-04-14 17:44:16.813637 [ARTICLES] - PRAVDA - Article "Cez víkend bude zatvoren..." addeed to DB!
+2023-04-14 17:44:16.819298 [ARTICLES] - PRAVDA - Article "Čína súhlasila, že bude Ru..." addeed to DB!
+2023-04-14 17:44:16.824632 [ARTICLES] - PRAVDA - Article "Doposiaľ len 151 eur. ..." addeed to DB!
+2023-04-14 17:44:16.829619 [ARTICLES] - PRAVDA - Article "Američana podozrivého ..." addeed to DB!
+2023-04-14 17:44:16.839159 [ARTICLES] - PRAVDA - Article "ONLINE: Bieloruský min..." addeed to DB!
+2023-04-14 17:44:16.843473 [ARTICLES] - PRAVDA - Article "Macronova dôchodková reforma..." addeed to DB!
+2023-04-14 17:44:16.847943 [ARTICLES] - DENNIKN - Article "Matovič bojuje stoeurovkami, zbi..." addeed to DB!
+2023-04-14 17:44:16.853029 [ARTICLES] - DENNIKN - Article "Prvovoliči dost..." addeed to DB!
+2023-04-14 17:44:16.856740 [ARTICLES] - DENNIKN - Article "Vláda by chcela prekresliť hrani..." addeed to DB!
+2023-04-14 17:44:16.860640 [ARTICLES] - DENNIKN - Article "Bratislava pomáha Banskej Štiavnici ..." addeed to DB!
+2023-04-14 17:44:16.865025 [ARTICLES] - DENNIKN - Article "Ošklbaná vrana k o..." addeed to DB!
+2023-04-14 17:44:16.870362 [ARTICLES] - DENNIKN - Article "MediaBrífing: Poslanec Čepček chce ob..." addeed to DB!
+2023-04-14 17:44:16.875733 [ARTICLES] - DENNIKN - Article "Keď ZSE odmietla Bratislavč..." addeed to DB!
+2023-04-14 17:44:16.881167 [ARTICLES] - DENNIKN - Article "Kubove platby za štúdium Rezn..." addeed to DB!
+2023-04-14 17:44:16.885015 [ARTICLES] - DENNIKN - Article "V akom stupni ohrozenia extrémnymi h..." addeed to DB!
+2023-04-14 17:44:16.888874 [ARTICLES] - DENNIKN - Article "Vyššie úroky pocítia po dlžníkoch aj..." addeed to DB!
+2023-04-14 17:44:16.892721 [ARTICLES] - SME - Article "Tarabov Život ide do voli..." addeed to DB!
+2023-04-14 17:44:16.896522 [ARTICLES] - SME - Article "Národné centrum zdrav..." addeed to DB!
+2023-04-14 17:44:16.900965 [ARTICLES] - SME - Article "Na Slovensku vz..." addeed to DB!
+2023-04-14 17:44:16.905172 [ARTICLES] - SME - Article "Ulica pomenovaná po Tis..." addeed to DB!
+2023-04-14 17:44:16.909698 [ARTICLES] - SME - Article "NAKA pri akcii Rota zaist..." addeed to DB!
+2023-04-14 17:44:16.915221 [ARTICLES] - SME - Article "Zastavili celú šaržu. U pš..." addeed to DB!
+2023-04-14 17:44:16.919521 [ARTICLES] - SME - Article "Peniaze z plánu obnovy ..." addeed to DB!
+2023-04-14 17:44:16.923402 [ARTICLES] - SME - Article "Trestné stíhanie voči ..." addeed to DB!
+2023-04-14 17:44:16.927364 [ARTICLES] - SME - Article "Prezidentka vymenov..." addeed to DB!
+2023-04-14 17:44:16.931325 [ARTICLES] - SME - Article "Heger nevidí u d..." addeed to DB!
+2023-04-14 17:44:16.936495 [ARTICLES] - SME - Article "Mníchov, Viedeň, Londýn,..." addeed to DB!
+2023-04-14 17:44:16.942740 [ARTICLES] - SME - Article "Ak prezidentka ohlási kan..." addeed to DB!
+2023-04-14 17:44:16.947320 [ARTICLES] - SME - Article "Ak sa do útrob smetiarskeho auta..." addeed to DB!
+2023-04-14 17:44:16.952587 [ARTICLES] - SME - Article "Bojoval proti Mussolinimu. Vo ..." addeed to DB!
+2023-04-14 17:44:16.959069 [ARTICLES] - SME - Article "SNS zjednocuje polit..." addeed to DB!
+2023-04-14 17:44:16.966357 [ARTICLES] - SME - Article "Uspeje VšZP na súde s odvolaním ..." addeed to DB!
+2023-04-14 17:44:16.973898 [ARTICLES] - SME - Article "Dohodami si poisťujú b..." addeed to DB!
+2023-04-14 17:44:16.980839 [ARTICLES] - SME - Article "Ranný brífing: Mečiarovi sa ..." addeed to DB!
+2023-04-14 17:44:16.986564 [ARTICLES] - SME - Article "Kažimíra uznal sudca za vinn..." addeed to DB!
+2023-04-14 17:44:16.991003 [ARTICLES] - SME - Article "Polícia dostala prvé autá ..." addeed to DB!
+2023-04-14 17:44:16.995933 [ARTICLES] - SME - Article "Strana Jablko vyzbierala..." addeed to DB!
+2023-04-14 17:44:17.004379 [ARTICLES] - SME - Article "Smer je symbolom korupcie. ..." addeed to DB!
+2023-04-14 17:44:17.009400 [ARTICLES] - SME - Article "Kažimíra zastihla správa o vine..." addeed to DB!
+2023-04-14 17:44:17.013563 [ARTICLES] - SME - Article "Na ministerstve zdra..." addeed to DB!
+2023-04-14 17:44:17.018831 [ARTICLES] - SME - Article "Prieskum: Smer je stále prvý...." addeed to DB!
+2023-04-14 17:44:17.023848 [ARTICLES] - SME - Article "Ktoré strany by dokáz..." addeed to DB!
+2023-04-14 17:44:17.030772 [ARTICLES] - SME - Article "SaS aj Sme rodina pôjdu do v..." addeed to DB!
+2023-04-14 17:44:17.036033 [ARTICLES] - SME - Article "Ranný brífing: Vinný šéf NBS ..." addeed to DB!
+2023-04-14 17:44:17.041510 [ARTICLES] - SME - Article "Na západe platia výstra..." addeed to DB!
+2023-04-14 17:44:17.046395 [ARTICLES] - SME - Article "Pribudne nový typ záchr..." addeed to DB!
+2023-04-14 17:44:17.051305 [ARTICLES] - SME - Article "Odchádzajúca štátna taj..." addeed to DB!
+2023-04-14 17:44:17.057063 [ARTICLES] - SME - Article "Extrémnymi horúčavami je..." addeed to DB!
+2023-04-14 17:44:17.061484 [ARTICLES] - SME - Article "Demokrati rokujú s KDH a..." addeed to DB!
+2023-04-14 17:44:17.066802 [ARTICLES] - SME - Article "Rigó podal ža..." addeed to DB!
+2023-04-14 17:44:17.071610 [ARTICLES] - SME - Article "Do parlamentu smeruje 17 vládnych ..." addeed to DB!
+2023-04-14 17:44:17.076074 [ARTICLES] - SME - Article "Maďarské fórum spája na ..." addeed to DB!
+2023-04-14 17:44:17.080925 [ARTICLES] - SME - Article "Rodinu Daniela Tupého bude zastu..." addeed to DB!
+2023-04-14 17:44:17.085522 [ARTICLES] - SME - Article "Korčok nebude lídrom..." addeed to DB!
+2023-04-14 17:44:17.089840 [ARTICLES] - SME - Article "Vyberte sa na hrad..." addeed to DB!
+2023-04-14 17:44:17.093939 [ARTICLES] - SME - Article "Obžalovaný z vražd..." addeed to DB!
+2023-04-14 17:44:17.097705 [ARTICLES] - TA3 - Article "Tak takto?!: Ani polrok od vraždy ..." addeed to DB!
+2023-04-14 17:44:17.101832 [ARTICLES] - TA3 - Article "Peniaze z plánu obnovy do..." addeed to DB!
+2023-04-14 17:44:17.105778 [ARTICLES] - TA3 - Article "Časová strata pri projekte nemo..." addeed to DB!
+2023-04-14 17:44:17.109738 [ARTICLES] - TA3 - Article "Mikulec označil kauzu oboz..." addeed to DB!
+2023-04-14 17:44:17.114069 [ARTICLES] - TA3 - Article "Politické strany sa pripra..." addeed to DB!
+2023-04-14 17:44:17.121446 [ARTICLES] - TA3 - Article "Páry rovnakého pohlavia sa..." addeed to DB!
+2023-04-14 17:44:17.126801 [ARTICLES] - TA3 - Article "Jeseň môže byť horúca, va..." addeed to DB!
+2023-04-14 17:44:17.132093 [ARTICLES] - TA3 - Article "Na Slovensku máme stále ulicu Joze..." addeed to DB!
+2023-04-14 17:44:17.135892 [ARTICLES] - TA3 - Article "Časť pacientov platí z..." addeed to DB!
+2023-04-14 17:44:17.139768 [ARTICLES] - TA3 - Article "Naši vojaci nie sú na Ukrajine, v..." addeed to DB!
+2023-04-14 17:44:17.144936 [ARTICLES] - TA3 - Article "LGBTI+ komunita: Od vraždy na Z..." addeed to DB!
+2023-04-14 17:44:17.149954 [ARTICLES] - TA3 - Article "POČASIE: Oblačno až z..." addeed to DB!
+2023-04-14 17:44:17.154522 [ARTICLES] - TA3 - Article "Z dôvodu úniku chemickej látky ..." addeed to DB!
+2023-04-14 17:44:17.158479 [ARTICLES] - TA3 - Article "Politici stále nevedia nájsť sp..." addeed to DB!
+2023-04-14 17:44:17.162118 [ARTICLES] - TA3 - Article "FOTO: Polícia dostala autá v no..." addeed to DB!
+2023-04-14 17:44:17.165270 [ARTICLES] - TA3 - Article "Prípad dobitej influencerky upoz..." addeed to DB!
+2023-04-14 17:44:17.169616 [ARTICLES] - TA3 - Article "Guvernér NBS Kažimír je..." addeed to DB!
+2023-04-14 17:44:17.175542 [ARTICLES] - TA3 - Article "Strana Jablko má dost..." addeed to DB!
+2023-04-14 17:44:17.179648 [ARTICLES] - TA3 - Article "Ambulancie dostanú..." addeed to DB!
+2023-04-14 17:44:17.183601 [ARTICLES] - TA3 - Article "Rázsochy ako nová politická rozbušk..." addeed to DB!
+2023-04-14 17:44:17.187468 [ARTICLES] - TA3 - Article "Môže ísť projekt Rázsochy pred sú..." addeed to DB!
+2023-04-14 17:44:17.191387 [ARTICLES] - TA3 - Article "Čepček prichádza do parla..." addeed to DB!
+2023-04-14 17:44:17.195315 [ARTICLES] - TA3 - Article "Tak takto?!: Cigániková obvinila OĽANO,..." addeed to DB!
+2023-04-14 17:44:17.198762 [ARTICLES] - TA3 - Article "Politické strany reagujú na Kažimí..." addeed to DB!
+2023-04-14 17:44:17.203269 [ARTICLES] - TA3 - Article "Čaputová si myslí, že K..." addeed to DB!
+2023-04-14 17:44:17.208375 [ARTICLES] - TA3 - Article "Kažimír reagoval na rozhodnu..." addeed to DB!
+2023-04-14 17:44:17.213836 [ARTICLES] - TA3 - Article "Zdravotnícky výbor rokoval ..." addeed to DB!
+2023-04-14 17:44:17.219312 [ARTICLES] - TA3 - Article "Rezort zdravotníctva má prob..." addeed to DB!
+2023-04-14 17:44:17.223647 [ARTICLES] - TA3 - Article "Nemocnica v Čadci môže prísť ..." addeed to DB!
+2023-04-14 17:44:17.228394 [ARTICLES] - TA3 - Article "Je módou, že trestné konanie sa ko..." addeed to DB!
+2023-04-14 17:44:17.232632 [ARTICLES] - TA3 - Article "Sulík vyzýva Kažimíra, aby od..." addeed to DB!
+2023-04-14 17:44:17.239630 [ARTICLES] - TA3 - Article "Prieskum AKO: Voľby by ..." addeed to DB!
+2023-04-14 17:44:17.245364 [ARTICLES] - TA3 - Article "SASKA aj Sme rodina pôjdu do..." addeed to DB!
+2023-04-14 17:44:17.249257 [ARTICLES] - TA3 - Article "Nekonečný príbeh sa píš..." addeed to DB!
+2023-04-14 17:44:17.253471 [ARTICLES] - TA3 - Article "POČASIE: Oblačno až za..." addeed to DB!
+2023-04-14 17:44:17.258195 [ARTICLES] - TA3 - Article "Vláda rokovala o zákonoch, k..." addeed to DB!
+2023-04-14 17:44:17.263278 [ARTICLES] - TA3 - Article "Násilník udržiava v moci celú d..." addeed to DB!
+2023-04-14 17:44:17.268616 [ARTICLES] - TA3 - Article "Inflácia je n..." addeed to DB!
+2023-04-14 17:44:17.273726 [ARTICLES] - TA3 - Article "Vláda schválila vojakov pre U..." addeed to DB!
+2023-04-14 17:44:17.277637 [ARTICLES] - TA3 - Article "Demokrati rokujú s viace..." addeed to DB!
+2023-04-14 17:44:17.281167 [ARTICLES] - TA3 - Article "Rezort zdravotníctva pri..." addeed to DB!
+2023-04-14 17:44:17.285494 [ARTICLES] - TA3 - Article "Tak takto?!: Riaditeľ NAKA z..." addeed to DB!
+2023-04-14 17:44:17.289312 [ARTICLES] - TA3 - Article "V politike: Budaj a Blanár..." addeed to DB!
+2023-04-14 17:44:17.293060 [ARTICLES] - TA3 - Article "Vlčan chce pestovateľov obilia odš..." addeed to DB!
+2023-04-14 17:44:17.296475 [ARTICLES] - TA3 - Article "Pravidlá spolunažívania pre nez..." addeed to DB!
+2023-04-14 17:44:17.301308 [ARTICLES] - TA3 - Article "Návrh zákona právne neupravuje p..." addeed to DB!
+2023-04-14 17:44:17.305955 [ARTICLES] - TA3 - Article "Korčok odmietol ponuku b..." addeed to DB!
+2023-04-14 17:44:17.309270 [ARTICLES] - TA3 - Article "10 tipov na jarné výlety od zn..." addeed to DB!
+2023-04-14 17:44:17.312794 [ARTICLES] - TA3 - Article "Puškára obvinili z vraždy štud..." addeed to DB!
+2023-04-14 17:44:17.316377 [ARTICLES] - TA3 - Article "Vodiči by sa mali mať na pozore,..." addeed to DB!

@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 from logger.logger import log
 from logger.logger_sink import LoggerSink
 
+from newsapp.utils import determine_new_article_based_on_title
 
 def get_functions():
     
@@ -33,12 +34,303 @@ def get_functions():
         'THREAT-POST' : get_front_page_links_from_threat_post,
         'SECURITY-MAGAZINE' : get_front_page_links_from_security_magazine,
         
+        ### BLOGY ###
+        'TRUBAN' : get_front_page_links_from_michal_truban_podcast,
+        'BART' : get_front_page_links_from_bart,
+        'OKONTAJNEROCH' : get_front_page_links_from_okontajneroch,
+        
         # DUMMY
         'AKTUALITY2' : get_front_page_links_from_aktuality,
+        
                
     }
     
     return scraping_functions
+
+def get_front_page_links_from_okontajneroch(source):
+        
+    # Mandatory variables
+    source_signature = 'OKONTAJNEROCH'
+    source_link = source['scraping_link']
+    last_seen = source['last_seen']
+
+    # Mandatory try handler
+    try:
+        # Send a request to the website and retrieve the HTML
+        response = requests.get(source_link)
+
+        # Find the parent div
+        html_feed = BeautifulSoup(response.content, 'html.parser')
+        
+        # Find all child divs with articles
+        articles = html_feed.find_all('article')
+
+        # Get urls of new posts
+        posts = []
+        suc = 0
+        failed = 0
+        for soup in articles:
+            
+            # Mandatory try functionality
+            try:
+
+                # Handle title, desc and link
+                headline_element = soup.find('h2').a
+                article_headline = headline_element.text.strip()
+                article_url = source['scraping_link'] + headline_element['href'][1:] # TODO
+                
+                # Handle description
+                article_subtitle = soup.find_all('p')[1].text.strip() or ''
+                
+                # Handle pub date
+                article_publish_date = datetime.datetime.now()
+                article_publish_date = article_publish_date.replace(tzinfo=pytz.timezone('Europe/Bratislava'))
+                
+                # Handle Authors
+                article_authors = ['Zdenko Vrabel']
+                
+                # Append post only if its new
+                if determine_new_article_based_on_title(article_headline,source['source']) == True:
+                
+                    # Append new article to list
+                    posts.append({
+                        'headline': article_headline,
+                        'subtitle': article_subtitle,
+                        'link': article_url,
+                        'published': article_publish_date,
+                        'authors': article_authors,
+                        'source' : source['source'],
+                    })
+                
+                    suc += 1
+                
+            # Mandatory except functionality
+            except Exception as e:
+                failed += 1
+                
+        # Reverse order of links to start with oldest
+        posts.reverse()
+        
+        # Mandatory logger
+        # If there are many failed scrapes
+        if failed > suc:
+            log(f"{source_signature} - Failed scraping {failed}/{failed+suc}, reason: {traceback.print_exc()}", LoggerSink.SOURCES)
+        
+        #
+        # Mandatory handling of result
+        #
+        
+        # If scraping of all articles failed, indicating scraping error
+        if failed+suc == failed:
+            return False
+        
+        # If at least some went through, meaning scraping is working
+        last_seen = datetime.datetime.now(tz=pytz.timezone('Europe/Bratislava'))
+        return last_seen,posts
+    
+    # Mandatory except handler
+    except Exception as e:
+        log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SOURCES)
+        log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
+        return False
+
+def get_front_page_links_from_bart(source):
+        
+    # Mandatory variables
+    source_signature = 'BART'
+    source_link = source['scraping_link']
+    last_seen = source['last_seen']
+
+    # Mandatory try handler
+    try:
+        # Send a request to the website and retrieve the HTML
+        response = requests.get(source_link)
+
+        # Find the parent div
+        html_feed = BeautifulSoup(response.content, 'html.parser')
+        
+        # Find all child divs with articles
+        articles = html_feed.find_all('div',class_='post-container')
+        
+        # Get urls of new posts
+        posts = []
+        suc = 0
+        failed = 0
+        for soup in articles:
+            
+            # Mandatory try functionality
+            try:
+
+                # Handle title, desc and link
+                headline_element = soup.find('a', class_='post-title')
+                article_headline = headline_element.find('h2').text.strip()
+                article_url = headline_element['href']
+                
+                # Handle description
+                article_subtitle = soup.find('div', class_='post-content').p.text.strip() or ''
+                
+                # Handle pub date
+                date = soup.find('a', class_='post-meta-date').text
+                date = date.strip()
+                article_publish_date = datetime.datetime.strptime(date,'%d.%m.%Y')
+                article_publish_date = article_publish_date.replace(tzinfo=pytz.timezone('Europe/Bratislava'))
+                
+                # Handle Authors
+                article_authors = [soup.find('a', class_='bypostauthor').text.strip()] \
+                    or ['bart.sk']
+                
+                # Handle headline image
+                article_image_el = soup.find('img', class_='wp-post-image')
+                article_image = None
+                for image_href in article_image_el['srcset'].split(', '):
+                    if image_href.endswith('150w'):
+                        article_image_el = image_href.split(' ')[0]
+                        break
+                if article_image == None:
+                    article_image = soup.find('img', class_='wp-post-image')['src']
+                
+                # Append post only if its new
+                if last_seen == None or article_publish_date > last_seen:
+                
+                    # Append new article to list
+                    posts.append({
+                        'headline': article_headline,
+                        'headline_img': article_image,
+                        'subtitle': article_subtitle,
+                        'link': article_url,
+                        'published': article_publish_date,
+                        'authors': article_authors,
+                        'source' : source['source'],
+                    })
+                
+                    suc += 1
+                
+            # Mandatory except functionality
+            except Exception as e:
+                
+                print(traceback.print_exc())
+                print(e)
+                
+                failed += 1
+                
+        # Reverse order of links to start with oldest
+        posts.reverse()
+        
+        # Mandatory logger
+        # If there are many failed scrapes
+        if failed > suc:
+            log(f"{source_signature} - Failed scraping {failed}/{failed+suc}, reason: {traceback.print_exc()}", LoggerSink.SOURCES)
+        
+        #
+        # Mandatory handling of result
+        #
+        
+        # If scraping of all articles failed, indicating scraping error
+        if failed+suc == failed:
+            return False
+        
+        # If at least some went through, meaning scraping is working
+        last_seen = datetime.datetime.now(tz=pytz.timezone('Europe/Bratislava'))
+        return last_seen,posts
+    
+    # Mandatory except handler
+    except Exception as e:
+        log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SOURCES)
+        log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
+        return False
+
+def get_front_page_links_from_michal_truban_podcast(source):
+        
+    # Mandatory variables
+    source_signature = 'TRUBAN'
+    source_link = source['scraping_link']
+    last_seen = source['last_seen']
+
+    # Mandatory try handler
+    try:
+        # Send a request to the website and retrieve the HTML
+        response = requests.get(source_link)
+
+        # Find the parent div
+        html_feed = BeautifulSoup(response.content, 'html.parser')
+        
+        # Find all child divs with articles
+        articles = html_feed.find_all('article')
+
+        # Get urls of new posts
+        posts = []
+        suc = 0
+        failed = 0
+        for soup in articles:
+            
+            # Mandatory try functionality
+            try:
+
+                # Handle title, desc and link
+                headline_element = soup.find('h3', class_='article__title entry-title').a
+                article_headline = headline_element.text.strip()
+                article_url = headline_element['href'] # TODO
+                
+                # Handle description
+                article_subtitle = soup.find('section', class_='article__content entry-summary').p.text.strip() or ''
+                
+                # Handle pub date
+                date = soup.find('abbr', class_='published updated')['title'][:10]
+                date = date.strip()
+                article_publish_date = datetime.datetime.strptime(date,'%Y-%m-%d')
+                article_publish_date = article_publish_date.replace(tzinfo=pytz.timezone('Europe/Bratislava'))
+                
+                # Handle Authors
+                article_authors = ['Michal Truban']
+                
+                # Handle headline image
+                article_image = soup.find('div', class_='article__featured-image').img['src']
+                
+                # Append post only if its new
+                if last_seen == None or article_publish_date > last_seen:
+                
+                    # Append new article to list
+                    posts.append({
+                        'headline': article_headline,
+                        'headline_img': article_image,
+                        'subtitle': article_subtitle,
+                        'link': article_url,
+                        'published': article_publish_date,
+                        'authors': article_authors,
+                        'source' : source['source'],
+                    })
+                
+                    suc += 1
+                
+            # Mandatory except functionality
+            except Exception as e:
+                failed += 1
+                
+        # Reverse order of links to start with oldest
+        posts.reverse()
+        
+        # Mandatory logger
+        # If there are many failed scrapes
+        if failed > suc:
+            log(f"{source_signature} - Failed scraping {failed}/{failed+suc}, reason: {traceback.print_exc()}", LoggerSink.SOURCES)
+        
+        #
+        # Mandatory handling of result
+        #
+        
+        # If scraping of all articles failed, indicating scraping error
+        if failed+suc == failed:
+            return False
+        
+        # If at least some went through, meaning scraping is working
+        last_seen = datetime.datetime.now(tz=pytz.timezone('Europe/Bratislava'))
+        return last_seen,posts
+    
+    # Mandatory except handler
+    except Exception as e:
+        log(f"{source_signature} - Failed fetching, reason: {e}",LoggerSink.SOURCES)
+        log(f"{traceback.print_exc()}",LoggerSink.SOURCES)
+        return False
 
 def get_front_page_links_from_aktuality(source):
         """Gets all links from Aktuality.sk front page."""

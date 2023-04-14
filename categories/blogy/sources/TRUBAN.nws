@@ -1,0 +1,8 @@
+[source]
+name = TRUBAN
+display_name = Michal Truban
+scraping_link = https://www.truban.sk/
+active = True
+visible = True
+pfp = https://www.truban.sk/wp-content/uploads/2018/03/cropped-identita-stranky-32x32.png
+

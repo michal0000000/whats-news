@@ -1,0 +1,8 @@
+[source]
+name = OKONTAJNEROCH
+display_name = O Kontajneroch
+scraping_link = https://okontajneroch.sk/
+active = True
+visible = True
+pfp = https://okontajneroch.sk/icon-60x60.png
+

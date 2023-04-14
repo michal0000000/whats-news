@@ -1,0 +1,8 @@
+[source]
+name = BART
+display_name = Bart.sk
+scraping_link = https://blog.bart.sk/
+active = True
+visible = True
+pfp = https://blog.bart.sk/wp-content/uploads/2020/12/favicon-32x32.png
+
